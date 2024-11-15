@@ -56,7 +56,7 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
     const setHolidy_Api = `https://backend-4-w2iw.onrender.com/api/leaveManage/saveHoliday`;
     export const setHoliday = (updateData) => axios.post(setHolidy_Api, updateData);
 
-    const getWeeklyPerormance_Api = `https://backend-4-w2iw.onrender.com/api/PerController/getWeekly/${empId}`;
+    const getWeeklyPerormance_Api = `https://backend-4-w2iw.onrender.com/api/PerController/getWeekly/${empId}` ;
     export const getWeekly = () => axios.get(getWeeklyPerormance_Api);
     
     const getMonthlyPerormance_Api = `https://backend-4-w2iw.onrender.com/api/PerController/getMonthly/${empId}`;
