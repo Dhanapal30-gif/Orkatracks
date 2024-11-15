@@ -1,0 +1,65 @@
+.app-bar {
+    background-color: #2c3e50; /* Dark blue-gray */
+    box-shadow: none;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+  }
+  
+  .app-name {
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .nav-button {
+    margin: 0 10px;
+    text-transform: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .nav-button:hover {
+    color: #1abc9c; /* Teal color for hover effect */
+  }
+  
+  .dropdown-menu {
+    margin-top: 45px; /* Ensure dropdown aligns below button */
+    background-color: #34495e; /* Darker background for dropdown */
+  }
+  
+  .dropdown-menu .MuiMenuItem-root {
+    color: white;
+  }
+  
+  .dropdown-menu .MuiMenuItem-root:hover {
+    background-color: #1abc9c; /* Teal hover effect */
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .signout-button {
+    border: 1px solid white;
+    padding: 5px 15px;
+    margin-left: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .signout-button:hover {
+    background-color: white;
+    color: #2c3e50;
+    border-color: #1abc9c; /* Teal border on hover */
+  }
+  

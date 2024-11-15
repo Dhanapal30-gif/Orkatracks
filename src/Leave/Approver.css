@@ -1,0 +1,41 @@
+.getgetproject {
+    padding: 70px 20px; /* Vertical and horizontal padding */
+    box-shadow: 0cm;
+    margin-left: 20px;
+    margin-top: 30px;
+    background-color:  rgb(243, 243, 230);
+    width:100%; /* Fixed width for the project container */
+    overflow: hidden; /* Hide overflow if necessary */
+    height:50%;
+}
+.rejectButton{
+    background:#ff0000;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    max-width: 80%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content textarea {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
