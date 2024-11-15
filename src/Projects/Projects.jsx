@@ -14,7 +14,7 @@ const Projects = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('https://backend-uyuy.onrender.com/api/projectController/getProject');
+                const response = await fetch('https://backend-4-w2iw.onrender.com/api/projectController/getProject');
                 const data = await response.json();
                 setGetProject(data);
 
