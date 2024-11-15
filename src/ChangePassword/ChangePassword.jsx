@@ -56,17 +56,26 @@ const ChangePassword = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
-        
+        e.preventDefault();
+    
         if (validate()) {
-          console.log('Form data:', formData); // Ensure the form is validated before submitting
-          ChangePr(formData) // Call API with form data
-            .then((response) => {
-                console.log('Form data:', formData); // Log the form data for debugging
-                navigate('/Login'); // Redirect to login page on success
-            });
+            alert('password sucessfully changed.');
+            console.log('Form data:', formData); 
+            ChangePr(formData) 
+                .then((response) => {
+                    console.log('Response:', response); 
+                    navigate('/login'); 
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    if (error.response && error.response.data) {
+                        alert(error.response.data.message || 'Employee ID or existing password is wrong');
+                    } else {
+                        alert('Something went wrong. Please try again later.');
+                    }
+                });
         }
-      };
+    };
 
       
   return (
@@ -142,7 +151,7 @@ const ChangePassword = () => {
             fullWidth
             style={{ marginTop: '20px' }}
         >
-            Login 
+            Submit 
         </Button>
         <Button color="inherit" component={Link} to='/CreateAccount'>
             Register
