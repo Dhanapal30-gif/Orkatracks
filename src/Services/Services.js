@@ -23,14 +23,14 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
 
 // const empId = sessionStorage.getItem('empId');
 // const getTask_Api='http://localhost:8080/getTask/${empId}'
-// export const getTask=()=>axios.get(getTask_Api);
+// export const getTask=()=>axios.get(getTask_Api);/getTask/{empId}
     const empId = sessionStorage.getItem('empId');
-    const getTask_Api = `https://backend-4-w2iw.onrender.com/${empId}`;
+    const getTask_Api = `https://backend-4-w2iw.onrender.com/getTask/${empId}`;
     export const getTask = () => axios.get(getTask_Api);
 
     //const update_Api='http://localhost:8080/Update'
-    const update_Api='https://backend-4-w2iw.onrender.com/Update'
-    export const updateTask=(formData)=>axios.put(update_Api,[formData]);
+    const update_Api='https://backend-4-w2iw.onrender.com/Update' 
+    export const  updateTask=(formData)=>axios.put(update_Api,[formData]);
 
     const Leave_Api='https://backend-4-w2iw.onrender.com/leave'
     export const leave=(formData)=>axios.post(Leave_Api,[formData]);
