@@ -38,7 +38,7 @@ const TaskManagement = () => {
 
   const fetchAllTasks = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/getTask'); // Endpoint for fetching all tasks
+      const response = await fetch('https://backend-uyuy.onrender.com/api/getTask'); // Endpoint for fetching all tasks
       const data = await response.json();
       setAllTasks(data);
     } catch (error) {
@@ -53,7 +53,7 @@ const TaskManagement = () => {
 
   const fetchOptions = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/getProject');
+      const response = await fetch('https://backend-uyuy.onrender.com/api/getProject');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

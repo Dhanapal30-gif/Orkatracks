@@ -27,7 +27,7 @@ function Approve() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/leaveController/getLeave');
+      const response = await fetch('https://backend-uyuy.onrender.com/api/leaveController/getLeave');
       const data = await response.json();
       setGetLeave(data);
 
