@@ -4,7 +4,7 @@ const Reg_Api= 'http://localhost:8080/getAllData'
 
 export const ListOfEmp=() =>axios.get(Reg_Api);
 
-const Regemp_Api='http://localhost:8080/reg_Save'
+const Regemp_Api='https://backend-eeqr.onrender.com/reg_Save'
 
 export const saveEmpDetail= (formData)=>axios.post(Regemp_Api,formData);
  
