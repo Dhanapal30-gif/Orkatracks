@@ -1,0 +1,17 @@
+.project{
+    padding: 70px;
+    margin-top: 20px;
+    margin-left: 20px;
+    box-shadow: 0cm;
+    background-color:azure;
+    width:517px;
+    height:270px;
+}
+@media (max-width: 600px) {
+    .project form > * {
+        flex: 1 1 100%;
+    }
+}
+headers{
+    color: blueviolet;
+}

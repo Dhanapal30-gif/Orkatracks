@@ -1,0 +1,63 @@
+.getproject {
+    padding: 70px 20px; /* Vertical and horizontal padding */
+    box-shadow: 0cm;
+    margin-left: 20px;
+    margin-top: 30px;
+    background-color:  rgb(243, 243, 230);
+    width: 487px; /* Fixed width for the project container */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+.getproject1 {
+    padding: 70px 20px; /* Vertical and horizontal padding */
+    box-shadow: 0cm;
+    margin-left: 520px;
+    margin-top: -290px;
+    background-color: rgb(243, 243, 230);
+    width: 487px; /* Fixed width for the project container */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+.getproject2 {
+    padding: 70px 20px; /* Vertical and horizontal padding */
+    box-shadow: 0cm;
+    margin-left: 1020px;
+    margin-top: -170px;
+    background-color: rgb(243, 243, 230);
+    width: 487px; /* Fixed width for the project container */
+    overflow: hidden; /* Hide overflow if necessary */
+}
+
+.project-slide {
+    display: flex;
+    flex-direction: column; /* Stack project cards vertically */
+    align-items: flex-start; /* Align cards to the left */
+}
+
+
+
+h3, p {
+    margin: 0; /* Reset margins for better spacing control */
+}
+
+h6 {
+    margin: 20px;
+    margin-top: 10px;
+    padding: 4px;
+    background: linear-gradient(90deg, rgba(98, 72, 122, 1) 0%, rgba(231, 50, 185, 1) 100%);
+    color: white;
+    text-align: center;
+}
+.gradient-text {
+    background: linear-gradient(90deg, rgb(203, 49, 136) 0%, rgb(50, 122, 238) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* This makes the text transparent so the gradient shows */
+    display: inline-block; /* Ensures the gradient only applies to the text */
+}
+.alignment{
+    margin-top: -370px;
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: linear-gradient(90deg, rgb(203, 49, 136) 0%, rgb(50, 122, 238) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* This makes the text transparent so the gradient shows */
+    display: inline-block; /* Ensures the gradient only applies to the text */
+}
