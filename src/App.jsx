@@ -21,7 +21,7 @@ import Performance from './Performance/Performance'
 
 function App() {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/CreateAccount';
+  const isLoginPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/CreateAccount' || location.pathname === '/ChangePassword';
   console.log("isLoginPage", isLoginPage);
   
   const theme = createTheme({

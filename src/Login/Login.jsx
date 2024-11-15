@@ -56,9 +56,12 @@ export default function Login() {
                     }, 1000);
                 })
                 .catch((error) => {
-                    setPopupMessage(error.response.data);
-                    setPopupSeverity('error');
-                    setOpen(true);
+                    console.error('Error:', error); 
+                    if (error.response && error.response.data) {
+                        alert(error.response.data.message || 'Employee ID or  password is wrong');
+                    } else {
+                        alert('Something went wrong. Please try again later.');
+                    }
                 });
         }
     };
