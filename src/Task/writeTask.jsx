@@ -126,7 +126,7 @@ const WriteTask = () => {
   
   const getTaske = async () => {
     try {
-        const response = await fetch('https://backend-uyuy.onrender.com/api/getTaskManagemet');
+        const response = await fetch('https://backend-4-w2iw.onrender.com/api/getTaskManagemet');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
