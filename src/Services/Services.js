@@ -25,7 +25,7 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
 // const getTask_Api='http://localhost:8080/getTask/${empId}'
 // export const getTask=()=>axios.get(getTask_Api);
     const empId = sessionStorage.getItem('empId');
-    const getTask_Api = `https://backend-4-w2iw.onrender.com/${empId}`;
+    const getTask_Api = `https://backend-4-w2iw.onrender.com/getTask/${empId}`;
     export const getTask = () => axios.get(getTask_Api);
 
     //const update_Api='http://localhost:8080/Update'
@@ -56,11 +56,11 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
     const setHolidy_Api = `http://localhost:8080/api/leaveManage/saveHoliday`;
     export const setHoliday = (updateData) => axios.post(setHolidy_Api, updateData);
 
- const getWeeklyPerormance_Api = `http://localhost:8080/api/PerController/getWeekly/${empId}`;
+    const getWeeklyPerormance_Api = `http://localhost:8080/api/PerController/getWeekly/${empId}`;
     export const getWeekly = () => axios.get(getWeeklyPerormance_Api);
     
     const getMonthlyPerormance_Api = `http://localhost:8080/api/PerController/getMonthly/${empId}`;
     export const getMonthly = () => axios.get(getMonthlyPerormance_Api);
     
-const getHolday_Api = `http://localhost:8080/api/getHoliday`;
+    const getHolday_Api = `http://localhost:8080/api/getHoliday`;
     export const getHoliday = () => axios.get(getHolday_Api);
