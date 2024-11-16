@@ -1,5 +1,5 @@
 import { Button, TextField, InputLabel, Select, MenuItem } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import './Task.css';
 import { getTask, updateTask } from '../Services/Services';
 import UpdateIcon from '@mui/icons-material/Edit';
@@ -40,33 +40,50 @@ const Task = () => {
     status: '', // Make sure the initial value is defined
   });
 
+  const firstRender = useRef(true);
+
+  // Fetch data function
+  const fetchData = async () => {
+    await getAllData(); // Ensure this function is defined and fetches data
+  };
+
   useEffect(() => {
-    getAllData();
-    let filtered = getData;
+    // If it's the first render, fetch the data
+    if (firstRender.current) {
+      fetchData();
+      firstRender.current = false; // Set the ref to false after first render
+    }
 
-      if (searchTerm) {
-        // Normalize the search term to lowercase and remove spaces
-        const normalizedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '');
+    // Set up interval to refresh the data every 30 seconds
+    const interval = setInterval(() => {
+      fetchData();
+    }, 30000); // 30 seconds
 
-        filtered = filtered.filter((task) => {
-          const normalizedProjectNo = task.projectNo.toLowerCase().replace(/\s+/g, '');
-          const normalizedStatus = task.status.toLowerCase().replace(/\s+/g, '');
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []); 
+  useEffect(() => {
+    let filtered = getData; // assuming `getData` is an array
 
-          // Search in projectNo and status (after removing spaces and converting to lowercase)
-          return (
-            normalizedProjectNo.includes(normalizedSearchTerm) || 
-            normalizedStatus.includes(normalizedSearchTerm)
-          );
-        });
-      }
-      setFilteredData(filtered);
-      const interval = setInterval(() => {
-        getAllData();
-      }, 30000); // 30000 ms = 30 seconds
-  
-      // Cleanup the interval when the component unmounts
-      return () => clearInterval(interval);
-  }, [searchTerm, getData]);
+    if (searchTerm) {
+      // Normalize the search term to lowercase and remove spaces
+      const normalizedSearchTerm = searchTerm.toLowerCase().replace(/\s+/g, '');
+
+      filtered = filtered.filter((task) => {
+        const normalizedProjectNo = task.projectNo.toLowerCase().replace(/\s+/g, '');
+        const normalizedStatus = task.status.toLowerCase().replace(/\s+/g, '');
+
+        // Search in projectNo and status (after removing spaces and converting to lowercase)
+        return (
+          normalizedProjectNo.includes(normalizedSearchTerm) ||
+          normalizedStatus.includes(normalizedSearchTerm)
+        );
+      });
+    }
+
+    setFilteredData(filtered);
+  }, [searchTerm, getData]);// Only trigger filtering when searchTerm or getData changes
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value); // Update search term on input change
   };

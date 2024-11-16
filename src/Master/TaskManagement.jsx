@@ -7,6 +7,7 @@ import { Description as ExcelIcon } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import UpdateIcon from "@mui/icons-material/Edit";
+import { url } from '../appConfig';
 
 import './TaskManagement.css';
 
@@ -38,7 +39,7 @@ const TaskManagement = () => {
 
   const fetchAllTasks = async () => {
     try {
-      const response = await fetch('https://backend-4-w2iw.onrender.com/api/getTask'); // Endpoint for fetching all tasks
+      const response = await fetch(`${url}/api/getTask`); // Endpoint for fetching all tasks
       const data = await response.json();
       setAllTasks(data);
     } catch (error) {
@@ -53,7 +54,7 @@ const TaskManagement = () => {
 
   const fetchOptions = async () => {
     try {
-      const response = await fetch('https://backend-4-w2iw.onrender.com/api/getProject');
+      const response = await fetch(`${url}/api/getProject`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

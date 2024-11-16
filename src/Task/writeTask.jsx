@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { TextField, Button,MenuItem } from '@mui/material';
 import './Task.css';
 import { getTask, sendTask } from '../Services/Services';
+import { url } from '../appConfig';
 
 const WriteTask = () => {
   // Get session storage
@@ -126,7 +127,7 @@ const WriteTask = () => {
   
   const getTaske = async () => {
     try {
-        const response = await fetch('https://backend-4-w2iw.onrender.com/api/getTaskManagemet');
+        const response = await fetch(`${url}/api/getTaskManagemet`);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
