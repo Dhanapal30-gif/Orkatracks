@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Approver.css';
 import { updateLeave } from '../Services/Services';
 import Alert from '@mui/material/Alert';
+import { url } from '../appConfig';
 
 function Approve() {
   const [leave, setLeave] = useState([]);
@@ -27,7 +28,7 @@ function Approve() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('https://backend-4-w2iw.onrender.com/api/leaveController/getLeave');
+      const response = await fetch(`${url}/api/leaveController/getLeave`);
       const data = await response.json();
       setGetLeave(data);
 

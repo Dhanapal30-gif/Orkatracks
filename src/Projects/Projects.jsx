@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Projects.css';
+import { url } from '../appConfig';
 
 const Projects = () => {
     const [getProject, setGetProject] = useState([]);
@@ -14,7 +15,7 @@ const Projects = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('https://backend-4-w2iw.onrender.com/api/projectController/getProject');
+                const response = await fetch(`${url}/api/projectController/getProject`);
                 const data = await response.json();
                 setGetProject(data);
 
