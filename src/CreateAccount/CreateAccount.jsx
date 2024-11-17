@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
+import { TextField,MenuItem, IconButton, InputAdornment, Button } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { saveEmpDetail } from '../Services/Services';
@@ -17,6 +17,7 @@ export default function CreateAccount() {
         phoneNumber: '',
         email: '',
         password: '',
+        userRole:'',
     });
 
     const [formErrors, setFormErrors] = useState({});
@@ -39,6 +40,14 @@ export default function CreateAccount() {
 
         if (!formData.empId) {
             errors.empId = "Employee ID is required";
+            isValid = false;
+        }
+        else if (formData.empId.length !== 5) {
+            errors.empId = "Employee ID must have exactly 5 digits";
+            isValid = false;
+        }
+        if (!formData.userRole) {
+            errors.userRole = "UserRole is required";
             isValid = false;
         }
         if (!formData.firstName) {
@@ -64,6 +73,13 @@ export default function CreateAccount() {
             errors.password = 'Password is required';
             isValid = false;
         }
+        else if (formData.password.length < 5) {
+            errors.password = "Password must be at least 5 characters long";
+            isValid = false;
+        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+            errors.password = "Password must contain at least one special character";
+            isValid = false;
+        }
         if (!formData.phoneNumber) {
             errors.phoneNumber = 'Phone number is required';
             isValid = false;
@@ -78,8 +94,10 @@ export default function CreateAccount() {
         if (validate()) {
             const submissionData = {
                 ...formData,
-                empId: parseInt(formData.empId, 10) // Ensure empId is a number
+                empId: parseInt(formData.empId, 10) 
             };
+            alert("Account Created")
+
             saveEmpDetail(submissionData)
                 .then(() => {
                     navigate('/login'); // Redirect to login page on success
@@ -174,6 +192,24 @@ export default function CreateAccount() {
                             maxLength: 10,
                         }}
                     />
+                    <TextField
+                        label="userRole"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ flexBasis: '23%', marginTop: '16px' }}
+                        InputLabelProps={{ shrink: true }}
+                        value={formData.userRole} // Controlled value
+                        select // This makes the TextField behave like a dropdown
+                        onChange={handleChange}
+                        error={Boolean(formErrors.userRole)}
+                        name="userRole"
+                    >
+                        <MenuItem value="" disabled>Choose a role</MenuItem>
+
+                        <MenuItem value="Admin" >Admin</MenuItem>
+                        <MenuItem value="Employee" >Employee</MenuItem>
+                        <MenuItem value="Management">Management</MenuItem>
+                    </TextField>
                 </div>
                 <div className="form-row">
                     <TextField

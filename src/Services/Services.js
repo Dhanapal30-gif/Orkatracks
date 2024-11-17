@@ -58,3 +58,23 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
     
     const getHolday_Api = `${url}/api/getHoliday`;
     export const getHoliday = () => axios.get(getHolday_Api);
+
+    
+    const getEmploye_Api = `${url}/api/authContoller/getEmployeeDetail`;
+    export const getAllEmployeDeatil = () => axios.get(getEmploye_Api);
+
+    const getTaskDetail_Api = `${url}/api/taskContoller/getAllTask`;
+    export const getTaskDeatil = (formData) => {
+      return axios.get(`${getTaskDetail_Api}?empId=${formData.empId}`);
+    };
+    
+    const getWeekelyPerformance_Api = `${url}/api/performance/getWeeklyPerformance`;
+    export const getWeeklyAllPerformance= (formData) => {
+      return axios.get(`${getWeekelyPerformance_Api}?empId=${formData.empId}`);
+    };
+
+    const getMonthlyPerformance_Api = `${url}/api/performance/getMonthlyPerformance`;
+    export const getMonthlyAllPerformance= (formData) => {
+     return axios.get(`${getMonthlyPerformance_Api}?empId=${formData.empId}`);
+    };
+    
