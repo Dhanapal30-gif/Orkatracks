@@ -153,3 +153,13 @@ button:disabled {
   padding: 5px;
   border-radius: 4px;
 }
+
+.writeTask{
+  padding: 70px;
+  margin-top: 20px;
+  margin-left: 20px;
+  box-shadow: 0cm;
+  background-color: azure;
+  width:717px;
+  height:90px;
+}
