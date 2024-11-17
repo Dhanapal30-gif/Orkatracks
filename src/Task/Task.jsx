@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField,MenuItem } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import './Task.css';
 import { getTask, updateTask } from '../Services/Services';
@@ -141,10 +141,34 @@ const [formData,setFormData]=useState();
       <div>
         {form && (
           <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
-            {/* Form Fields */}
             <TextField label="Project No" name="projectNo" variant="outlined" fullWidth sx={{ flexBasis: '13%', marginLeft: '20px' }} value={formData.projectNo} onChange={handleChange} required />
-            {/* Other form fields */}
-            <Button variant="contained" type="submit" style={{ marginTop: '16px' }}>Add</Button>
+          <TextField label="Project Name" name="projectName" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} value={formData.projectName} onChange={handleChange} required />
+          <TextField label="Macro Task" name="macroTask" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} value={formData.macroTask} onChange={handleChange} required />
+          <TextField label="Micro Task" name="microTask" type='textarea' fullWidth sx={{ flexBasis: '23%' }} multiline rows={2} value={formData.microTask} onChange={handleChange} required/>
+          <TextField label="Incharge" name="incharge" variant="outlined" fullWidth sx={{ flexBasis: '13%', marginLeft: '20px' }} value={formData.inCharge} onChange={handleChange} disabled />
+          <TextField label="Start Date" name="startDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.startDate} onChange={handleChange} required/>
+          <TextField label="End Date" name="endDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.endDate} onChange={handleChange} required/>
+          <TextField label="secondCloseDate" name="secondCloseDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.secondCloseDate} onChange={handleChange} />
+          <TextField label="remark" name="remark" type='textarea' fullWidth sx={{ flexBasis: '23%' }} multiline rows={2} value={formData.remark} onChange={handleChange} style={{ marginLeft: '17px' }} />
+
+          <TextField
+            label="Status"
+            variant="outlined"
+            fullWidth
+            sx={{ flexBasis: '23%', marginTop: '16px' }}
+            InputLabelProps={{ shrink: true }}
+            value={formData.status} // Controlled value
+            select // This makes the TextField behave like a dropdown
+            onChange={handleChange}
+            name="status"
+          >
+            <MenuItem value="Notstarted" >Notstarted</MenuItem>
+            <MenuItem value="Ongoing" >Ongoing</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
+            <MenuItem value="Closed">Closed</MenuItem>
+          </TextField>
+
+         <Button variant="contained" type="submit" style={{ marginTop: '16px' }}>Add</Button> 
           </form>
         )}
 

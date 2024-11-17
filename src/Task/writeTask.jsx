@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { TextField, Button,MenuItem } from '@mui/material';
+import { TextField, Button, MenuItem } from '@mui/material';
 import './Task.css';
-import { getTask, sendTask } from '../Services/Services';
+import { getAllEmployeDeatil, getAllProjectDeatil, getProjectBy, getTask, sendTask } from '../Services/Services';
 import { url } from '../appConfig';
 
 const WriteTask = () => {
@@ -18,10 +18,16 @@ const WriteTask = () => {
   const [getMacroTask, setGetMacroTask] = useState([]);
   const [getMicroTask, setGetMicroTask] = useState([]);
   const [getStatus, setGetStatus] = useState([]);
-
+  const [formErrors, setFormErrors] = useState({ projectNo: '' });
+  const [getProjectDetail, setGetProjectDetail] = useState([]);
+  const [getfetchProject, setFetchProject] = useState([]);
+  const [getProject, setGetProject] = useState({
+    projectNo: '',
+    projectName: '',
+  });
   const [formData, setFormData] = useState({
     empId: setempId || '',
-    projectNo:  '',
+    projectNo: '',
     projectName: '',
     macroTask: '',
     microTask: '',
@@ -46,7 +52,21 @@ const WriteTask = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'projectNo' && getProjectDetail.length > 0) {
+      const selectedproject = getProjectDetail.find(
+        (project) => `${project.projectNo}` === value
+      );
+      if (selectedproject) {
+        setGetProject({
+
+          projectNo: value,
+          projectName: selectedproject.projectName,
+        });
+      }
+    }
   };
+
 
   const onAddButtonClick = () => {
     if (!formData.projectNo) {
@@ -120,60 +140,42 @@ const WriteTask = () => {
     }
   };
 
+  const getProDeatil = () => {
+    getAllProjectDeatil()
+      .then((response) => {
+
+        console.log("getAllProjectDeatil", response.data);
+        setGetProjectDetail(Array.isArray(response.data) ? response.data : []);
+      })
+      .catch((error) => {
+        console.log('Error fetching employee details:', error);
+      });
+  };
   useEffect(() => {
     getData();
-    getTaske();
+   // getTaske();
+    getProDeatil();
+
   }, []); // Ensure this runs only once
+
   
-  const getTaske = async () => {
-    try {
-        const response = await fetch(`${url}/api/getTaskManagemet`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const getTaskManagement = await response.json();
-        console.log("getTaskManagement", getTaskManagement);
 
-        // Check if the response is an object (not an array)
-        if (getTaskManagement && typeof getTaskManagement === 'object') {
-            const projectno = [];
-            const projectname = [];
-            const macroTask = [];
-            const microTask = [];
-            const status = [];
-            // Loop through each projectNo entry in the object
-            for (const [projectNo, taskData] of Object.entries(getTaskManagement)) {
-                // Add projectNo to projectno array
-                projectno.push({ value: projectNo, label: projectNo });
+  const handleTaskFromProjects = (projects) => {
+    const selectedMacroTasks = projects.map(project => project.macroTask);
+    setGetMacroTask(selectedMacroTasks);
 
-                // Map and add each project name, macro task, and micro task to respective arrays
-                taskData.projectName.forEach(name => {
-                    projectname.push({ value: name, label: name });
-                });
-                taskData.macroTask.forEach(task => {
-                    macroTask.push({ value: task, label: task });
-                });
-                taskData.microTask.forEach(task => {
-                    microTask.push({ value: task, label: task });
-                });
-                taskData.status.forEach(task => {
-                  status.push({ value: task, label: task });
-              });
-            }
+    const selectedMicrTasks = projects.map(project => project.microTask);
+    setGetMicroTask(selectedMicrTasks);
 
-            // Update state with the collected values
-            setGetProjectNo(projectno);
-            setGetProjectName(projectname);
-            setGetMacroTask(macroTask);
-            setGetMicroTask(microTask);
-            setGetStatus(status);
-        }
-    } catch (error) {
-        console.error('Error fetching tasks:', error);
-    }
+    const selectedProjectNo = projects.map(project => project.projectNo);
+    setGetProjectNo(selectedProjectNo);
+
+    const selectedProjectName = projects.map(project => project.projectName);
+    setGetProjectName(selectedProjectName);
+
+    console.log("Selected Macro Tasks:", selectedMacroTasks);
 };
 
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -182,65 +184,155 @@ const WriteTask = () => {
       console.log('updateData', updateData);
       setUpdateData([]);
       setShowTable(false);
-      // Re-fetch data
       getData();
       setGetDataTable((prevState) => ({ ...prevState, isTrue: true }));
     });
   };
   const getStatusClass = (status) => {
     switch (status) {
-      case 'closed':
+      case 'Closed':
         return 'status-closed';
       case 'Ongoing':
         return 'status-ongoing';
-        case 'pending':
+      case 'pending':
         return 'status-pending';
       case 'NotStarted':
       default:
         return 'status-notstarted';
     }
   };
+  const validate = () => {
+    let isValid = true;
+    const errors = {};
+    if (!getProject.projectNo) {
+      errors.projectNo = "Please select employee name";
+      isValid = false;
+    }
+    setFormErrors(errors);
+    return isValid;
+  };
+  const fetchProject = (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+        console.log("Validation passed.");
+        getProjectBy(getProject)
+            .then((response) => {
+                setFetchProject(response.data);
+                console.log("getfetchProject", response.data); // Use response.data directly
+                handleTaskFromProjects(response.data); // Pass it directly
+            })
+            .catch((error) => console.error("Error fetching project:", error));
+    } else {
+        console.log("Validation failed.");
+    }
+};
+
+  console.log("getProjectNo",getProjectNo);
+  console.log("getProjectNo",getProjectName);
+  console.log("getProjectNo",getMacroTask);
+  console.log("getProjectNo",getMicroTask);
   return (
     <div>
+      <div className='writeTask'>
+        <h4 style={{ marginTop: '-70px', marginLeft: '-70px', width: '190px' }}>Fetch Employee</h4>
+        <form>
+          {/* Dropdown for Employee Name */}
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', }}>
+            <TextField
+              label="projectNo"
+              name="projectNo"
+              variant="standard"
+              fullWidth
+              select
+              value={getProject.projectNo || ''}
+              onChange={handleChange}
+              error={Boolean(formErrors.projectNo)}
+              helperText={formErrors.projectNo}
+              style={{ width: '207px', marginLeft: '-40px' }}
+              SelectProps={{
+                native: false,
+              }}
+            >
+              {getProjectDetail.map((item) => (
+                <MenuItem key={item.projectName} value={`${item.projectNo}`}>
+                  {`${item.projectNo}`}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            {/* Display Corresponding Employee ID */}
+            <TextField
+              label="projectName"
+              name="projectName"
+              variant="standard"
+              fullWidth
+              value={getProject.projectName || ''}
+              InputProps={{
+                readOnly: true, // Make the empId field read-only
+              }}
+              style={{ width: '250px' }}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            variant="contained"
+            style={{
+              marginTop: '-30px',
+              width: '160px',
+              marginLeft: '480px',
+              backgroundColor: 'blue',
+              color: 'white',
+            }}
+            onClick={fetchProject}
+          >
+            View
+          </Button>
+        </form>
+
+      </div>
       <h4>
-  Task
-</h4>
+        Task
+      </h4>
       <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
         <TextField
-  label="Project No"
-  name="projectNo"
-  variant="outlined" // Changed to 'outlined'
-  fullWidth
-  select // Specify that this is a select input
-  sx={{ flexBasis: '13%', marginLeft: '20px' }} // Using sx for styling
-  value={formData.projectNo || ''} // Ensure it's controlled
-  onChange={handleChange}
-  required
->
-  {getProjectNo.map(option => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.label}
-    </MenuItem>
-  ))}
-</TextField>
-<TextField
-  select
-  label="Project Name"
-  name="projectName"
-  variant="outlined"
-  fullWidth
-  sx={{ flexBasis: '23%' }}
-  value={formData.projectName}
-  onChange={handleChange}
->
-  {getProjectName.map(option => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.label}
-    </MenuItem>
-  ))}
-</TextField>
+          label="Project No"
+          name="ProjectNo"
+          variant="outlined" // Changed to 'outlined'
+          fullWidth
+          select // Specify that this is a select input
+          sx={{ flexBasis: '13%', marginLeft: '20px' }} // Using sx for styling
+          value={formData.projectNo || ''} // Ensure it's controlled
+          onChange={handleChange}
+          required
+        >
+           {getProjectNo.map((task, index) => (
+  <MenuItem key={index} value={task}>
+  {task}
+</MenuItem>
+))}
 
-<TextField
+        </TextField>
+        <TextField
+          select
+          label="Project Name"
+          name="projectName"
+          variant="outlined"
+          fullWidth
+          sx={{ flexBasis: '23%' }}
+          value={formData.projectName}
+          onChange={handleChange}
+        >
+          {getProjectName.map((task,index) => (
+            <MenuItem key={index} value={task}>
+            {task}
+          </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
   select
   label="Macro Task"
   name="macroTask"
@@ -250,28 +342,28 @@ const WriteTask = () => {
   value={formData.macroTask}
   onChange={handleChange}
 >
-  {getMacroTask.map(option => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.label}
+  {getMacroTask.map((task, index) => (
+    <MenuItem key={index} value={task}>
+      {task}
     </MenuItem>
   ))}
 </TextField>
-<TextField
-  select
-  label="Micro Task"
-  name="microTask"
-  variant="outlined"
-  fullWidth
-  sx={{ flexBasis: '23%' }}
-  value={formData.microTask}
-  onChange={handleChange}
->
-  {getMicroTask.map(option => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.label}
-    </MenuItem>
-  ))}
-</TextField>
+        <TextField
+          select
+          label="Micro Task"
+          name="microTask"
+          variant="outlined"
+          fullWidth
+          sx={{ flexBasis: '23%' }}
+          value={formData.microTask}
+          onChange={handleChange}
+        >
+          {getMicroTask.map((task,index) => (
+            <MenuItem key={index} value={task}>
+              {task}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField
           label="Incharge"
           name="incharge"
@@ -305,8 +397,8 @@ const WriteTask = () => {
           InputLabelProps={{ shrink: true }}
           value={formData.endDate}
           onChange={handleChange}
-        /> 
-        <TextField 
+        />
+        <TextField
           label="Status"
           name="status"
           variant="outlined"
@@ -362,7 +454,7 @@ const WriteTask = () => {
               ))}
             </tbody>
           </table>
-          <Button variant="contained" color="primary" fullWidth type="submit" onClick={handleSubmit}style={{width:'20px'}}>
+          <Button variant="contained" color="primary" fullWidth type="submit" onClick={handleSubmit} style={{ width: '20px' }}>
             Submit
           </Button>
         </div>
@@ -370,7 +462,7 @@ const WriteTask = () => {
 
       {getDataTable && (
         <div>
-          <h6 style={{ marginLeft: '-1390px', marginTop: '10px' }}>All Task Details</h6>
+          <h5 style={{ marginLeft: '-1370px', marginTop: '10px' }}>All Task</h5>
           <table>
             <thead>
               <tr>
