@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import React, { useState,useEffect } from 'react';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,12 +19,21 @@ import ProjectMangement from './Master/ProjectMangement';
 import TaskManagement from './Master/TaskManagement';
 import Projects from './Projects/Projects';
 import Performance from './Performance/Performance'
+import AllTask from './Admin/AllTask';
+import AllPerformance from './Admin/AllPerformance';
 
 function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/CreateAccount' || location.pathname === '/ChangePassword';
   console.log("isLoginPage", isLoginPage);
-  
+  const [userRole, setUserRole] = useState(null);
+  useEffect(() => {
+    const role = sessionStorage.getItem('userRole');
+    console.log("UserRolekk",role)
+    setUserRole(role);
+  }, []);
+  console.log("UserRolekk",userRole);
+
   const theme = createTheme({
     typography: {
       allVariants: {
@@ -37,7 +47,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        {!isLoginPage && <Header />}
+      {!isLoginPage && (
+          <Header admin={userRole === 'Admin'} />
+        )}        
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path='/CreateAccount' element={<CreateAccount />} />
@@ -54,6 +66,8 @@ function App() {
           <Route path='/TaskManagement' element={<TaskManagement />} /> 
           <Route path='/Projects' element={<Projects />} /> 
           <Route path='/Performance' element={<Performance/>} /> 
+          <Route path='/AllTask' element={<AllTask/>} /> 
+          <Route path='/AllPerformance' element={<AllPerformance/>} /> 
 
         </Routes>
       </div>

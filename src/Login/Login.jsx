@@ -46,8 +46,11 @@ export default function Login() {
                     const data = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
                     const empId = data.empId;
                     const empName = data.empName;
+                    const userRole = data.userRole;
                     sessionStorage.setItem('empId', empId);
                     sessionStorage.setItem('empName', empName);
+                    sessionStorage.setItem('userRole',userRole);
+                    console.log("userRole",userRole)
                     setPopupMessage(`Login successful! Employee ID: ${empId}`);
                     setPopupSeverity('success');
                     setOpen(true);

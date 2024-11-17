@@ -1,5 +1,5 @@
-import { Button, TextField, InputLabel, Select, MenuItem } from '@mui/material';
-import React, { useState, useEffect,useRef } from 'react';
+import { Button, TextField } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
 import './Task.css';
 import { getTask, updateTask } from '../Services/Services';
 import UpdateIcon from '@mui/icons-material/Edit';
@@ -8,62 +8,33 @@ const Task = () => {
   const setempId = sessionStorage.getItem('empId');
   const [showTable, setShowTable] = useState(true);
   const [getData, setGetData] = useState([]);
-  const [form,setForm]=useState(false);
+  const [form, setForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // State for the search input
-  const [filteredData, setFilteredData] = useState(getData || []);
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5; // Set the number of tasks to display per page
-
-  // Calculate the indices of the first and last tasks to display
+const [formData,setFormData]=useState();
   const [employee, setEmployee] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // Filtered data for pagination
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = employee.slice(indexOfFirstTask, indexOfLastTask);
+  const currentTasks = filteredData.slice(indexOfFirstTask, indexOfLastTask); // Paginate filtered data
 
-  // Calculate total pages
-  const totalPages = Math.ceil(employee.length / tasksPerPage);
+  // Calculate total pages based on filtered data
+  const totalPages = Math.ceil(filteredData.length / tasksPerPage);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const [formData, setFormData] = useState({
-    empId: setempId || '',
-    id:'7989',
-    projectNo: '',
-    projectName: '',
-    macroTask: '',
-    microTask: '',
-    inCharge: '',
-    startDate: '',
-    endDate: '',
-    secondCloseDate: '',
-    remark: '',
-    status: '', // Make sure the initial value is defined
-  });
 
-  const firstRender = useRef(true);
-
-  // Fetch data function
   const fetchData = async () => {
-    await getAllData(); // Ensure this function is defined and fetches data
+    await getAllData(); // Fetch all data
   };
 
   useEffect(() => {
-    // If it's the first render, fetch the data
-    if (firstRender.current) {
-      fetchData();
-      firstRender.current = false; // Set the ref to false after first render
-    }
-
-    // Set up interval to refresh the data every 30 seconds
-    const interval = setInterval(() => {
-      fetchData();
-    }, 30000); // 30 seconds
-
-    // Cleanup the interval when the component unmounts
-    return () => clearInterval(interval);
+    fetchData();
   }, []); 
+
   useEffect(() => {
-    let filtered = getData; // assuming `getData` is an array
+    let filtered = getData;
 
     if (searchTerm) {
       // Normalize the search term to lowercase and remove spaces
@@ -73,7 +44,6 @@ const Task = () => {
         const normalizedProjectNo = task.projectNo.toLowerCase().replace(/\s+/g, '');
         const normalizedStatus = task.status.toLowerCase().replace(/\s+/g, '');
 
-        // Search in projectNo and status (after removing spaces and converting to lowercase)
         return (
           normalizedProjectNo.includes(normalizedSearchTerm) ||
           normalizedStatus.includes(normalizedSearchTerm)
@@ -81,41 +51,37 @@ const Task = () => {
       });
     }
 
-    setFilteredData(filtered);
-  }, [searchTerm, getData]);// Only trigger filtering when searchTerm or getData changes
+    setFilteredData(filtered); // Update filtered data
+    setCurrentPage(1); // Reset to first page when search term changes
+  }, [searchTerm, getData]); // Re-filter when search term or getData changes
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value); // Update search term on input change
   };
+
   const getAllData = () => {
     getTask()
       .then((response) => {
         const data = Array.isArray(response.data) ? response.data : [];
-
-        console.log('API Response:', data); 
-
-                    const Id = data.id;
-                    console.log("id",Id)
-                    sessionStorage.setItem('Id',Id);
-        console.log(sessionStorage.getItem('Id',Id),"sessionStorage");
         setGetData(response.data || []);
         setEmployee(response.data);
-
+        setFilteredData(response.data); // Set filtered data to initial state
       })
       .catch(error => {
         console.error(error);
       });
   };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0]; // Returns date in YYYY-MM-DD format
   };
+
   const handleUpdate = (taskData) => {
-    console.log(`Edit project with number: ${taskData.projectNo}`);
     setForm(true);
     setFormData({
-      id:taskData.id,
-      empId: setempId || '', // Ensure empId is included
+      id: taskData.id,
+      empId: setempId || '',
       projectNo: taskData.projectNo,
       projectName: taskData.projectName,
       macroTask: taskData.macroTask,
@@ -123,15 +89,12 @@ const Task = () => {
       inCharge: taskData.inCharge,
       startDate: formatDate(taskData.startDate),
       endDate: formatDate(taskData.endDate),
-      secondCloseDate:formatDate( taskData.secondCloseDate),
+      secondCloseDate: formatDate(taskData.secondCloseDate),
       remark: taskData.remark,
-      status: taskData.status || 'Notstarted', // Ensure status is defined
+      status: taskData.status || 'Notstarted',
     });
   };
-  // const close =()=>{
-  //   setShowTable(false);
-  
-  // }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -139,9 +102,7 @@ const Task = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("formData", formData);
-    updateTask(formData).then((response) => {
-      console.log("formData", formData);
+    updateTask(formData).then(() => {
       getAllData();
       setFormData({
         projectNo: '',
@@ -154,83 +115,57 @@ const Task = () => {
         status: '',
       });
       setForm(false);
-
     });
   };
+
   const getStatusClass = (status) => {
     switch (status) {
       case 'closed':
         return 'status-closed';
       case 'Ongoing':
         return 'status-ongoing';
-        case 'pending':
+      case 'pending':
         return 'status-pending';
       case 'NotStarted':
       default:
         return 'status-notstarted';
     }
   };
- 
 
   return (
     <div>
       <h4 style={{ margin: '20px', textAlign: 'left', marginTop: '10px', padding: '10px', backgroundColor: 'blueviolet', color: 'white' }}>
         TaskStatus
-        {/* <Button variant="contained" style={{ marginLeft: '1010px' }} onClick={getAllData}>All Task</Button> */}
       </h4>
 
       <div>
-        {form &&
-        <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
-          <TextField label="Project No" name="projectNo" variant="outlined" fullWidth sx={{ flexBasis: '13%', marginLeft: '20px' }} value={formData.projectNo} onChange={handleChange} required />
-          <TextField label="Project Name" name="projectName" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} value={formData.projectName} onChange={handleChange} required />
-          <TextField label="Macro Task" name="macroTask" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} value={formData.macroTask} onChange={handleChange} required />
-          <TextField label="Micro Task" name="microTask" type='textarea' fullWidth sx={{ flexBasis: '23%' }} multiline rows={2} value={formData.microTask} onChange={handleChange} required/>
-          <TextField label="Incharge" name="incharge" variant="outlined" fullWidth sx={{ flexBasis: '13%', marginLeft: '20px' }} value={formData.inCharge} onChange={handleChange} required/>
-          <TextField label="Start Date" name="startDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.startDate} onChange={handleChange} required/>
-          <TextField label="End Date" name="endDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.endDate} onChange={handleChange} required/>
-          <TextField label="secondCloseDate" name="secondCloseDate" variant="outlined" fullWidth sx={{ flexBasis: '23%' }} type="date" InputLabelProps={{ shrink: true }} value={formData.secondCloseDate} onChange={handleChange} />
-          <TextField label="remark" name="remark" type='textarea' fullWidth sx={{ flexBasis: '23%' }} multiline rows={2} value={formData.remark} onChange={handleChange} style={{ marginLeft: '17px' }} />
+        {form && (
+          <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
+            {/* Form Fields */}
+            <TextField label="Project No" name="projectNo" variant="outlined" fullWidth sx={{ flexBasis: '13%', marginLeft: '20px' }} value={formData.projectNo} onChange={handleChange} required />
+            {/* Other form fields */}
+            <Button variant="contained" type="submit" style={{ marginTop: '16px' }}>Add</Button>
+          </form>
+        )}
 
-          <TextField
-            label="Status"
-            variant="outlined"
-            fullWidth
-            sx={{ flexBasis: '23%', marginTop: '16px' }}
-            InputLabelProps={{ shrink: true }}
-            value={formData.status} // Controlled value
-            select // This makes the TextField behave like a dropdown
-            onChange={handleChange}
-            name="status"
-          >
-            <MenuItem value="Notstarted" >Notstarted</MenuItem>
-            <MenuItem value="Ongoing" >Ongoing</MenuItem>
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="closed">Closed</MenuItem>
-          </TextField>
-
-         <Button variant="contained" type="submit" style={{ marginTop: '16px' }}>Add</Button> 
-         {/* <Button variant="contained" style={{ marginTop: '16px' }} onClick={close()}>Close</Button>  */}
-
-        </form>
-      }
-        {showTable && 
+        {showTable && (
           <div>
             <div style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Search by status"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{
-            padding: '10px',
-            width: '300px',
-            borderRadius: '5px',
-            marginLeft:'1090px',
-            border: '1px solid #ccc',
-          }}
-        />
-      </div>
+              <input
+                type="text"
+                placeholder="Search by status"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                style={{
+                  padding: '10px',
+                  width: '300px',
+                  borderRadius: '5px',
+                  marginLeft: '1090px',
+                  border: '1px solid #ccc',
+                }}
+              />
+            </div>
+
             <table>
               <thead>
                 <tr>
@@ -240,7 +175,6 @@ const Task = () => {
                   <th>ProjectName</th>
                   <th>MacroTask</th>
                   <th>MicroTask</th>
-                  <th>Incharge</th>
                   <th>StartDate</th>
                   <th>EndDate</th>
                   <th>secondCloseDate</th>
@@ -249,7 +183,7 @@ const Task = () => {
                 </tr>
               </thead>
               <tbody>
-                {( filteredData ||currentTasks || []).map((taskData, index) => (
+                {currentTasks.map((taskData, index) => (
                   <tr key={index}>
                     <td>
                       <UpdateIcon
@@ -262,32 +196,33 @@ const Task = () => {
                     <td>{taskData.projectName}</td>
                     <td>{taskData.macroTask}</td>
                     <td>{taskData.microTask}</td>
-                    <td>{taskData.inCharge}</td>
                     <td>{formatDate(taskData.startDate)}</td>
                     <td>{formatDate(taskData.endDate)}</td>
                     <td>{formatDate(taskData.secondCloseDate)}</td>
                     <td>{taskData.remark}</td>
                     <td className={getStatusClass(taskData.status)}>{taskData.status}</td>
-                    </tr>
+                  </tr>
                 ))}
               </tbody>
-              <div>
-            <ul className="pagination">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <li key={index + 1} className="page-item">
-                  <button className="page-link" onClick={() => paginate(index + 1)}>
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
             </table>
+
+            {/* Pagination */}
+            <div>
+              <ul className="pagination">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <li key={index + 1} className="page-item">
+                    <button className="page-link" onClick={() => paginate(index + 1)}>
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        } 
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default Task;
