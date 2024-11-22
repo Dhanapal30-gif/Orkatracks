@@ -233,7 +233,7 @@ const WriteTask = () => {
   console.log("getProjectNo",getMacroTask);
   console.log("getProjectNo",getMicroTask);
   return (
-    <div>
+    <div style={{backgroundColor:'#335262',width:'100%',height:'597px'}}>
       <div className='writeTask'>
         <h4 style={{ marginTop: '-70px', marginLeft: '-70px', width: '190px' }}>Fetch Employee</h4>
         <form>
@@ -249,7 +249,7 @@ const WriteTask = () => {
               onChange={handleChange}
               error={Boolean(formErrors.projectNo)}
               helperText={formErrors.projectNo}
-              style={{ width: '207px', marginLeft: '-40px' }}
+              style={{ width: '207px', marginLeft: '-40px',color:'white' }}
               SelectProps={{
                 native: false,
               }}
@@ -296,6 +296,7 @@ const WriteTask = () => {
       <h4>
         Task
       </h4>
+      <div style={{backgroundColor:'azure'}}>
       <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
         <TextField
           label="Project No"
@@ -417,7 +418,7 @@ const WriteTask = () => {
           ADD
         </Button>
       </form>
-
+      </div>
       {showTable && (
         <div>
           <h4>Add Task Details</h4>

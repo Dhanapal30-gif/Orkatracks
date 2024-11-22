@@ -1,8 +1,19 @@
 .app-bar {
-    background-color: #2c3e50; /* Dark blue-gray */
+    background-color: #274653;; /* Dark blue-gray */
     box-shadow: none;
+    font-family: "Roboto", sans-serif;
+    padding: 19px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.5;
   }
-  
+  .dropdown_bar {
+    box-shadow: none;
+    padding: 10px;
+    color:white;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+  }
   .toolbar {
     display: flex;
     justify-content: space-between;
@@ -29,12 +40,14 @@
   }
   
   .nav-button:hover {
-    color: #1abc9c; /* Teal color for hover effect */
+    color: #1abc66; /* Teal color for hover effect */
   }
   
   .dropdown-menu {
     margin-top: 45px; /* Ensure dropdown aligns below button */
-    background-color: #34495e; /* Darker background for dropdown */
+    background-color: #c5dcc8;
+    font-family: "Roboto", sans-serif;
+    /* Darker background for dropdown */
   }
   
   .dropdown-menu .MuiMenuItem-root {
@@ -62,4 +75,11 @@
     color: #2c3e50;
     border-color: #1abc9c; /* Teal border on hover */
   }
-  
+  .custom-leave-dropdown {
+    color: white;
+}
+
+.contact{
+  font-family: "Roboto", sans-serif;
+  color:'#e7c568'
+}

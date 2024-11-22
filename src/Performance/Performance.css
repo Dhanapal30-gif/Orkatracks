@@ -3,9 +3,10 @@
     margin-top: 20px;
     margin-left: 20px;
     box-shadow: 0cm;
-    background-color:azure;
+    background-color:#335262;
     width:517px;
     height:270px;
+    font-family: 'Roboto", sans-serif';color: white;
 }
 .Monthly{
     padding: 70px;

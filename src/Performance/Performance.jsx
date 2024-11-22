@@ -101,18 +101,18 @@ const yearlyPerformancePercentage = (remainingTasks / totalTask) * 100;
         value: yearlyPerformancePercentage,
     };
     return (
-        <div>
+        <div >
             {/* Weekly Performance */}
             <div className="weekly">
-                <h4 style={{ marginTop: '-70px', marginLeft: '-70px',fontSize:'19px', width: '57%',textAlign:'left' }}>
+                <h3 style={{ marginTop: '-70px', marginLeft: '-70px',fontSize:'19px', width: '57%',textAlign:'left',color:'#f89e5d',fontFamily:'Roboto", sans-serif',backgroundColor:'#335262' }}>
                     Weekly Performance
-                </h4>
+                </h3>
                 
                 <Gauge
                     value={weeklyPerofrm}
                     startAngle={-110}
                     endAngle={110}
-                    style={{ marginLeft: '87px' }}
+                    style={{ marginLeft: '87px'}}
                     sx={{
                         [`& .${gaugeClasses.valueText}`]: {
                             fontSize: 30,
@@ -122,7 +122,7 @@ const yearlyPerformancePercentage = (remainingTasks / totalTask) * 100;
                     text={({ value }) => `${value.toFixed(1)}%`}
                 />
                 <div style={{ marginLeft: '-50px', textAlign: 'left', marginTop: '-70px' }}>
-                    <p>Total Task: {totalTasks}</p>
+                    <p >Total Task: {totalTasks}</p>
                     <p>Ongoing Task: {ongoingTasks}</p>
                     <p>Not started: {notStartedTasks}</p>
                     <p>Closed: {closedTasks}</p>

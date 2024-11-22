@@ -34,6 +34,7 @@ const ProjectManagement = () => {
   const [formData, setFormData] = useState({
     projectNo: "",
     projectName: "",
+    po_Amount: '',
     startDate: "",
     endDate: "",
     status: "notStart",
@@ -55,6 +56,10 @@ const ProjectManagement = () => {
     }
     if (!formData.projectName) {
       errors.projectName = "Please fill it";
+      isValid = false;
+    }
+    if (!formData.po_Amount) {
+      errors.po_Amount = "Please fill it";
       isValid = false;
     }
     if (!formData.startDate) {
@@ -234,7 +239,19 @@ const handleUpdate =()=>{
             onChange={handleChange}
             error={Boolean(formErrors.projectName)}
             helperText={formErrors.projectName}
-          />
+          /><TextField
+          label="po_Amount"
+          name="po_Amount"
+          variant="standard"
+          fullWidth
+         type="number"
+          value={formData.po_Amount || ''}
+          onChange={handleChange}
+          error={Boolean(formErrors.po_Amount)}
+          helperText={formErrors.po_Amount}
+          style={{ width: '207px', marginLeft: '80px', color: 'white' }}
+         
+      />
           <TextField
             label="Start Date"
             name="startDate"

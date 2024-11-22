@@ -24,8 +24,8 @@ h4 {
   margin: 20px;
   margin-top: 10px;
   padding:4px;
-  background: linear-gradient(90deg, rgba(98, 72, 122, 1) 0%, rgba(231, 50, 185, 1) 100%);
-  color: white;
+  /*background: linear-gradient(90deg, rgba(98, 72, 122, 1) 0%, rgba(231, 50, 185, 1) 100%);*/
+  color: #ecba32;
   font-size:20px;
   text-align:center;
 }
@@ -156,10 +156,10 @@ button:disabled {
 
 .writeTask{
   padding: 70px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 20px;
   box-shadow: 0cm;
-  background-color: azure;
+  background-color: rgb(196, 239, 239);
   width:717px;
   height:90px;
 }
