@@ -60,11 +60,17 @@ const Dashboard = () => {
     const handleChangeFormData1 = (e) => {
         const { name, value } = e.target;
         const fieldName = name.replace("_formData1", ""); // Remove '_formData1' from name
-        setFormData1({
-            ...formData1,
+        setFormData1((prevState) => ({
+            ...prevState,
             [fieldName]: value, // Set the updated field value in formData1
-        });
+        }));
     };
+    
+    // Trigger the function when formData1 changes
+    useEffect(() => {
+        getProjectwiseAccountDetail();
+    }, [formData1]);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -77,10 +83,15 @@ const Dashboard = () => {
 
     const validateForm = () => {
         const errors = {};
-        if (!formData.startDate) errors.startDate = "Start Date is required";
-        if (!formData.endDate) errors.endDate = "End Date is required";
+        if (!formData.startDate){
+            alert( "Start Date is required")
+        }
+        if (!formData.endDate){
+            alert( "End Date is required")
+        } 
         if (new Date(formData.startDate) > new Date(formData.endDate)) {
-            errors.endDate = "End Date must be after Start Date";
+            alert("End Date must be after Start Date")
+            //errors.endDate = "End Date must be after Start Date";
         }
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
@@ -90,6 +101,8 @@ const Dashboard = () => {
         getAccountDea();
         overall();
         getData();
+        overall()
+        
     }, []);
     const getAccountDea = () => {
         getAccountDeatil()
@@ -110,38 +123,50 @@ const Dashboard = () => {
     
             // Process each record in getAccountDetail
             getAccountDetail.forEach((item) => {
+                if (!item.date || !item.debit_Amount) {
+                    console.warn("Skipping invalid record:", item);
+                    return;
+                }
+    
+                // Convert date from DD-MM-YYYY to YYYY-MM-DD
+                const formattedDate = convertToDateFormat(item.date);
+    
                 // Parse the date
-                const date = new Date(item.date);
-                if (isNaN(date)) return; // Skip invalid dates
+                const date = new Date(formattedDate);
+                if (isNaN(date)) {
+                    console.error("Invalid date format after conversion:", formattedDate);
+                    return;
+                }
     
                 // Extract month and year
-                const month = date.toLocaleString("default", { month: "long" }); // e.g., "January"
+                const month = date.toLocaleString("default", { month: "long" });
                 const year = date.getFullYear();
-                const label = `${month} ${year}`; // e.g., "January 2024"
+                const label = `${month} ${year}`;
     
                 // Add label to uniqueMonths
                 uniqueMonths.add(label);
     
                 // Aggregate expenses for the month
-                const key = `${year}-${date.getMonth()}`; // Create unique key for the month
-                monthlyData[key] = (monthlyData[key] || 0) + (item.debit_Amount || 0);
+                const key = `${year}-${date.getMonth() + 1}`; // Use 1-based month index
+                monthlyData[key] = (monthlyData[key] || 0) + item.debit_Amount;
             });
     
             // Sort the unique months chronologically
             const sortedLabels = Array.from(uniqueMonths).sort((a, b) => {
-                const [monthA, yearA] = a.split(" ");
-                const [monthB, yearB] = b.split(" ");
-                const dateA = new Date(`${monthA} 1, ${yearA}`);
-                const dateB = new Date(`${monthB} 1, ${yearB}`);
+                const dateA = new Date(`${a} 1`);
+                const dateB = new Date(`${b} 1`);
                 return dateA - dateB;
             });
     
             // Map the sorted labels to their corresponding expense totals
             const expenses = sortedLabels.map((label) => {
                 const [month, year] = label.split(" ");
-                const key = `${year}-${new Date(`${month} 1, ${year}`).getMonth()}`;
+                const key = `${year}-${new Date(`${month} 1, ${year}`).getMonth() + 1}`;
                 return monthlyData[key] || 0;
             });
+    
+            console.log("Sorted Labels:", sortedLabels);
+            console.log("Monthly Expenses:", expenses);
     
             setDynamicLabels(sortedLabels);
             setMonthlyExpenses(expenses);
@@ -149,8 +174,14 @@ const Dashboard = () => {
     
         calculateMonthlyExpenses();
     }, [getAccountDetail]);
-
+    const convertToDateFormat = (ddmmyyyy) => {
+        const [day, month, year] = ddmmyyyy.split("-"); // Split the date string
+        return `${year}-${month}-${day}`; // Return in `YYYY-MM-DD` format
+    };
     
+
+    console.log("Sorted Labels:", dynamicLabels); // Displays unique months sorted
+console.log("Monthly Expenses:", monthlyExpenses); 
     const getData = () => {
         getProjectMangement()
             .then((response) => {
@@ -187,7 +218,7 @@ const Dashboard = () => {
         const profit = totalpoAmount - totalexpanse + totalIncome;
         setOverallProfit(profit)
     }
-
+    
     const handleView = () => {
         if (!validateForm()) return;
 
@@ -289,7 +320,7 @@ const Dashboard = () => {
         return <div style={style} />;
     }
 
-    // Chart data configuration
+    
     const data = {
         labels: dynamicLabels, // Use dynamically generated labels
         datasets: [
@@ -302,7 +333,8 @@ const Dashboard = () => {
             },
         ],
     };
-    // //barchart
+
+    //barchart
     // const data = {
     //     labels: [
     //         "January", "February", "March", "April", "May", "June",
@@ -311,7 +343,7 @@ const Dashboard = () => {
     //     datasets: [
     //         {
     //             label: "Expenses",
-    //             data: [500, 600, 450, 700, 650, 500, 750, 800, 550, 650, 700, 850], // Example expenses for 12 months
+    //             data:monthlyExpenses,
     //             backgroundColor: [
     //                 "rgba(255, 99, 132, 0.6)",  // January
     //                 "rgba(54, 162, 235, 0.6)",  // February
@@ -779,29 +811,6 @@ const Dashboard = () => {
 
 
                             </TextField>
-
-                            <a
-                                onClick={getProjectwiseAccountDetail}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                    color: 'blue',
-                                    textDecoration: 'none', // Remove underline
-                                }}
-                            >
-                                View
-                            </a>     <br></br>
-                            <a
-                                href="https://react.dev"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                    color: 'blue',
-                                    textDecoration: 'none', // Remove underline
-                                }}
-                            >
-                                Over All
-                            </a>
                         </div>
                     </div>
                 </div>
