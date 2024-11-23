@@ -42,10 +42,11 @@ const Accounts = () => {
           projectName: '', 
           catagery: '', 
           particulars: '', 
-          //po_Amount: '', 
+          po_Amount: '', 
           debit_Amount: '', 
           credit_Amount: '', 
-          date: dateString,  // Use the formatted date string
+          date: dateString, 
+          planedBudjet:'', // Use the formatted date string
         }
       ];
     
