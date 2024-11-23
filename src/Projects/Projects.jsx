@@ -71,8 +71,8 @@ const Projects = () => {
     };
 
     return (
-        <div>
-            <h6 style={{ marginTop: '7px', marginLeft: '19px', width: '290px' }}>Projects</h6>
+        <div style={{backgroundColor:'#335262',width:'100%',height:'597px'}}>
+            <h3 style={{ marginTop: '7px', marginLeft: '19px', width: '290px',color:'#f89e5d',fontFamily:'Roboto", sans-serif',backgroundColor:'#335262' }}>Projects</h3>
 
             <div className='getproject'>
                     <div className="status-section">

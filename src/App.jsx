@@ -21,19 +21,40 @@ import Projects from './Projects/Projects';
 import Performance from './Performance/Performance'
 import AllTask from './Admin/AllTask';
 import AllPerformance from './Admin/AllPerformance';
+import LoginHeader from './Component/LoginHeader';
+import Company from './Company/Company';
+import Accounts from './Admin/Accounts';
+import Dashboard from './Admin/Dashboard';
+import Workout from './Admin/Workout';
 
 function App() {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/CreateAccount' || location.pathname === '/ChangePassword';
-  console.log("isLoginPage", isLoginPage);
-  const [userRole, setUserRole] = useState(null);
-  useEffect(() => {
-    const role = sessionStorage.getItem('userRole');
-    console.log("UserRolekk",role)
-    setUserRole(role);
-  }, []);
-  console.log("UserRolekk",userRole);
+  //const isLoginPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/CreateAccount' || location.pathname === '/ChangePassword';
+  //console.log("isLoginPage", isLoginPage);
+  //const [userRole, setUserRole] = useState(null);
+  //const [getempId, setGetempId] = useState(null);
 
+  // useEffect(() => {
+  //   const role = sessionStorage.getItem('userRole');
+  //   const empId = sessionStorage.getItem('empId');
+  //   console.log("UserRolekk",role)
+  //   console.log("empId",empId)
+  //   setUserRole(role);
+  //   setGetempId(empId)
+  // }, []);
+  // console.log("UserRolekk",userRole);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem('userRole'); // Check login status by role or other identifier
+    if (role) {
+      setIsLoggedIn(true); // User is logged in
+    } else {
+      setIsLoggedIn(false); // User is not logged in
+    }
+    console.log("role",role)
+  }, []);
   const theme = createTheme({
     typography: {
       allVariants: {
@@ -47,11 +68,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-      {!isLoginPage && (
-          <Header admin={userRole === 'Admin'} />
-        )}        
+      <Header isLoggedIn={isLoggedIn} />     
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<Company />} />
           <Route path='/CreateAccount' element={<CreateAccount />} />
           <Route path='/ChangePassword' element={<ChangePassword />} />
           <Route path='/login' element={<LoginPage />} />
@@ -68,7 +87,15 @@ function App() {
           <Route path='/Performance' element={<Performance/>} /> 
           <Route path='/AllTask' element={<AllTask/>} /> 
           <Route path='/AllPerformance' element={<AllPerformance/>} /> 
+          <Route path='/LoginHeader' element={<LoginHeader/>} /> 
+          <Route path='/Company' element={<Company/>} /> 
+          <Route path='/Accounts' element={<Accounts/>} /> 
+          <Route path='/Dashboard' element={<Dashboard/>} /> 
+          <Route path='/Workout' element={<Workout/>} /> 
 
+
+
+          
         </Routes>
       </div>
     </ThemeProvider>

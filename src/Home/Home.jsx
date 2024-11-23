@@ -42,7 +42,8 @@ const Home = () => {
   };
 
   return (
-    <div className='leave'>
+    <div style={{backgroundColor:'#244d5c',width:'100%',height:'707px'}}>
+    <div className='home'>
       {events.length > 0 ? (
         <>
           <h1>{events[currentIndex].title}</h1>
@@ -53,6 +54,7 @@ const Home = () => {
       ) : (
         <p>Loading holidays...</p>
       )}
+    </div>
     </div>
   );
 }

@@ -87,3 +87,10 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
     export const getProjectBy= (getProject) => {
      return axios.get(`${getAllProjectDetail_Api}?projectNo=${getProject.projectNo}`);
     };
+
+    const Account_Management=`${url}/api/accountsController/accountManagement`
+    export const AccountMangement=(formData)=>axios.post(Account_Management,[formData]);
+    
+    const getAccount_Api = `${url}/api/Account/getallAccountdeatil`;
+    export const getAccountDeatil = () => axios.get(getAccount_Api);
+    
