@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './Admin.css'
-import { Button } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 
-import { AiFillCodeSandboxCircle } from "react-icons/ai";
 import { AiFillCheckSquare } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MdTrendingUp } from "react-icons/md";
@@ -49,6 +47,7 @@ const Dashboard = () => {
     const [monthlyExpenses, setMonthlyExpenses] = useState([]);
     const [dynamicLabels, setDynamicLabels] = useState([]);
 
+    //formdata
     const handleChangeFormData = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -59,27 +58,26 @@ const Dashboard = () => {
 
     const handleChangeFormData1 = (e) => {
         const { name, value } = e.target;
-        const fieldName = name.replace("_formData1", ""); // Remove '_formData1' from name
+        const fieldName = name.replace("_formData1", ""); 
         setFormData1((prevState) => ({
             ...prevState,
-            [fieldName]: value, // Set the updated field value in formData1
+            [fieldName]: value, 
         }));
     };
+    //formdata1
+    // const handleChangeFormData1 = (e) => {
+    //     const { name, value } = e.target;
+    //     const fieldName = name.replace("_formData1", ""); 
+    //     setFormData1((prevState) => ({
+    //         ...prevState,
+    //         [fieldName]: value, 
+    //     }));
+    // };
+    //select dropdown 
+    // useEffect(() => {
+    //     getProjectwiseAccountDetail();
+    // }, [formData1]);
     
-    // Trigger the function when formData1 changes
-    useEffect(() => {
-        getProjectwiseAccountDetail();
-    }, [formData1]);
-    
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData1({
-            ...formData1,
-            [name]: value,
-        });
-    };
-
 
     const validateForm = () => {
         const errors = {};
@@ -91,8 +89,7 @@ const Dashboard = () => {
         } 
         if (new Date(formData.startDate) > new Date(formData.endDate)) {
             alert("End Date must be after Start Date")
-            //errors.endDate = "End Date must be after Start Date";
-        }
+                   }
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -101,37 +98,41 @@ const Dashboard = () => {
         getAccountDea();
         overall();
         getData();
-        overall()
+        //overall()
         
     }, []);
+
     const getAccountDea = () => {
         getAccountDeatil()
             .then((response) => {
-
                 console.log("getAccountDeatil", response.data);
                 setGetAccountDetail(Array.isArray(response.data) ? response.data : []);
-
             })
             .catch((error) => {
                 console.log('Error fetching employee details:', error);
             });
     };
+    const getData = () => {
+        getProjectMangement()
+            .then((response) => {
+                setGetProject(response.data);
+                console.log("uywge9yguygh", response.data);
+
+            })
+            .catch((error) => {
+            });
+    };
+    //barchart
     useEffect(() => {
         const calculateMonthlyExpenses = () => {
             const monthlyData = {};
             const uniqueMonths = new Set();
-    
-            // Process each record in getAccountDetail
             getAccountDetail.forEach((item) => {
                 if (!item.date || !item.debit_Amount) {
                     console.warn("Skipping invalid record:", item);
                     return;
                 }
-    
-                // Convert date from DD-MM-YYYY to YYYY-MM-DD
                 const formattedDate = convertToDateFormat(item.date);
-    
-                // Parse the date
                 const date = new Date(formattedDate);
                 if (isNaN(date)) {
                     console.error("Invalid date format after conversion:", formattedDate);
@@ -174,25 +175,18 @@ const Dashboard = () => {
     
         calculateMonthlyExpenses();
     }, [getAccountDetail]);
+    //date convertion in barchart
     const convertToDateFormat = (ddmmyyyy) => {
-        const [day, month, year] = ddmmyyyy.split("-"); // Split the date string
-        return `${year}-${month}-${day}`; // Return in `YYYY-MM-DD` format
+        const [day, month, year] = ddmmyyyy.split("-"); 
+        return `${year}-${month}-${day}`; 
     };
     
 
-    console.log("Sorted Labels:", dynamicLabels); // Displays unique months sorted
-console.log("Monthly Expenses:", monthlyExpenses); 
-    const getData = () => {
-        getProjectMangement()
-            .then((response) => {
-                setGetProject(response.data);
-                console.log("uywge9yguygh", response.data);
-
-            })
-            .catch((error) => {
-            });
-    };
+    console.log("Sorted Labels:", dynamicLabels); 
+    console.log("Monthly Expenses:", monthlyExpenses); 
     console.log("getData", getProject);
+
+    //overall dashboard
     const overall = () => {
         //overallpoamount
         const overallpoAmount = getAccountDetail.filter(Account => Account.po_Amount).map(account => account.po_Amount);
@@ -214,18 +208,16 @@ console.log("Monthly Expenses:", monthlyExpenses);
         console.log("Individual PO Amounts:", overallpoAmount);
         console.log("Total PO Amount:", totalpoAmount);
 
-
         const profit = totalpoAmount - totalexpanse + totalIncome;
         setOverallProfit(profit)
     }
     
+    //overall dashboard filter option
     const handleView = () => {
         if (!validateForm()) return;
-
         // Convert the start and end dates to Date objects
         const startDate = new Date(formData.startDate);
         const endDate = new Date(formData.endDate);
-
         // Check if the dates are valid
         if (isNaN(startDate) || isNaN(endDate)) {
             console.error("Invalid start or end date.");
@@ -248,33 +240,7 @@ console.log("Monthly Expenses:", monthlyExpenses);
             return parsedItemDate >= startDate && parsedItemDate <= endDate;
         });
 
-        setFilteredData(filtered); // Set filtered data for display
-
-        // const filtered1 = getProject.filter((item) => {
-        //     // Ensure item.startDate exists
-        //     if (!item.startDate) {
-        //         console.error("Missing startDate in item:", item);
-        //         return false; // Skip items with missing startDate
-        //     }
-
-        //     // Convert startDate to Date object directly, assuming it's already in a valid ISO format
-        //     const parsedItemDate = new Date(item.startDate);
-
-        //     // Check if the date is valid
-        //     if (isNaN(parsedItemDate)) {
-        //         console.error("Invalid startDate in item:", item.startDate);
-        //         return false; // Skip invalid dates
-        //     }
-
-        //     // Normalize the time to midnight for accurate comparison
-        //     parsedItemDate.setHours(0, 0, 0, 0);
-
-        //     // Perform the comparison with the provided startDate and endDate
-        //     return parsedItemDate >= startDate && parsedItemDate <= endDate;
-        // });
-
-
-        // setFilteredData1(filtered1); // Set filtered data for display
+        setFilteredData(filtered);
 
         const totalPO = filtered
             .filter(account => account.po_Amount)
@@ -297,11 +263,16 @@ console.log("Monthly Expenses:", monthlyExpenses);
 
     // Helper function to convert "DD-MM-YYYY" to "YYYY-MM-DD"
     const convertDateFormat = (date) => {
+        if (!date || typeof date !== 'string') {
+            console.error('Invalid date:', date);
+            return null; // Handle invalid date input
+        }
         const [day, month, year] = date.split("-"); // Split "DD-MM-YYYY"
         return `${year}-${month}-${day}`; // Return "YYYY-MM-DD"
     };
+    
 
-
+    //line creating
     function Line({ orientation = "horizontal", color = "orange", thickness = "2px", length = "100%" }) {
         const style =
             orientation === "horizontal"
@@ -310,17 +281,7 @@ console.log("Monthly Expenses:", monthlyExpenses);
 
         return <div style={style} />;
     }
-
-    function Line1({ orientation = "horizontal", color = "orange", thickness = "2px", length = "100%" }) {
-        const style =
-            orientation === "horizontal"
-                ? { borderTop: `${thickness} solid ${color}`, width: length, margin: "10px 0" }
-                : { backgroundColor: color, width: thickness, height: length, margin: "0 10px" };
-
-        return <div style={style} />;
-    }
-
-    
+    //bar chart
     const data = {
         labels: dynamicLabels, // Use dynamically generated labels
         datasets: [
@@ -334,54 +295,11 @@ console.log("Monthly Expenses:", monthlyExpenses);
         ],
     };
 
-    //barchart
-    // const data = {
-    //     labels: [
-    //         "January", "February", "March", "April", "May", "June",
-    //         "July", "August", "September", "October", "November", "December"
-    //     ],
-    //     datasets: [
-    //         {
-    //             label: "Expenses",
-    //             data:monthlyExpenses,
-    //             backgroundColor: [
-    //                 "rgba(255, 99, 132, 0.6)",  // January
-    //                 "rgba(54, 162, 235, 0.6)",  // February
-    //                 "rgba(255, 206, 86, 0.6)",  // March
-    //                 "rgba(75, 192, 192, 0.6)",  // April
-    //                 "rgba(153, 102, 255, 0.6)", // May
-    //                 "rgba(255, 159, 64, 0.6)",  // June
-    //                 "rgba(255, 99, 132, 0.6)",  // July
-    //                 "rgba(54, 162, 235, 0.6)",  // August
-    //                 "rgba(255, 206, 86, 0.6)",  // September
-    //                 "rgba(75, 192, 192, 0.6)",  // October
-    //                 "rgba(153, 102, 255, 0.6)", // November
-    //                 "rgba(255, 159, 64, 0.6)"   // December
-    //             ], // Unique color for each month
-    //             borderColor: [
-    //                 "rgba(255, 99, 132, 1)",
-    //                 "rgba(54, 162, 235, 1)",
-    //                 "rgba(255, 206, 86, 1)",
-    //                 "rgba(75, 192, 192, 1)",
-    //                 "rgba(153, 102, 255, 1)",
-    //                 "rgba(255, 159, 64, 1)",
-    //                 "rgba(255, 99, 132, 1)",
-    //                 "rgba(54, 162, 235, 1)",
-    //                 "rgba(255, 206, 86, 1)",
-    //                 "rgba(75, 192, 192, 1)",
-    //                 "rgba(153, 102, 255, 1)",
-    //                 "rgba(255, 159, 64, 1)"
-    //             ], // Border color for each bar
-    //             borderWidth: 3.7,
-    //         },
-    //     ],
-    // };
-
     const options = {
         responsive: true,
         plugins: {
             tooltip: {
-                enabled: true, // Enable tooltips to show when hovering over a bar
+                enabled: true, 
             },
         },
         scales: {
@@ -430,98 +348,89 @@ console.log("Monthly Expenses:", monthlyExpenses);
             );
         });
     };
-    //barchart//
 
-    const yearlyPerformancePercentage = 7894789;
-    const yearlyPerformancePercentage1 = 7894789;
-    const yearlyPerformancePercentage2 = 7894789;
+    //setGetProjectNo 
+   useEffect(() => {
+    const uniqueProjectNumbers = Array.from(
+        new Set(
+            getAccountDetail
+                .filter(account => account.projectNo) // Ensure projectNo exists
+                .map(account => account.projectNo) // Extract projectNo
+        )
+    ).map(projectNo => ({
+        value: projectNo, // Unique identifier for value
+        label: projectNo  // What is displayed in dropdown
+    }));
 
-
-    const settings = {
-        width: 200,
-        height: 170,
-        value: totalpoAmount1,
-        color: "white",                 // Text color
-    };
-
-    // const setting1 = {
-    //     width: 200,
-    //     height: 170,
-    //     value: yearlyPerformancePercentage1,
-    // };
-
-
-    useEffect(() => {
-        const projectnumber = getAccountDetail
-            .filter(account => account.projectNo) // Ensure projectNo exists
-            .map(account => ({
-                value: account.projectNo, // Unique identifier for value
-                label: account.projectNo // What is displayed in dropdown
-            }));
-        setGetProjectNo(projectnumber);
-    }, [getProject]);
+    setGetProjectNo(uniqueProjectNumbers);
+}, [getAccountDetail]); // Updated dependency
 
     console.log("formdata", formData1)
-    useEffect(() => {
-        // Ensure the data is only fetched when necessary
-        if (formData1.startDate && formData1.endDate && formData1.projectNo) {
-            getProjectwiseAccountDetail();
-        }
-    }, [formData1]);
+    //circle dashboard
     const getProjectwiseAccountDetail = () => {
-        // Avoid unnecessary state updates inside the function if the data is unchanged
-        //const startDate = new Date(formData1.startDate);
-        //const endDate = new Date(formData1.endDate);
+        const startDate = formData1.startDate ? new Date(formData1.startDate) : null;
+        const endDate = formData1.endDate ? new Date(formData1.endDate) : null;
         const projectNo = formData1.projectNo;
-
-        // Set the hours to ensure we're comparing whole days (ignores time)
-        //startDate.setHours(0, 0, 0, 0);
-        //endDate.setHours(23, 59, 59, 999);
-
+    
+        // Normalize dates if provided
+        if (startDate) startDate.setHours(0, 0, 0, 0);
+        if (endDate) endDate.setHours(23, 59, 59, 999);
+    
+        // Filter data
         const filtered = getAccountDetail.filter((item) => {
-            const itemDate = convertDateFormat(item.date);
-            const parsedItemDate = new Date(itemDate);
-
-            if (isNaN(parsedItemDate)) {
+            const itemDateStr = convertDateFormat(item.date);
+            const itemDate = new Date(itemDateStr);
+    
+            if (isNaN(itemDate.getTime())) {
                 console.error("Invalid date in item:", item.date);
                 return false;
             }
-
-            parsedItemDate.setHours(0, 0, 0, 0);
-
-            return (
-                item.projectNo === projectNo
-
-            );
+    
+            itemDate.setHours(0, 0, 0, 0);
+    
+            // Apply filtering logic
+            if (startDate && endDate && projectNo) {
+                return item.projectNo === projectNo && itemDate >= startDate && itemDate <= endDate;
+            } else if (projectNo) {
+                return item.projectNo === projectNo;
+            } else {
+                return true; // No filters applied
+            }
         });
-
-        if (filtered.length === 0) return;
-
-        setFilteredData1(filtered);
-
-        const totalPO1 = filtered
-            .filter(account => account.po_Amount)
-            .reduce((sum, account) => sum + account.po_Amount, 0);
-
-        const totalExp1 = filtered
-            .filter(account => account.debit_Amount)
-            .reduce((sum, account) => sum + account.debit_Amount, 0);
-
-        const totalInc1 = filtered
-            .filter(account => account.credit_Amount)
-            .reduce((sum, account) => sum + account.credit_Amount, 0);
-
-        const totalbudjectu = filtered
-            .filter(account => account.planedBudjet)
-            .reduce((sum, account) => sum + account.planedBudjet, 0);
-
-
-        if (totalPO1 !== totalpoAmount1) setTotalpoAmount1(totalPO1);
-        if (totalExp1 !== totalExpanse1) setTotalExpanse1(totalExp1);
-        if (totalInc1 !== totalIncome1) setTotalIncome1(totalInc1);
-        if (totalbudjectu !== totalbudject) setTotalBudject(totalbudjectu);
-        if (totalPO1 - totalExp1 + totalInc1 !== overallProfit1) setOverallProfit1(totalPO1 - totalExp1 + totalInc1);
-    }
+    
+        if (filtered.length === 0) {
+            setFilteredData1([]);  // Clear data if no match
+            return;
+        }
+    
+        setFilteredData1(filtered);  // Set filtered data
+    
+        // Calculate totals
+        const totalPO1 = filtered.reduce((sum, account) => sum + (account.po_Amount || 0), 0);
+        const totalExp1 = filtered.reduce((sum, account) => sum + (account.debit_Amount || 0), 0);
+        const totalInc1 = filtered.reduce((sum, account) => sum + (account.credit_Amount || 0), 0);
+        const totalBudget = filtered.reduce((sum, account) => sum + (account.planedBudjet || 0), 0);
+    
+        if (projectNo && projectNo.toLowerCase() !== "grn" && projectNo.toLowerCase() !== "sidco") {
+            // Normal case: Update all values
+            setTotalpoAmount1(totalPO1 || totalPO1 === 0 ? totalPO1 : 0);
+            setTotalExpanse1(totalExp1);
+            setTotalIncome1(totalInc1);
+            setTotalBudject(totalBudget);
+    
+            const overallProfit = totalPO1 - totalExp1 + totalInc1;
+            setOverallProfit1(overallProfit);
+        } else if (projectNo && !projectNo.toLowerCase().startsWith("prn")) {
+            // Special case for GRN or SIDCO: Update only totalExpanse1
+            setTotalExpanse1(totalExp1);
+            setTotalpoAmount1(totalPO1 || totalPO1 === 0 ? totalPO1 : 0);  // Keep PO as 0 if it's missing
+            setTotalIncome1(totalInc1);
+            const budget = 0;  // Set budget to 0 if not available
+            setTotalBudject(budget);
+        }
+        
+    };
+    
 
     console.log("getTotalPoAmount", totalpoAmount1)
     console.log("setTotalExpanse1", totalExpanse1)
@@ -539,11 +448,11 @@ console.log("Monthly Expenses:", monthlyExpenses);
     const percentageExpan = totalbudject > 0
         ? Math.min((totalExpanse1 / totalbudject) * 100, 100)
         : 0;
-
+        const grnpercentageExpan = totalbudject > 0
+        ? Math.min((totalExpanse1 / totalbudject) * 100, 100)
+        : 0;
 
     const differenceAmount = totalIncome1 - totalpoAmount1;
-
-
 
     const gaugeColor =
         percentageExpan > 75
@@ -552,37 +461,55 @@ console.log("Monthly Expenses:", monthlyExpenses);
                 ? "#ffa500" // Orange for > 50%
                 : "#ffff00"; // Yellow for <= 50%
 
-    const setting3 = {
+    const setting3 = 
+        formData1 === "PRN"
+            ? {
+                  width: 200,
+                  height: 170,
+                  value: percentageExpan, // For PRN, display percentage income
+                  max: 100,
+              }
+            : {
+                  width: 200,
+                  height: 170,
+                  value: totalExpanse1, // For GRN, display percentage expense
+                  max: 100,
+              };
+    
+
+    const settings = {
         width: 200,
         height: 170,
-        value: percentageExpan, // Percentage value for the gauge
-        max: 100, // Maximum always represents the full budget
+        value: totalpoAmount1,
+        color: "white",                
     };
 
     const setting1 = {
         width: 200,
         height: 170,
-        value: percentageIncome, // Use the calculated percentage
-        max: 90, // Maximum value for the gauge
+        value: percentageIncome, 
+        max: 90, 
     };
-
-    // const setting2 = {
-    //     width: 200,
-    //     height: 170,
-    //     value: percentagebudjett,
-    // };
-
     const setting2 = {
         width: 200,
         height: 170,
         value: percentagebudjett,
     };
-
-    const setting4 = {
-        width: 200,
-        height: 170,
-        value: percentageExpan,
-    };
+    const setting4 = 
+        formData1 === "PRN"
+            ? {
+                  width: 200,
+                  height: 170,
+                  value: percentageExpan, // For PRN, display percentage income
+                  max: 100,
+              }
+            : {
+                  width: 200,
+                  height: 170,
+                  value: percentageExpan, // For GRN, display percentage expense
+                  max: 100,
+              };
+    
 
 
     return (
@@ -590,7 +517,6 @@ console.log("Monthly Expenses:", monthlyExpenses);
             <div className='Dashboard'>
                 <div className='filter'>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '19px' }}>
-
                         <TextField
                             label="Start Date"
                             name="startDate"
@@ -661,7 +587,6 @@ console.log("Monthly Expenses:", monthlyExpenses);
                     </p>
                     <p style={{ marginTop: '10px' }}>{overallProfit}</p>
                 </div>
-
 
                 <div style={{ marginTop: '30px' }}>
                     <Line ></Line>
@@ -759,10 +684,32 @@ console.log("Monthly Expenses:", monthlyExpenses);
                                 onChange={handleChangeFormData1}
                                 error={Boolean(formErrors.endDate)}
                                 helperText={formErrors.endDate}
-                            /> */}
+                            /> */}<TextField
+                            label="Start Date"
+                            name="startDate"
+                            variant="standard"
+                            fullWidth
+                            type="date"
+                            value={formData1.startDate || ''}
+                            InputLabelProps={{ shrink: true }}
+                            onChange={handleChangeFormData1}
+                            style={{ width: '170px', marginTop: '7px', marginLeft: '20px' }}
+                        />
+
+                        <TextField
+                            label="End Date"
+                            name="endDate"
+                            variant="standard"
+                            fullWidth
+                            type="date"
+                            value={formData1.endDate || ''}
+                            InputLabelProps={{ shrink: true }}
+                            onChange={handleChangeFormData1}
+                            style={{ width: '170px', marginTop: '7px', marginLeft: '20px' }}
+                        />
 
                             <TextField
-                                select // This will turn the TextField into a Select dropdown
+                                select 
                                 label="Project No"
                                 name="projectNo"
                                 variant="standard"
@@ -807,10 +754,12 @@ console.log("Monthly Expenses:", monthlyExpenses);
                                     <MenuItem key={option.value} value={option.value}>
                                         {option.label}
                                     </MenuItem>
-                                ))}
+                                ))} 
 
 
                             </TextField>
+                            <button onClick={getProjectwiseAccountDetail}>view</button>
+
                         </div>
                     </div>
                 </div>
