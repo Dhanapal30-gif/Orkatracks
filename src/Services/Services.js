@@ -94,3 +94,6 @@ export const sendTask=(formData)=>axios.post(sendTask_Api,formData);
     const getAccount_Api = `${url}/api/Account/getallAccountdeatil`;
     export const getAccountDeatil = () => axios.get(getAccount_Api);
     
+
+    const deleteData_Api = `${url}/api/Account/deleteData_Api`;
+export const deletedatad = () => axios.delete(deleteData_Api);
