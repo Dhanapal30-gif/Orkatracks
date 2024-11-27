@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Admin.css'
 import { TextField, Button, MenuItem } from '@mui/material';
-import { AccountMangement, getAllProjectDeatil, taskManagement } from '../Services/Services';
+import { AccountMangement, deletedatad, getAllProjectDeatil, taskManagement } from '../Services/Services';
 import * as XLSX from 'xlsx';
 import Alert from '@mui/material/Alert';
 import { Add, Description as ExcelIcon } from '@mui/icons-material';
@@ -166,6 +166,16 @@ const Accounts = () => {
     };
 //project fetch 
 
+
+    const handleDelete =()=>{
+      deletedatad()
+      .then((response)=>{
+        console.log("Deleted sucessfully")
+
+      })
+
+    }
+
     return (
         <div >
             <div className='Accoun_Ui'>
@@ -316,6 +326,8 @@ const Accounts = () => {
               Upload Excel
             </Button>
           </label>
+          <button  onClick={handleDelete}>Delete</button>
+
                 </form>
                 {showUploadTable && (
         <div>
