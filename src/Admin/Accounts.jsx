@@ -46,7 +46,10 @@ const Accounts = () => {
           debit_Amount: '', 
           credit_Amount: '', 
           date: dateString, 
-          planedBudjet:'', // Use the formatted date string
+          planedBudjet:'',
+          exType:'', // Use the formatted date string
+          refernceProjectNo:'',
+          amountSpent:'',
         }
       ];
     
