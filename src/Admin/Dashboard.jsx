@@ -197,29 +197,44 @@ const Dashboard = () => {
 
     //overall dashboard
     const overall = () => {
-        //overallpoamount
-        const overallpoAmount = getAccountDetail.filter(Account => Account.po_Amount).map(account => account.po_Amount);
-        const totalpoAmount = overallpoAmount.reduce((sum, amount) => sum + amount, 0);
-        setTotalpoAmount(totalpoAmount) // Calculate total
-        console.log("Individual PO Amounts:", overallpoAmount);
-        console.log("Total PO Amount:", totalpoAmount);
+    const formatter = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+    });
 
-        //overallexpanse
-        const overallExpanse = getAccountDetail.filter(Account => Account.debit_Amount).map(account => account.debit_Amount);
-        const totalexpanse = overallExpanse.reduce((sum, amount) => sum + amount, 0);
-        setTotalExpanse(totalexpanse)// Calculate total
-        console.log("Individual PO Amounts:", overallpoAmount);
-        console.log("Total PO Amount:", totalpoAmount);
-        //overallincome
-        const overallIncome = getAccountDetail.filter(Account => Account.credit_Amount).map(account => account.credit_Amount);
-        const totalIncome = overallIncome.reduce((sum, amount) => sum + amount, 0);
-        setTotalIncome(totalIncome)// Calculate total
-        console.log("Individual PO Amounts:", overallpoAmount);
-        console.log("Total PO Amount:", totalpoAmount);
+    // overallpoamount
+    const overallpoAmount = getAccountDetail
+        .filter(account => account.po_Amount)
+        .map(account => account.po_Amount);
+    const totalpoAmount = overallpoAmount.reduce((sum, amount) => sum + amount, 0);
+    setTotalpoAmount(formatter.format(totalpoAmount)); // Format and set total
+    console.log("Individual PO Amounts:", overallpoAmount);
+    console.log("Total PO Amount:", formatter.format(totalpoAmount));
 
-        const profit = totalpoAmount - totalexpanse + totalIncome;
-        setOverallProfit(profit)
-    }
+    // overallexpanse
+    const overallExpanse = getAccountDetail
+        .filter(account => account.debit_Amount)
+        .map(account => account.debit_Amount);
+    const totalexpanse = overallExpanse.reduce((sum, amount) => sum + amount, 0);
+    setTotalExpanse(formatter.format(totalexpanse)); // Format and set total
+    console.log("Individual Expanse Amounts:", overallExpanse);
+    console.log("Total Expanse Amount:", formatter.format(totalexpanse));
+
+    // overallincome
+    const overallIncome = getAccountDetail
+        .filter(account => account.credit_Amount)
+        .map(account => account.credit_Amount);
+    const totalIncome = overallIncome.reduce((sum, amount) => sum + amount, 0);
+    setTotalIncome(formatter.format(totalIncome)); // Format and set total
+    console.log("Individual Income Amounts:", overallIncome);
+    console.log("Total Income Amount:", formatter.format(totalIncome));
+
+    // overall profit
+    const profit = totalpoAmount - totalexpanse + totalIncome;
+    setOverallProfit(formatter.format(profit)); // Format and set profit
+    console.log("Overall Profit:", formatter.format(profit));
+};
+
 
     //overall dashboard filter option
     const handleView = () => {
@@ -377,6 +392,7 @@ const Dashboard = () => {
     console.log("formdata", formData1)
     //circle dashboard
     const getProjectwiseAccountDetail = () => {
+        
         const startDate = formData1.startDate ? new Date(formData1.startDate) : null;
         const endDate = formData1.endDate ? new Date(formData1.endDate) : null;
         const projectNo = formData1.projectNo;
@@ -426,11 +442,7 @@ const Dashboard = () => {
         ); const totalInc1 = filtered.reduce((sum, account) => sum + (account.credit_Amount || 0), 0);
         const totalBudget = filtered.reduce((sum, account) => sum + (account.planedBudjet || 0), 0);
         const totalAmount = filtered.reduce((sum, account) => sum + (account.amountSpent || 0), 0);
-        //const totalPurchaseCategory = filtered.reduce((sum, account) => sum + (account.catagery.Purchases || 0), 0);
-        //  const totalFundInputCategory = filtered.reduce((sum, account) => sum + (account.catagery.FundInput || 0), 0);
-        //const totalOverheadsCategory = filtered.reduce((sum, account) => sum + (account.catagery.Overheads || 0), 0);
-        //const totalExpensesCategory = filtered.reduce((sum, account) => sum + (account.catagery.Expenses || 0), 0);
-        const categoriesToInclude = ["totalPurchaseCategory", "totalFundInputCategory", "totalOverheadsCategory", "totalExpensesCategory"];
+         const categoriesToInclude = ["totalPurchaseCategory", "totalFundInputCategory", "totalOverheadsCategory", "totalExpensesCategory"];
         console.log("filter", filtered.map((account) => account.catagery));
         const totalExpensesCategory = filtered.reduce((sum, account) => sum + (account.catagery === "Expenses" ? account.debit_Amount || 0 : 0), 0);
         const totalPurchaseCategory = filtered.reduce((sum, account) => sum + (account.catagery === "Purchases" ? account.debit_Amount || 0 : 0), 0);
@@ -570,7 +582,10 @@ const Dashboard = () => {
         height: 170,
         value: getTotalPurchaseCategory,
     };
-
+    const formatter = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+    });
     return (
         <div>
             <div className='Dashboard'>
@@ -629,22 +644,22 @@ const Dashboard = () => {
                 <div style={{ backgroundColor: "rgb(88, 86, 214)", color: "white", width: '270px', marginLeft: '340px', marginTop: '-80px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", fontFamily: '"Roboto", sans-serif', textAlign: "left" }} >
                     <p style={{ marginTop: '-29px' }}>Over All PoAmount <BiCoinStack size={32} style={{ color: "orange" }} />
                     </p>
-                    <p style={{ marginTop: '10px' }}>{totalpoAmount}</p>
+                    <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{totalpoAmount}</p>
                 </div>
-                <div style={{ backgroundColor: "#f37654", color: "white", width: '270px', marginLeft: '630px', marginTop: '-99px', borderRadius: "10px", padding: "27px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                <div style={{ backgroundColor: "#FF1744", color: "white", width: '270px', marginLeft: '630px', marginTop: '-99px', borderRadius: "10px", padding: "27px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
                     <p style={{ marginTop: '-29px' }}>Overall Expanse <AiFillCaretDown size={37} /></p>
 
-                    <p style={{ marginTop: '10px' }}>{gettotalExpanse}</p>
+                    <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{gettotalExpanse}</p>
                 </div>
-                <div style={{ backgroundColor: "#29bf71", color: "white", width: '270px', marginLeft: '930px', marginTop: '-97px', borderRadius: "10px", padding: "20px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                <div style={{ backgroundColor: "#388E3C", color: "white", width: '270px', marginLeft: '930px', marginTop: '-97px', borderRadius: "10px", padding: "20px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
                     <p style={{ marginTop: '-19px' }}>Over income <AiFillCheckSquare size={37} />
                     </p>
-                    <p style={{ marginTop: '10px' }}>{totalIncome}</p>
+                    <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{totalIncome}</p>
                 </div>
-                <div style={{ backgroundColor: "#335262", color: "white", width: '270px', marginLeft: '1210px', marginTop: '-92px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                <div style={{ backgroundColor: "#00897B", color: "white", width: '270px', marginLeft: '1210px', marginTop: '-92px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
                     <p style={{ marginTop: '-29px' }}>Over all profit <MdTrendingUp size={32} style={{ color: "orange" }} />
                     </p>
-                    <p style={{ marginTop: '10px' }}>{overallProfit}</p>
+                    <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{overallProfit}</p>
                 </div>
 
                 <div style={{ marginTop: '30px' }}>
@@ -956,10 +971,11 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>Income: {totalIncome1}</p>
-                        <p>
+                    <p>Income: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalIncome1)}</p>
+
+                        {/* <p>
                             Difference: {differenceAmount} ({percentageIncome.toFixed(2)}%)
-                        </p>
+                        </p> */}
                     </div>
 
                 </div>
@@ -982,7 +998,7 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>Budjet: {totalbudject}</p>
+                        <p>Budjet: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalbudject)}</p>
 
                     </div>
                 </div>
@@ -1005,7 +1021,7 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>Expanse: {totalExpanse1}</p>
+                        <p>Expanse: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalExpanse1)}</p>
 
                     </div>
                 </div>
@@ -1029,7 +1045,7 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>AvilableBudjet: {totalbudject - totalExpanse1}</p>
+                        <p>AvilableBudjet: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalbudject - totalExpanse1)}</p>
 
                     </div>
                 </div>
