@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getProjectsDashboard } from '../Services/Services';
 import './Admin.css';
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
