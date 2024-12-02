@@ -297,14 +297,14 @@ const WriteTask = () => {
         Task
       </h4>
       <div style={{backgroundColor:'azure'}}>
-      <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }} onSubmit={handleSubmit}>
+      <form style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', height:'190px' }} onSubmit={handleSubmit}>
         <TextField
           label="Project No"
           name="ProjectNo"
           variant="outlined" // Changed to 'outlined'
           fullWidth
           select // Specify that this is a select input
-          sx={{ flexBasis: '13%', marginLeft: '20px' }} // Using sx for styling
+          sx={{ flexBasis: '13%', marginLeft: '20px',marginTop:'10px' }} // Using sx for styling
           value={formData.projectNo || ''} // Ensure it's controlled
           onChange={handleChange}
           required
@@ -322,7 +322,7 @@ const WriteTask = () => {
           name="projectName"
           variant="outlined"
           fullWidth
-          sx={{ flexBasis: '23%' }}
+          sx={{ flexBasis: '23%' ,marginTop:'10px' }}
           value={formData.projectName}
           onChange={handleChange}
         >
@@ -339,7 +339,7 @@ const WriteTask = () => {
   name="macroTask"
   variant="outlined"
   fullWidth
-  sx={{ flexBasis: '23%' }}
+  sx={{ flexBasis: '23%',marginTop:'10px'  }}
   value={formData.macroTask}
   onChange={handleChange}
 >
@@ -355,7 +355,7 @@ const WriteTask = () => {
           name="microTask"
           variant="outlined"
           fullWidth
-          sx={{ flexBasis: '23%' }}
+          sx={{ flexBasis: '23%',marginTop:'10px'  }}
           value={formData.microTask}
           onChange={handleChange}
         >
@@ -414,7 +414,7 @@ const WriteTask = () => {
           </MenuItem>
         ))}
         </TextField>
-        <Button variant="contained" style={{ marginTop: '16px' }} onClick={onAddButtonClick}>
+        <Button variant="contained" style={{ marginTop: '16px',width:'10px',height:'20px' }} onClick={onAddButtonClick}>
           ADD
         </Button>
       </form>

@@ -26,6 +26,8 @@ import Company from './Company/Company';
 import Accounts from './Admin/Accounts';
 import Dashboard from './Admin/Dashboard';
 import Workout from './Admin/Workout';
+import Project from './Admin/Project';
+import ProjectsDahboard from './Admin/ProjectsDahboard';
 
 function App() {
   const location = useLocation();
@@ -92,8 +94,8 @@ function App() {
           <Route path='/Accounts' element={<Accounts/>} /> 
           <Route path='/Dashboard' element={<Dashboard/>} /> 
           <Route path='/Workout' element={<Workout/>} /> 
-
-
+          <Route path='/Project' element={<Project/>} /> 
+          <Route path='/ProjectsDahboard' element={<ProjectsDahboard/>} /> 
 
           
         </Routes>

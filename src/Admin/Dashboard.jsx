@@ -200,6 +200,7 @@ const Dashboard = () => {
     const formatter = new Intl.NumberFormat("en-IN", {
         style: "currency",
         currency: "INR",
+        maximumFractionDigits: 0,
     });
 
     // overallpoamount
@@ -207,9 +208,7 @@ const Dashboard = () => {
         .filter(account => account.po_Amount)
         .map(account => account.po_Amount);
     const totalpoAmount = overallpoAmount.reduce((sum, amount) => sum + amount, 0);
-    setTotalpoAmount(formatter.format(totalpoAmount)); // Format and set total
-    console.log("Individual PO Amounts:", overallpoAmount);
-    console.log("Total PO Amount:", formatter.format(totalpoAmount));
+    setTotalpoAmount(formatter.format(totalpoAmount));
 
     // overallexpanse
     const overallExpanse = getAccountDetail
@@ -307,17 +306,51 @@ const Dashboard = () => {
     }
     //bar chart
     const data = {
-        labels: dynamicLabels, // Use dynamically generated labels
+        labels: dynamicLabels, // Use dynamically generated labels (e.g., months)
         datasets: [
             {
                 label: "Expenses",
                 data: monthlyExpenses, // Use calculated monthly expenses
-                backgroundColor: "rgba(54, 162, 235, 0.6)",
-                borderColor: "rgba(54, 162, 235, 1)",
+                // Dynamically generate colors for each bar (12 months)
+                backgroundColor: monthlyExpenses.map((_, index) => {
+                    const colors = [
+                        "#76FF03",  // January
+                        "#F50057",  // February
+                        "#536DFE",  // March
+                        "#E040FB", // April
+                        "#FFC400",  // May
+                        "#FFFF00",  // June
+                        "#00E676", // July
+                        "#8E24AA",  // August
+                        "rgba(255, 99, 132, 0.6)",  // September
+                        "rgba(75, 192, 192, 0.6)",  // October
+                        "rgba(153, 102, 255, 0.6)", // November
+                        "rgba(255, 159, 64, 0.6)"   // December
+                    ];
+                    return colors[index % colors.length]; // Cycle through the colors for 12 months
+                }),
+                borderColor: monthlyExpenses.map((_, index) => {
+                    const borderColors = [
+                        "rgba(231, 233, 237, 1)",  // January
+                        "rgba(231, 233, 237, 1)",  // February
+                        "rgba(231, 233, 237, 1)",  // March
+                        "rgba(231, 233, 237, 1)", // April
+                        "rgba(231, 233, 237, 1)",  // May
+                        "rgba(231, 233, 237, 1)",  // June
+                        "rgba(231, 233, 237, 1)", // July
+                        "rgba(231, 233, 237, 1)",  // August
+                        "rgba(231, 233, 237, 1)",  // September
+                        "rgba(231, 233, 237, 1)",  // October
+                        "rgba(231, 233, 237, 1)", // November
+                        "rgba(231, 233, 237, 1)"   // December
+                    ];
+                    return borderColors[index % borderColors.length]; // Cycle through the border colors for 12 months
+                }),
                 borderWidth: 3.7,
             },
         ],
     };
+    
 
     const options = {
         responsive: true,
@@ -330,7 +363,7 @@ const Dashboard = () => {
             x: {
                 beginAtZero: true,
                 ticks: {
-                    color: "blue", // Set X-axis labels (e.g., months) to white
+                    color: "#1B5E20", // Set X-axis labels (e.g., months) to white
                     font: {
                         size: 14, // Adjust font size
                         weight: "bold", // Make the text bold
@@ -340,7 +373,8 @@ const Dashboard = () => {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: "rgb(255, 165, 0)", // Change the side row (Y-axis values) to white
+                    height:'490px',
+                    color: "#1B5E20", // Change the side row (Y-axis values) to white
                     font: {
                         size: 14, // Adjust font size
                         weight: "bold", // Make the text bold
@@ -535,26 +569,27 @@ const Dashboard = () => {
     const setting1 = {
         width: 200,
         height: 170,
-        value: percentageIncome,
+        value:totalIncome1,
+       // displayValue: `70%`, // Dynamically appends "%" to the value
         max: 90,
     };
     const setting2 = {
         width: 200,
         height: 170,
-        value: percentagebudjett,
+        value: totalbudject,
     };
     const setting4 =
         formData1 === "PRN"
             ? {
                 width: 200,
                 height: 170,
-                value: percentageExpan, // For PRN, display percentage income
+                value: totalExpanse1, // For PRN, display percentage income
                 max: 100,
             }
             : {
                 width: 200,
                 height: 170,
-                value: percentageExpan, // For GRN, display percentage expense
+                value: totalExpanse1, // For GRN, display percentage expense
                 max: 100,
             };
 
@@ -565,7 +600,7 @@ const Dashboard = () => {
     const setting5 = {
         width: 200,
         height: 170,
-        value: getTotalExpensesCategory,
+        value: getTotalExpensesCategory+"%",
     };
     const setting6 = {
         width: 200,
@@ -666,13 +701,13 @@ const Dashboard = () => {
                     <Line ></Line>
                 </div>
 
-                <div style={{ backgroundColor: "rgb(208, 231, 236)", color: "white", width: '370px', height: "90px", marginLeft: '-10px', marginTop: '21px', borderRadius: "10px", padding: "210px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", fontFamily: '"Roboto", sans-serif', textAlign: "left" }} >
+                <div style={{ backgroundColor: "rgb(208, 231, 236)", color: "white", width: '340px', height: "467px", marginLeft: '-10px', marginTop: '21px', borderRadius: "10px", padding: "181px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", fontFamily: '"Roboto", sans-serif', textAlign: "left" }} >
                     <div className="Overallca1">
                         <PieChart
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: getTotalExpensesCategory, label: 'Expanse' },
+                                        { id: 0, value: getTotalExpensesCategory, label: 'Expanse',color: 'orange' },
                                         { id: 1, value: getTotalOverheadsCategory, label: 'Overheads' },
                                         { id: 2, value: getTotalPurchaseCategory, label: 'Purchase' },
                                     ],
@@ -686,7 +721,7 @@ const Dashboard = () => {
                                 },
                             ]}
                             width={400}
-                            height={270}
+                            height={200}
                             fill="#8884d8"
                         />
 
@@ -761,7 +796,7 @@ const Dashboard = () => {
                 </div>
 
 
-                <div style={{ backgroundColor: "rgb(190, 223, 231", color: "blue", width: '1070px', marginLeft: '419px', marginTop: '-419px', borderRadius: "10px", padding: "147px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                <div style={{ backgroundColor: "rgb(190, 223, 231", color: "blue", width: '570px', marginLeft: '359px', marginTop: '-467px', borderRadius: "10px",height:'470px', padding: "187px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
                     <div className="filterPro">
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '19px' }}>
                             {/* <TextField
@@ -855,8 +890,14 @@ const Dashboard = () => {
                                 fullWidth
                                 type="date"
                                 value={formData1.startDate || ''}
-                                InputLabelProps={{ shrink: true }}
-                                onChange={handleChangeFormData1}
+                                InputLabelProps={{
+                                    shrink: true,
+                                    style: {
+                                        color: "black",
+                                        fontWeight: 'bold',
+                                        fontSize:'20px'// Label color
+                                    },
+                                }}                                onChange={handleChangeFormData1}
                                 style={{ width: '170px', marginTop: '7px', marginLeft: '20px' }}
                             />
 
@@ -867,8 +908,14 @@ const Dashboard = () => {
                                 fullWidth
                                 type="date"
                                 value={formData1.endDate || ''}
-                                InputLabelProps={{ shrink: true }}
-                                onChange={handleChangeFormData1}
+                                InputLabelProps={{
+                                    shrink: true,
+                                    style: {
+                                        color: "black",
+                                        fontWeight: 'bold',
+                                        fontSize:'20px'// Label color
+                                    },
+                                }}                                onChange={handleChangeFormData1}
                                 style={{ width: '170px', marginTop: '7px', marginLeft: '20px' }}
                             />
 
@@ -881,13 +928,15 @@ const Dashboard = () => {
                                 value={formData1.projectNo || ""}
                                 InputProps={{
                                     style: {
-                                        color: "orange", // Text color
+                                        color: "black", // Text color
                                     },
                                 }}
                                 InputLabelProps={{
                                     shrink: true,
                                     style: {
-                                        color: "orange", // Label color
+                                        color: "black",
+                                        fontWeight: 'bold',
+                                        fontSize:'20px'// Label color
                                     },
                                 }}
                                 sx={{
@@ -949,29 +998,31 @@ const Dashboard = () => {
 
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>PoAmount</p>
+                        <p style={{ fontFamily: "Arial, sans-serif"}}>Po Amount</p>
 
                     </div>
                 </div>
                 <div className='Overallpo1'>
 
-                    <Gauge
-                        {...setting1}
-                        cornerRadius="50%"
-                        sx={(theme) => ({
-                            [`& .${gaugeClasses.valueText}`]: {
-                                fontSize: 21,
-                            },
-                            [`& .${gaugeClasses.valueArc}`]: {
-                                fill: '#52b202',
-                            },
-                            [`& .${gaugeClasses.referenceArc}`]: {
-                                fill: theme.palette.text.disabled,
-                            },
-                        })}
-                    />
+                <Gauge
+    {...setting1}
+    cornerRadius="50%"
+    sx={(theme) => ({
+        [`& .${gaugeClasses.valueText}`]: {
+            fontSize: 21,
+            color: 'white',  // Ensure the value text is visible
+        },
+        [`& .${gaugeClasses.valueArc}`]: {
+            fill: '#52b202',  // Adjust the fill color for the gauge
+        },
+        [`& .${gaugeClasses.referenceArc}`]: {
+            fill: theme.palette.text.disabled,  // Background arc color
+        },
+    })}
+/>
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                    <p>Income: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalIncome1)}</p>
+                    {/* <p style={{ fontFamily: "Arial, sans-serif"}}>Income: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR',maximumFractionDigits: 0, }).format(totalIncome1)}</p> */}
+                    <p style={{ fontFamily: "Arial, sans-serif"}}>Income</p>
 
                         {/* <p>
                             Difference: {differenceAmount} ({percentageIncome.toFixed(2)}%)
@@ -990,7 +1041,7 @@ const Dashboard = () => {
                                 fontSize: 21,
                             },
                             [`& .${gaugeClasses.valueArc}`]: {
-                                fill: '#52b202',
+                                fill: '#9C27B0',
                             },
                             [`& .${gaugeClasses.referenceArc}`]: {
                                 fill: theme.palette.text.disabled,
@@ -998,7 +1049,7 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>Budjet: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalbudject)}</p>
+                        <p style={{ fontFamily: "Arial, sans-serif"}}>Budjet</p>
 
                     </div>
                 </div>
@@ -1021,7 +1072,7 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>Expanse: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalExpanse1)}</p>
+                        <p style={{ fontFamily: "Arial, sans-serif"}}>Expanse</p>
 
                     </div>
                 </div>
@@ -1045,13 +1096,12 @@ const Dashboard = () => {
                         })}
                     />
                     <div style={{ textAlign: "center", marginLeft: "-310px", color: 'black' }}>
-                        <p>AvilableBudjet: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalbudject - totalExpanse1)}</p>
-
+                    <p style={{ fontFamily: "Arial, sans-serif" }}>Available Budget</p>
                     </div>
                 </div>
-                <div style={{}}>
-                    <div style={{ width: "37%", margin: "0 auto", marginTop: '135px', marginLeft: '770px', backgroundColor: "#274653" }}>
-                        <h2 style={{ textAlign: "center", color: "white", fontFamily: '"Roboto", sans-serif' }}>Monthly Expenses</h2>
+                <div >
+                    <div style={{ width: "37%",height:'464px', margin: "0 auto", marginTop: '-379px', marginLeft: '934px', backgroundColor: "rgb(190, 223, 231", borderRadius: "10px" }}>
+                        <p style={{ textAlign: "center", color: "#FF4081",fontFamily: "Arial, sans-serif",fontSize:'19px' }}>Monthly Expenses</p>
                         <Bar data={data} options={options}>
                             {renderChartData(data)}
                         </Bar>
