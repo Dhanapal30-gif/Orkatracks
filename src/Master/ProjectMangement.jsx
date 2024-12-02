@@ -205,8 +205,9 @@ const handleUpdate =()=>{
       <h4 style={{ marginTop: "10px", marginLeft: "19px", width: "290px" }}>
         Project Management
       </h4>
-      <div className="project">
+      <div className="projectmanagement">
         <form>
+          <div style={{marginTop:'10px',marginLeft:'-190px'}}>
           <TextField
             label="Project No"
             name="projectNo"
@@ -217,10 +218,10 @@ const handleUpdate =()=>{
             rows={1}
             value={formData.projectNo || ""}
             style={{
-              marginTop: "-70px",
               width: "120px",
               marginLeft: "-75px",
               gap: "10px",
+              marginTop:'20px'
             }}
             onChange={handleChange}
             error={Boolean(formErrors.projectNo)}
@@ -235,11 +236,12 @@ const handleUpdate =()=>{
             multiline
             rows={1}
             value={formData.projectName || ""}
-            style={{ marginTop: "-70px", width: "210px", marginLeft: "22px" }}
+            style={{  width: "210px", marginLeft: "22px",marginTop:'20px' }}
             onChange={handleChange}
             error={Boolean(formErrors.projectName)}
             helperText={formErrors.projectName}
-          /><TextField
+          />
+          <TextField
           label="po_Amount"
           name="po_Amount"
           variant="standard"
@@ -249,7 +251,7 @@ const handleUpdate =()=>{
           onChange={handleChange}
           error={Boolean(formErrors.po_Amount)}
           helperText={formErrors.po_Amount}
-          style={{ width: '207px', marginLeft: '80px', color: 'white' }}
+          style={{ width: '207px', marginLeft: '20px', color: 'white',marginTop:'20px' }}
          
       />
           <TextField
@@ -263,15 +265,14 @@ const handleUpdate =()=>{
             value={formData.startDate || ""}
             style={{
               width: "170px",
-              marginTop: "10px",
               marginRight: "220px",
-              marginLeft: "-40px",
+              marginLeft: "20px",marginTop:'20px'
             }}
             onChange={handleChange}
             error={Boolean(formErrors.startDate)}
             helperText={formErrors.startDate}
           />
-          <br></br>
+         
           <TextField
             label="End Date"
             name="endDate"
@@ -283,25 +284,24 @@ const handleUpdate =()=>{
             value={formData.endDate || ""}
             style={{
               width: "210px",
-              marginTop: "-50px",
-              marginLeft: "142px",
-              marginRight: "-60px",
+              marginLeft: "-170px",marginTop:'20px'
             }}
             onChange={handleChange}
             error={Boolean(formErrors.endDate)}
             helperText={formErrors.endDate}
           />
+          </div>
           {addButton && (
           <Button
             type="submit"
             variant="contained"
             onClick={handleSubmit}
             style={{
-              marginTop: "34px",
-              width: "160px",
-              marginLeft: "-470px",
+              width: "87px",
+              marginLeft: "770px",
               backgroundColor: "blue",
               color: "white",
+              marginTop:'10px'
             }}
           >
             Add
@@ -317,7 +317,7 @@ const handleUpdate =()=>{
           variant="contained"
           type="submit"
           onClick={getData}
-          style={{ marginTop: "-70px", marginLeft: "230px" }}
+          style={{ marginTop: "-70px", marginLeft: "1037px",width:'137px'   }}
         >
           View Project
         </Button>

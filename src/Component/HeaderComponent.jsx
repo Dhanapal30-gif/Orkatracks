@@ -96,6 +96,7 @@ const HeaderComponent = () => {
                       <NavDropdown.Item as={Link} to="/AllPerformance">Performance</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Accounts">Accounts</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Dashboard">Dashboard</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/Project">Project</NavDropdown.Item>
 
                     </NavDropdown>
                   )}
@@ -121,7 +122,9 @@ const HeaderComponent = () => {
                       <NavDropdown.Item as={Link} to="/AllPerformance">Performance</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Accounts">Accounts</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Dashboard">Dashboard</NavDropdown.Item>
-
+                      <NavDropdown.Item as={Link} to="/Project">Project</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/ProjectsDahboard">ProjectsDahboard</NavDropdown.Item>
+                      
                     </NavDropdown>
                   <Nav.Link as={Link} to="/Company">Company</Nav.Link>
                   <Nav.Link as={Link} to="/Workout">Workout</Nav.Link>

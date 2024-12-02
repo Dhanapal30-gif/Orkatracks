@@ -157,6 +157,7 @@ button:disabled {
 .writeTask{
   padding: 70px;
   margin-top: 10px;
+  border-radius: 10px;
   margin-left: 20px;
   box-shadow: 0cm;
   background-color: rgb(196, 239, 239);
