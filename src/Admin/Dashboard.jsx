@@ -666,23 +666,23 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div style={{ backgroundColor: "rgb(88, 86, 214)", color: "white", width: '270px', marginLeft: '359px', marginTop: '-95px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", fontFamily: '"Roboto", sans-serif', textAlign: "left" }} >
+                <div style={{ backgroundColor: "rgb(88, 86, 214)", color: "white", width: '270px', marginLeft: '379px', marginTop: '-87px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", fontFamily: '"Roboto", sans-serif', textAlign: "left" }} >
                     <p style={{ marginTop: '-29px' }}>Over All PoAmount <BiCoinStack size={32} style={{ color: "orange" }} />
                     </p>
                     <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{totalpoAmount}</p>
                 </div>
-                <div style={{ backgroundColor: "#FF1744", color: "white", width: '270px', marginLeft: '645px', marginTop: '-99px', borderRadius: "10px", padding: "27px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
-                    <p style={{ marginTop: '-29px' }}>Overall Expanse <AiFillCaretDown size={37} /></p>
+                <div style={{ backgroundColor: "#FF1744", color: "white", width: '270px', marginLeft: '665px', marginTop: '-99px', borderRadius: "10px", padding: "27px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                    <p style={{ marginTop: '-29px' }}>Over All Expanse <AiFillCaretDown size={37} /></p>
 
                     <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{gettotalExpanse}</p>
                 </div>
-                <div style={{ backgroundColor: "#388E3C", color: "white", width: '270px', marginLeft: '935px', marginTop: '-97px', borderRadius: "10px", padding: "21px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
-                    <p style={{ marginTop: '-19px' }}>Over income <AiFillCheckSquare size={37} />
+                <div style={{ backgroundColor: "#388E3C", color: "white", width: '270px', marginLeft: '955px', marginTop: '-97px', borderRadius: "10px", padding: "21px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                    <p style={{ marginTop: '-19px' }}>Over All income <AiFillCheckSquare size={37} />
                     </p>
                     <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{totalIncome}</p>
                 </div>
-                <div style={{ backgroundColor: "#00897B", color: "white", width: '270px', marginLeft: '1220px', marginTop: '-92px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
-                    <p style={{ marginTop: '-29px' }}>Over all profit <MdTrendingUp size={32} style={{ color: "orange" }} />
+                <div style={{ backgroundColor: "#00897B", color: "white", width: '270px', marginLeft: '1240px', marginTop: '-92px', borderRadius: "10px", padding: "30px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", textAlign: "center", fontFamily: "Arial, sans-serif", }} >
+                    <p style={{ marginTop: '-29px' }}>Over All profit <MdTrendingUp size={32} style={{ color: "orange" }} />
                     </p>
                     <p style={{ marginTop: '10px',fontWeight: 'bold' }}>{overallProfit}</p>
                 </div>
