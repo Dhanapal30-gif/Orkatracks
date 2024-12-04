@@ -1,0 +1,337 @@
+.dashContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 19px;
+  background-color: #d7ebe7;
+  margin: 10px auto;
+  width: 97%;
+  gap: 10px;
+  margin-left: 25px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  justify-content: left;
+
+
+}
+
+.dash_fContainer {
+  padding: 20px;
+  background-color: white;
+  width: 21%;
+  border-radius: 10px;
+  position: relative;
+
+}
+
+.dash_fContainer_filed {
+  font-size: small;
+  display: flex;
+  width: 90px;
+  gap: 10px;
+
+}
+
+.dashButton {
+  position: absolute;
+  display: flex;
+  width: 40px;
+  padding: 10px;
+  margin-left: 109px;
+  margin-top: -70px;
+}
+
+.dashOverAllPo {
+  padding: 20px;
+  background-color: rgb(0, 73, 128);
+  width: 19%;
+  border-radius: 10px;
+
+
+}
+
+.dashOverAllExpanse {
+  padding: 20px;
+  background-color: rgb(0, 73, 128);
+  width: 19%;
+  border-radius: 10px;
+
+
+}
+
+.dashOverAllIncome {
+  padding: 20px;
+  background-color: rgb(128, 0, 128);
+  width: 19%;
+  border-radius: 10px;
+
+}
+
+.dashOverAllProfit {
+  padding: 20px;
+  background-color: rgb(22, 199, 169);
+  width: 19%;
+  border-radius: 10px;
+
+}
+
+/* prowise_dashboard */
+.prowise_dashboard {
+  display: flex;
+  flex-direction: row;
+  padding: 19px;
+  background-color: #d7ebe7;
+  margin: 20px auto;
+  gap: 10px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  width: 97%;
+  margin-left: 25px;
+  justify-content: space-between;
+}
+
+.prowise_piechart {
+  background-color: white;
+  width: 25%;
+  margin-top: -07px;
+  margin-left: -1px;
+  border-radius: 10px;
+  height:420px;
+
+}
+
+.prowise_guage {
+  background-color: white;
+  width: 41%;
+  margin-top: -07px;
+  border-radius: 10px;
+  height:420px;
+  position: relative;
+
+}
+
+.prowise_barchart {
+  background-color: white;
+  width: 33%;
+  margin-right: -7px;
+  margin-top: -07px;
+  border-radius: 10px;
+  height:420px;
+
+
+}
+.prowise_piechart_inline{
+  margin-left: -40px;
+  margin-top: 65px;
+}
+
+.prowise_guage_filter{
+  display: flex;
+  width: 450px;
+  gap: 10px;
+
+}
+.prowise_guage_button{
+  position: absolute;
+  margin-left: 500px;
+  margin-top: -50px;
+
+
+}
+.prowise_guage_Income{
+  margin-left: 192px;
+  margin-top: -180px;
+}
+.prowise_guage_Budget{
+  margin-left: 387px;
+  margin-top: -180px;
+}
+.prowise_guage_Expanse{
+  margin-top: -10px;
+}
+.prowise_guage_AvailBuget{
+  margin-left: 190px;
+  margin-top: -180px;
+}
+.prowise_guage_Po_Name{
+  margin-top: -10px;
+  margin-left: -390px;
+}
+.prowise_guage_Income_Name{
+  margin-top: -10px;
+  margin-left: -10px;
+}
+.prowise_guage_Budget_Name{
+  margin-top: -10px;
+  margin-left: 390px;
+}
+.prowise_guage_Expanse_Name{
+  margin-top: -10px;
+  margin-left: -410px;
+}
+.prowise_guage_AvailableBudget_Name{
+  margin-top: -15px;
+  margin-left: 10px;
+}
+.prowise_barchart_Bar{
+  margin-top: 50px;
+  height: 890px;
+}
+/* For 2560px and smaller */
+@media (max-width: 2560px) {}
+
+/* For 1920px and smaller */
+@media (max-width: 1920px) {}
+
+/* media query */
+@media screen and (max-width: 1600px) {
+  .dashContainer {
+    width: 97%;
+  }
+}
+
+/* For 1536px and smaller */
+@media (max-width: 1536px) {}
+
+
+/* For 1440px and smaller */
+@media (max-width: 1440px) {}
+
+/* For 1366px and smaller */
+
+@media screen and (max-width: 1366px) {
+  .dashContainer {
+    width: 97%;
+  }
+
+  .dash_fContainer_filed {
+    font-size: small;
+    display: flex;
+    width: 90px;
+    gap: 10px;
+    margin-left: 5px;
+
+  }
+
+  .dashButton {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 20px;
+    height: 70px;
+    margin-left: 99px;
+    margin-top: -57px;
+    flex: 1;
+  }
+
+  .dash_fContainer,
+  .dashOverAllPo,
+  .dashOverAllExpanse,
+  .dashOverAllIncome,
+  .dashOverAllProfit {
+    width: 19%;
+    padding: 17px;
+  }
+
+  .prowise_dashboard {
+    border-radius: 10px;
+    flex-wrap: wrap;
+    width: 97%;
+    justify-content: space-between;
+  }
+
+  .prowise_piechart {
+    background-color: white;
+    width: 25%;
+    margin-top: -07px;
+    margin-left: -1px;
+    border-radius: 10px;
+    height:420px;
+  
+  }
+  
+  .prowise_guage {
+    background-color: white;
+    width: 41%;
+    margin-top: -07px;
+    border-radius: 10px;
+    height:420px;
+  
+  }
+  
+  .prowise_barchart {
+    background-color: white;
+    width: 33%;
+    margin-right: -7px;
+    margin-top: -07px;
+    border-radius: 10px;
+    height:420px;
+  
+  
+  }
+  .prowise_piechart_inline{
+    margin-left: -60px;
+    margin-top: 65px;
+  }
+  .prowise_guage_filter{
+    display: flex;
+    width: 400px;
+    gap: 10px;
+  
+  }
+  .prowise_guage_button{
+    position: absolute;
+    margin-left: 430px;
+    margin-top: -50px;
+  
+  
+  }
+  .prowise_guage_Income{
+    margin-left: 182px;
+    margin-top: -180px;
+  }
+  .prowise_guage_Budget{
+    margin-left: 345px;
+    margin-top: -180px;
+  }
+  .prowise_guage_Expanse{
+    margin-top: -10px;
+  }
+  .prowise_guage_AvailBuget{
+    margin-left: 190px;
+    margin-top: -180px;
+  }
+  .prowise_guage_Po_Name{
+    margin-top: -10px;
+    margin-left: -330px;
+  }
+  .prowise_guage_Income_Name{
+    margin-top: -10px;
+    margin-left: 17px;
+  }
+  .prowise_guage_Budget_Name{
+    margin-top: -10px;
+    margin-left: 380px;
+  }
+  .prowise_guage_Expanse_Name{
+    margin-top: -10px;
+    margin-left: -350px;
+  }
+  .prowise_guage_AvailableBudget_Name{
+    margin-top: -15px;
+    margin-left: 50px;
+  }
+  .prowise_barchart_Bar{
+    margin-top: 70px;
+    height: 990px;
+  }
+}
+
+/* For 768px and smaller */
+
+@media screen and (max-width:768px) {
+  .dashContainer {
+    flex-direction: column;
+    padding: 15px;
+    width: 95%;
+  }
+}
