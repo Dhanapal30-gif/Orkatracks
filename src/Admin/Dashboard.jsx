@@ -642,7 +642,7 @@ const Workout = () => {
         </div>
         <div className="dashOverAllProfit">
           <p style={{ color: 'white' }}>Over All profit <MdTrendingUp size={32} style={{ color: "orange" }} /></p>
-          <p style={{ fontWeight: 'bold', color: 'white' }}>{totalIncome}</p>
+          <p style={{ fontWeight: 'bold', color: 'white' }}>{overallProfit}</p>
         </div>
       </div> {/* overall dashboard */}
       <div className="prowise_dashboard">
