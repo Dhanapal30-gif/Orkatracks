@@ -116,6 +116,8 @@ const HeaderComponent = () => {
                     <NavDropdown.Item as={Link} to="/ProjectManagement">Project Management</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/LeaveManagement">Leave Management</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/TaskManagement">Task Management</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/OrkaMaterialStore">OrkaMaterialStore</NavDropdown.Item>
+
                   </NavDropdown>
                   <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
                       <NavDropdown.Item as={Link} to="/AllTask">Task</NavDropdown.Item>
@@ -124,7 +126,10 @@ const HeaderComponent = () => {
                       <NavDropdown.Item as={Link} to="/Dashboard">Dashboard</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Project">Project</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/ProjectsDahboard">ProjectsDahboard</NavDropdown.Item>
-                      
+                      <NavDropdown.Item as={Link} to="/FinanceVault">FinanceVault</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/FinanceDashboard">FinanceDashboard</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/ProjectDashBoard">ProjectDashBoard</NavDropdown.Item>
+
                     </NavDropdown>
                   <Nav.Link as={Link} to="/Company">Company</Nav.Link>
                   <Nav.Link as={Link} to="/Workout">Workout</Nav.Link>
