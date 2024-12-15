@@ -1,63 +1,11 @@
 /* General table styles */
-table {
-  width: 100%;
-  max-width: 98%; /* Limits the table width */
-  border-collapse: collapse;
-  margin: 20px auto;
-  font-size: 14px; /* Reduced font size for a more compact look */
-  font-family: 'Arial', sans-serif;
-  text-align: left;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-  border-radius: 8px; /* Rounded corners */
-  overflow: hidden;
-  background-color: #ffffff; /* Clean background */
-}
 
-/* Table header style */
-thead {
-  background: linear-gradient(90deg, rgba(98, 72, 122, 1) 0%, rgba(231, 50, 185, 1) 100%);
-  color: white;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-h4 {
-  margin: 20px;
-  margin-top: 10px;
-  padding:4px;
-  /*background: linear-gradient(90deg, rgba(98, 72, 122, 1) 0%, rgba(231, 50, 185, 1) 100%);*/
-  color: #ecba32;
-  font-size:20px;
-  text-align:center;
-}
-/* Styling table cells */
-th, td {
-  padding: 10px 15px; /* Reduced padding for compactness */
-  border-bottom: 1px solid #ddd;
-}
-
-/* Alternating row colors */
-tbody tr:nth-of-type(even) {
-  background-color: #f9f9f9;
-}
-
-tbody tr:nth-of-type(odd) {
-  background-color: #ffffff;
-}
-
-/* Table row hover effect */
-tbody tr:hover {
-  background-color: rgba(231, 50, 185, 0.1);
-  cursor: pointer;
-  transform: scale(1.02); /* Subtle zoom effect */
-  transition: transform 0.2s ease-in-out;
-}
 
 /* Button styling */
 button {
-  background: linear-gradient(90deg, #37d11c 0%, #28a745 100%); /* Gradient green button */
+  background-color: #34c731;
   border: none;
   color: white;
-  padding: 10px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
