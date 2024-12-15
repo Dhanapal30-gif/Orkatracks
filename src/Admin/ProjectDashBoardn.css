@@ -1,0 +1,240 @@
+.ProjectDashContainer{
+    display: flex;
+    background-color: #d7ebe7;
+    height: auto;
+    font-family: Roboto, sans-serif;
+    font-size: 15px; 
+    flex-direction: column; 
+    width: 100%; 
+}
+.projectProgressStatus {
+    display: flex;
+    flex-direction: row;
+    padding: 7px;
+    margin: 10px auto;
+    gap:0px;
+    margin-left: -13px;
+    border-radius: 30px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+}
+.DashboardName{
+    
+    background-color: white;
+    padding: 10px;
+    width:50%;
+    height: 70px;
+}
+.Projectlive{
+    background-color: white;
+    padding: 10px;
+    width:10%;
+    height: 70px;
+}
+.ProjectService{
+    background-color: white;
+    padding: 10px;
+    width:10%;
+    height: 70px;
+}
+.ProjectProgress {
+    display: flex; /* Enables flexbox */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    padding: 10px;
+    width: 13%;
+    height: 70px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: for better visuals */
+}
+.overallProjectProg{
+    display: flex; /* Enables flexbox */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    width: 13%;
+    height: 70px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: for better visuals */
+}
+
+.projectStatusDashboard{
+    display: flex;
+    flex-direction: row;
+    padding: 7px;
+    margin: 10px auto;
+    gap: 0px;
+    margin-left:5px;
+    border-radius: 30px;
+    flex-wrap: wrap;
+    margin-top: -15px;
+    justify-content:space-around;
+  width: 100%;
+}
+.projectStatus{
+    margin: 0px; /* Remove any inherent margin */
+    background-color: white;
+    padding: 10px;
+    width:48%;
+    border-radius: 10px;
+    height: 340px;
+
+}
+.projectkpi{
+    margin: 0px; /* Remove any inherent margin */
+    background-color: white;
+    padding: 10px;
+    width:48%;
+    height: 340px;
+    border-radius: 10px;
+}
+.projectkpiDashboardk{
+    display: flex;
+    flex-direction: row;
+    padding: 7px;
+    margin: 10px auto;
+    gap: 0px;
+    margin-left:5px;
+    border-radius: 30px;
+    flex-wrap: wrap;
+    margin-top: -12px;
+    justify-content:space-around;
+  width: 100%;
+}
+.actualandexpance{
+    margin: 0px; /* Remove any inherent margin */
+    background-color: white;
+    padding: 10px;
+    width:48%;
+    border-radius: 10px;
+    height: 340px;
+}
+
+.projectcomapricon{
+    margin: 0px; /* Remove any inherent margin */
+    background-color: white;
+    padding: 10px;
+    width:48%;
+    border-radius: 10px;
+    height: 340px;
+}
+
+.projectStageDetail{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 70%;
+    height: 75%;
+    display: flex;
+    justify-content: space-between; 
+    box-sizing: border-box; 
+}
+
+.projectRiskFactorVisible{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 79%;
+    height: 35%;
+    display: flex;
+    justify-content: space-around; 
+    box-sizing: border-box; 
+}
+.projectBujectDetail{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 79%;
+    height: 19%;
+    display: flex;
+    justify-content: space-around; 
+    box-sizing: border-box; 
+}
+.timeline {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    margin: 20px auto;
+    width: 90%;
+  }
+  
+  .timeline-item {
+    margin-top: 119px;
+    text-align: center;
+    position: relative;
+    flex: 1;
+
+  }
+  
+  .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .circle.green {
+    background-color: #4caf50; /* Green for 'yes' */
+  }
+  
+  .circle.red {
+    background-color: #f44336; /* Red for 'no' */
+  }
+  
+  .text h3 {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  .text p {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .line {
+    position: absolute;
+    top: 25px; /* Position the line slightly below the circle */
+    left: 100%; /* Align the line to the right of the circle */
+    width: 85%; /* Line width spans between circles */
+    height: 4px;
+    z-index: 0; /* Keep the line behind the circle */
+    transform: translateX(-51%); /* Center the line relative to the circle */
+    transition: all 0.3s ease; /* Smooth transition for line changes */
+  }
+  
+  .line-green {
+    background-color: #4caf50; /* Green line for 'yes' */
+  }
+  
+  .line-gray {
+    background-color: #e1a2a2; /* Gray line for 'no' */
+  }
+  .projectNo {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  

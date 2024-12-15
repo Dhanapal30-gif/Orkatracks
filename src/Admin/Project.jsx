@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Add, Description as ExcelIcon } from '@mui/icons-material';
 import Alert from '@mui/material/Alert';
-import { AccountMangement, getProjectsDashboard, projectdetailupload, updateProjectDetail } from '../Services/Services';
+import { AccountMangement, getProjectsDashboard, projectdetailupload, projectRiskFactorupload, projectServiceupload, projectStageupload, updateProjectDetail } from '../Services/Services';
 import UpdateIcon from "@mui/icons-material/Edit";
 
 const Project = () => {
@@ -49,35 +49,105 @@ const Project = () => {
         console.log('Error GetProjectDashboard details:', error);
       });
   };
-  const handleDownloadTemplate = () => {
+ 
+
+  const TemplatehandleDownloadProject = () => {
+    // Format the date as 'dd-mm-yyyy'
     const formattedDate = new Date(2024, 6, 7); // Months are 0-indexed in JavaScript, so 6 is July
-
-    // Convert to Excel's date serial format
-    const excelDate = (formattedDate - new Date(1900, 0, 1)) / (1000 * 60 * 60 * 24) + 25567;
-
+    const dateString = `${("0" + formattedDate.getDate()).slice(-2)}-${("0" + (formattedDate.getMonth() + 1)).slice(-2)}-${formattedDate.getFullYear()}`;
+  
     const templateData = [
-      {
+      { 
         projectNo: '',
         projectName: '',
-        projectStatus: '',
-        projectStuck: '',
-        nextMove: '',
-        actualDate: excelDate, // Store as Excel serial number
-        fixingDate: excelDate, // Store as Excel serial number
+        proStartDate:dateString,
+        proPlanedDate:dateString,
+        proActualDate:dateString,
       }
     ];
-
+  
     const ws = XLSX.utils.json_to_sheet(templateData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'TaskTemplate');
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, 'TaskTemplate.xlsx');
+    saveAs(blob, 'ProjectTemplate.xlsx');
   };
 
 
+const handleDownloadStageTemplate = () => {
+      // Format the date as 'dd-mm-yyyy'
+      const formattedDate = new Date(2024, 6, 7); // Months are 0-indexed in JavaScript, so 6 is July
+      const dateString = `${("0" + formattedDate.getDate()).slice(-2)}-${("0" + (formattedDate.getMonth() + 1)).slice(-2)}-${formattedDate.getFullYear()}`;
+    
+      const templateData = [
+        { 
+          projectNo: '',
+               projectName: '',
+                stage:'',
+               stageStartDate:dateString,
+                 stageEndDate:dateString,
+                 stageStatus:'',
+        }
+      ];
+    
+      const ws = XLSX.utils.json_to_sheet(templateData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'TaskTemplate');
+      const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+      saveAs(blob, 'StageTemplate.xlsx');
+    };
+
+
+
+  const handleDownloadRiskFactorTemplate = () => {
+    // Format the date as 'dd-mm-yyyy'
+    const formattedDate = new Date(2024, 6, 7); // Months are 0-indexed in JavaScript, so 6 is July
+    const dateString = `${("0" + formattedDate.getDate()).slice(-2)}-${("0" + (formattedDate.getMonth() + 1)).slice(-2)}-${formattedDate.getFullYear()}`;
+  
+    const templateData = [
+      { 
+        projectNo: '',
+        projectName: '',
+        riskFactor:'',
+        riskStartDate:dateString,
+        riskDate:dateString,
+        riskStaus:'',
+      }
+    ];
+  
+    const ws = XLSX.utils.json_to_sheet(templateData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'TaskTemplate');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'RiskFactorTemplate.xlsx');
+  };
+
+  const handleDownloadServiceTemplate = () => {
+    // Format the date as 'dd-mm-yyyy'
+    const formattedDate = new Date(2024, 6, 7); // Months are 0-indexed in JavaScript, so 6 is July
+    const dateString = `${("0" + formattedDate.getDate()).slice(-2)}-${("0" + (formattedDate.getMonth() + 1)).slice(-2)}-${formattedDate.getFullYear()}`;
+  
+    const templateData = [
+      { 
+        projectNo: '',
+        projectName: '',
+        serviceFactor:'',
+        serviceStatus:'',
+      }
+    ];
+  
+    const ws = XLSX.utils.json_to_sheet(templateData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'TaskTemplate');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'ServiceTemplate.xlsx');
+  };
+
   const handleFileUpload = (event) => {
-    setShowDetailTable(false);
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -87,29 +157,21 @@ const Project = () => {
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
+  
         // Format the date field properly
         const formattedData = jsonData.map(item => {
-          if (item.actualDate) {
+          if (item.date) {
             // Check if the date is a valid number (Excel serial number format)
-            const excelDate = new Date((item.actualDate - 25567) * 86400 * 1000); // Convert Excel serial number to JavaScript date
+            const excelDate = new Date((item.date - (25567 + 2)) * 86400 * 1000); // Excel date to JS date
             if (!isNaN(excelDate.getTime())) {
               // Format the date as 'dd-mm-yyyy'
               const formattedDate = `${("0" + excelDate.getDate()).slice(-2)}-${("0" + (excelDate.getMonth() + 1)).slice(-2)}-${excelDate.getFullYear()}`;
-              item.actualDate = formattedDate; // Replace with formatted date
-            }
-          }
-          if (item.fixingDate) {
-            // Same logic for fixingDate
-            const excelDate = new Date((item.fixingDate - 25567) * 86400 * 1000); // Convert Excel serial number to JavaScript date
-            if (!isNaN(excelDate.getTime())) {
-              const formattedDate = `${("0" + excelDate.getDate()).slice(-2)}-${("0" + (excelDate.getMonth() + 1)).slice(-2)}-${excelDate.getFullYear()}`;
-              item.fixingDate = formattedDate; // Replace with formatted date
+              item.date = formattedDate; // Replace with formatted date
             }
           }
           return item;
         });
-
+  
         // Add the formatted data to the table
         setUploadedTasks(formattedData);
         setShowUploadTable(true); // Show the upload table
@@ -120,7 +182,10 @@ const Project = () => {
   };
 
 
-  const handleSubmitUploadedTasks = () => {
+  
+ 
+
+  const handleSubmitUploadedTasks= () => {
     const promises = uploadedTasks.map(item => {
       return projectdetailupload(item)
         .catch(() => {
@@ -135,6 +200,56 @@ const Project = () => {
         setShowUploadTable(false); // Hide upload table after submission
       });
   };
+
+  const handleSubmitUploadedStage= () => {
+          const promises = uploadedTasks.map(item => {
+            return projectStageupload(item)
+              .catch(() => {
+                setAlert(<Alert severity="error">Submission failed for some tasks!</Alert>);
+              });
+          });
+      
+          Promise.all(promises)
+            .then(() => {
+              setAlert(<Alert severity="success">All tasks successfully submitted!</Alert>);
+              setUploadedTasks([]); // Clear uploaded tasks
+              setShowUploadTable(false); // Hide upload table after submission
+            });
+        };
+
+
+        const handleSubmitUploadedRiskFactor= () => {
+          const promises = uploadedTasks.map(item => {
+            return projectRiskFactorupload(item)
+              .catch(() => {
+                setAlert(<Alert severity="error">Submission failed for some tasks!</Alert>);
+              });
+          });
+      
+          Promise.all(promises)
+            .then(() => {
+              setAlert(<Alert severity="success">All tasks successfully submitted!</Alert>);
+              setUploadedTasks([]); // Clear uploaded tasks
+              setShowUploadTable(false); // Hide upload table after submission
+            });
+        };
+
+
+        const handleSubmitUploadedServcie= () => {
+          const promises = uploadedTasks.map(item => {
+            return projectServiceupload(item)
+              .catch(() => {
+                setAlert(<Alert severity="error">Submission failed for some tasks!</Alert>);
+              });
+          });
+      
+          Promise.all(promises)
+            .then(() => {
+              setAlert(<Alert severity="success">All tasks successfully submitted!</Alert>);
+              setUploadedTasks([]); // Clear uploaded tasks
+              setShowUploadTable(false); // Hide upload table after submission
+            });
+        };
 
   const validate = () => {
     let isValid = true;
@@ -187,39 +302,39 @@ const Project = () => {
     setAddButton(true);
 
   }  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      // Format the dates to 'dd-MM-yyyy' before submission
-      const formattedData = {
-        ...formData,
-        actualDate: formatDate(formData.actualDate),
-        fixingDate: formatDate(formData.fixingDate),
-      };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (validate()) {
+  //     // Format the dates to 'dd-MM-yyyy' before submission
+  //     const formattedData = {
+  //       ...formData,
+  //       actualDate: formatDate(formData.actualDate),
+  //       fixingDate: formatDate(formData.fixingDate),
+  //     };
 
-      projectdetailupload(formattedData)
-        .then(() => {
+  //     projectdetailupload(formattedData)
+  //       .then(() => {
 
-          setFormData({
-            projectNo: '',
-            projectName: '',
-            projectStatus: '',
-            projectStuck: '',
-            nextMove: '',
-            actualDate: '',
-            fixingDate: '',
+  //         setFormData({
+  //           projectNo: '',
+  //           projectName: '',
+  //           projectStatus: '',
+  //           projectStuck: '',
+  //           nextMove: '',
+  //           actualDate: '',
+  //           fixingDate: '',
           
-          });
-          console.log('Upload successful');
-        })
-        .catch(() => {
-          console.log('Upload failed');
-        });
-    }
-  };
+  //         });
+  //         console.log('Upload successful');
+  //       })
+  //       .catch(() => {
+  //         console.log('Upload failed');
+  //       });
+  //   }
+  // };
 
   // Utility function to format dates as 'dd-MM-yyyy'
-  const formatDate = (dateString) => {
+  const formatDate1 = (dateString) => {
     if (!dateString) return '';
     const [year, month, day] = dateString.split('-'); // Split 'YYYY-MM-DD'
     return `${day}-${month}-${year}`; // Return 'dd-MM-yyyy'
@@ -315,7 +430,7 @@ const handleUpdate = () => {
   return (
     <div style={{ fontFamily: '"Roboto", sans-serif' }}>
       <div className='projectFiled'>
-        <form onSubmit={handleSubmit}>
+        <form >
           <div style={{ display: 'flex', flexDirection: 'row', gap: '39px' }}>
 
             <TextField
@@ -441,7 +556,12 @@ const handleUpdate = () => {
 
           )}
         </form>
-        <Button style={{marginTop:'-440px',marginLeft:'1110px'}} className='downloadbutton' variant="contained" startIcon={<ExcelIcon />} onClick={handleDownloadTemplate}>Download Template</Button>
+        <Button style={{marginTop:'-440px',marginLeft:'1110px'}} className='downloadbutton' variant="contained" startIcon={<ExcelIcon />} onClick={TemplatehandleDownloadProject}>Download Project</Button>
+        <Button style={{marginTop:'-370px',marginLeft:'1110px'}} className='downloadbutton' variant="contained" startIcon={<ExcelIcon />} onClick={handleDownloadStageTemplate}>Download TemplateStage</Button>
+        <Button style={{marginTop:'-270px',marginLeft:'1110px'}} className='downloadbutton' variant="contained" startIcon={<ExcelIcon />} onClick={handleDownloadRiskFactorTemplate}>Download RisckFactor</Button>
+        <Button style={{marginTop:'-190px',marginLeft:'1110px'}} className='downloadbutton' variant="contained" startIcon={<ExcelIcon />} onClick={handleDownloadServiceTemplate}>DownloadKService</Button>
+
+
         <input type="file" accept=".xlsx, .xls" style={{ display: 'none' }} id="upload-excel" onChange={handleFileUpload} />
         <label htmlFor="upload-excel">
           <Button className='projectuploadbutton'
@@ -464,6 +584,32 @@ const handleUpdate = () => {
           >
             Submit Uploaded Account
           </Button>
+
+          <Button
+            variant="contained"
+            style={{ marginTop: '20px',marginLeft:'978px', backgroundColor: 'green', color: 'white' }}
+            onClick={handleSubmitUploadedStage}
+          >
+            Submit Stage
+          </Button>
+
+          <Button
+            variant="contained"
+            style={{ marginTop: '20px',marginLeft:'978px', backgroundColor: 'green', color: 'white' }}
+            onClick={handleSubmitUploadedRiskFactor}
+          >
+            Submit RiskFactor
+          </Button>
+
+          <Button
+            variant="contained"
+            style={{ marginTop: '20px',marginLeft:'978px', backgroundColor: 'green', color: 'white' }}
+            onClick={handleSubmitUploadedServcie}
+          >
+            Submit Service
+          </Button>
+
+
           <Button variant="contained" style={{ marginTop: '20px',marginLeft:'10px'}}  onClickCapture={close}>Cancel</Button>
           <table style={{ width: "100%", marginLeft: "10px", marginTop: '70px', borderCollapse: "collapse", colour: 'blue' }}>
 
