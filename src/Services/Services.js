@@ -102,8 +102,26 @@ export const deletedatad = () => axios.delete(deleteData_Api);
 const save_projectdetail = `${url}/api/projectController/projectdetailupload`
 export const projectdetailupload = (formData) => axios.post(save_projectdetail, [formData]);
 
+const save_projectStage = `${url}/api/projectController/projectStageupload`
+export const projectStageupload = (formData) => axios.post(save_projectStage, [formData]);
+
+const save_projectRiskFactor = `${url}/api/projectController/projectRiskFactorupload`
+export const projectRiskFactorupload = (formData) => axios.post(save_projectRiskFactor, [formData]);
+
+const save_projectService = `${url}/api/projectController/projectServiceupload`
+export const projectServiceupload = (formData) => axios.post(save_projectService, [formData]);
+
 const getProjectsDetail_Api = `${url}/api/projectController/getallProjectsdeatil`;
 export const getProjectsDashboard = () => axios.get(getProjectsDetail_Api);
+
+const getProjectsStage_Api = `${url}/api/projectController/getallProjectsStage`;
+export const getStageDashboard = () => axios.get(getProjectsStage_Api);
+
+const getProjectsRiskFactor_Api = `${url}/api/projectController/getallProjectsRiskFactor`;
+export const getRiskDashboard = () => axios.get(getProjectsRiskFactor_Api);
+
+const getProjectsService_Api = `${url}/api/projectController/getallProjectsService`;
+export const getServiceDashboard = () => axios.get(getProjectsService_Api);
 
 const updateProjectDetail_Api = `${url}/api/projectsContoller/update`
 export const updateProjectDetail = (formData) => axios.put(updateProjectDetail_Api, [formData]);

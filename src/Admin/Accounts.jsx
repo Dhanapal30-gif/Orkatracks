@@ -50,6 +50,9 @@ const Accounts = () => {
           exType:'', // Use the formatted date string
           refernceProjectNo:'',
           amountSpent:'',
+          emi:'',
+          outstandingAmount:'',
+          bankBalance:'',
         }
       ];
     

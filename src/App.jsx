@@ -28,6 +28,10 @@ import Dashboard from './Admin/Dashboard';
 import Workout from './Admin/Workout';
 import Project from './Admin/Project';
 import ProjectsDahboard from './Admin/ProjectsDahboard';
+import OrkaMaterialStore from './Master/OrkaMaterialStore';
+import FinanceVault from './Admin/FinanceVault';
+import FinanceDashboard from './Admin/FinanceDashboard';
+import ProjectDashBoard from './Admin/ProjectDashBoard';
 
 function App() {
   const location = useLocation();
@@ -96,6 +100,10 @@ function App() {
           <Route path='/Workout' element={<Workout/>} /> 
           <Route path='/Project' element={<Project/>} /> 
           <Route path='/ProjectsDahboard' element={<ProjectsDahboard/>} /> 
+          <Route path='/OrkaMaterialStore' element={<OrkaMaterialStore/>} /> 
+          <Route path='/FinanceVault' element={<FinanceVault/>} /> 
+          <Route path='/FinanceDashboard' element={<FinanceDashboard/>} /> 
+          <Route path='/ProjectDashBoard' element={<ProjectDashBoard/>} /> 
 
           
         </Routes>
