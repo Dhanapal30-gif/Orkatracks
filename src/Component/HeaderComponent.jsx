@@ -86,8 +86,8 @@ const HeaderComponent = () => {
                 <>
                   {/* Links for non-logged-in users */}
                    <Nav.Link as={Link} to="/Home" style={{ fontFamily: '"Roboto", sans-serif', color: '#e7c568' }}>Home</Nav.Link>
-                  <Nav.Link as={Link} to="/Projects" style={{ color: 'white' }}>Projects</Nav.Link>
-                  <Nav.Link as={Link} to="/Performance" style={{ color: 'white' }}>Performance</Nav.Link>
+                  {/* <Nav.Link as={Link} to="/Projects" style={{ color: 'white' }}>Projects</Nav.Link>
+                  <Nav.Link as={Link} to="/Performance" style={{ color: 'white' }}>Performance</Nav.Link> */}
 
                   {/* Admin-specific links */}
                   {userRole === 'Admin' && (
@@ -101,13 +101,13 @@ const HeaderComponent = () => {
                     </NavDropdown>
                   )}
 
-                  <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Leave</span>}>
+                  {/* <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Leave</span>}>
                     <NavDropdown.Item as={Link} to="/Leave">Apply Leave</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/Approve">Approve</NavDropdown.Item>
-                  </NavDropdown>
+                  </NavDropdown> */}
 
                   {/* Task and Master links for both Admin and Employee */}
-                  <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Task</span>}>
+                  {/* <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Task</span>}>
                     <NavDropdown.Item as={Link} to="/writeTask">Write Task</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/Task">Task Status</NavDropdown.Item>
                   </NavDropdown>
@@ -117,8 +117,8 @@ const HeaderComponent = () => {
                     <NavDropdown.Item as={Link} to="/LeaveManagement">Leave Management</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/TaskManagement">Task Management</NavDropdown.Item>
 
-                  </NavDropdown>
-                  <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
+                  </NavDropdown> */}
+                  {/* <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
                       <NavDropdown.Item as={Link} to="/AllTask">Task</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/AllPerformance">Performance</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Accounts">Accounts</NavDropdown.Item>
@@ -129,12 +129,21 @@ const HeaderComponent = () => {
                       <NavDropdown.Item as={Link} to="/FinanceDashboard">FinanceDashboard</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/ProjectDashBoard">ProjectDashBoard</NavDropdown.Item>
 
+                    </NavDropdown> */}
+                     <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
+                      <NavDropdown.Item as={Link} to="/Accounts">Accounts</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/Project">Project</NavDropdown.Item>
                     </NavDropdown>
-                  <Nav.Link as={Link} to="/Company">Company</Nav.Link>
+
+                    <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Dashboard</span>} id="admin-dropdown">
+                      <NavDropdown.Item as={Link} to="/FinanceDashboard">FinanceDashboard</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/ProjectDashBoard">ProjectDashBoard</NavDropdown.Item>
+                    </NavDropdown>
+                  {/* <Nav.Link as={Link} to="/Company">Company</Nav.Link>
                   <Nav.Link as={Link} to="/Workout">Workout</Nav.Link>
 
-                  <Nav.Link as={Link} to="/Home">Service</Nav.Link>
-                  <Nav.Link as={Link} to="/Login" style={{ marginLeft: '190px' }}>Signin</Nav.Link>
+                  <Nav.Link as={Link} to="/Home">Service</Nav.Link> */}
+                  <Nav.Link as={Link} to="/Login" style={{ marginLeft: '750px' }}>Signin</Nav.Link>
                   <Nav.Link as={Link} to="/Home" style={{ fontFamily: '"Roboto", sans-serif', color: 'black', padding: '10px', backgroundColor: '#e7c568', borderRadius: '10%', border: 'none', display: 'inline-block' }}>Contact Us</Nav.Link>
                 </>
               )}

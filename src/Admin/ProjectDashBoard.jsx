@@ -18,7 +18,7 @@ const ProjectDashBoard = () => {
   const [projectPercentages, setProjectPercentages] = useState([]);
   const [projectRiskFactorCount, setProjectRiskFactorCount] = useState([]);
   const [overallPercentage, setOverallPercentage] = useState([]);
-  const [projectPercenatgeVisible,setProjectPercenatgeVisible]=useState(true);
+  const [projectPercenatgeVisible,setProjectPercenatgeVisible]=useState(false);
   const [projectdatechartData, setProjectdatechartData] = useState(null);
   const [projectexpance, setProjectexpances] = useState(null);
   const [selectedProjectDetails, setSelectedProjectDetails] = useState(null); // Holds the selected project details
@@ -29,12 +29,23 @@ const ProjectDashBoard = () => {
   const [projectServiceData, setprojectServiceData] = useState([]);
   const [selectedProjectBudjectDetails, setSelectedProjectBudjectDetails] = useState(null); // Holds the selected project details
   const [isProjectPlanedBudjectVisible, setProjectPlanedBudjectVisible] = useState(false);
+  const [serviceDaPercentages, setServiceDaPercentages] = useState([]);
+  const [overallServicePercentage, setOverallServicePercentage] = useState([]);
+  const [projectDasshboardVisible,setProjectDasshboardVisible]=useState(true);
+  const [riskFactorDasshboardVisible,setRiskFactorDasshboardVisible]=useState(true);
+  const [plannedBudjectDasshboardVisible,setPlannedBudjectDasshboardVisible]=useState(true);
+  const [projectDateDasshboardVisible,setProjectDateDasshboardVisible]=useState(true);
+  const [activeLink, setActiveLink] = useState("Live"); // Default active link is 'Live'
+  const [selectedServiceProjectDetails, setSelectedServiceProjectDetails] = useState(null); // Holds the selected project details
+  const [islectedServiceProjectVisible, setSelectedServiceProjectVisible] = useState(); // Holds the selected project details
 
   const clocePopup = () => {
+    setSelectedServiceProjectVisible(false);
     setProjectStageVisible(false);
     setProjectRiskFactorVisible(false);
     setProjectPlanedBudjectVisible(false)
   }
+  
   const togglePopup = () => {
     setProjectStageVisible(!isProjectStageVisible);
 
@@ -44,6 +55,9 @@ const ProjectDashBoard = () => {
   };
   const toggleBudjectPopup = () => {
     setProjectPlanedBudjectVisible(!isProjectPlanedBudjectVisible);
+  };
+  const toggleServicePopup = () => {
+    setSelectedServiceProjectVisible(!islectedServiceProjectVisible);
   };
   //--------------------------
   const data = [
@@ -139,7 +153,50 @@ const ProjectDashBoard = () => {
   console.log("overallPercentage", overallPercentage)
   console.log("setProjectPercentages", projectPercentages)
 
+////////------------------------------------
+useEffect(() => {
+  const projectServiceData = projectService.reduce((acc, proStage) => {
+    const projectNo = proStage.projectNo;
+    const projectName = proStage.projectName;
 
+    if (projectNo) {
+      acc[projectNo] = acc[projectNo] || {
+        projectName: projectName || "Unknown Project", // Add project name
+        totalCount: 0,
+        yesCount: 0,
+      };
+      acc[projectNo].totalCount += 1;
+
+      // Compare stageStatus to 'yes' correctly
+      if (proStage.serviceStatus?.trim().toLowerCase() === 'yes') {
+        acc[projectNo].yesCount += 1;
+      }
+    }
+    return acc;
+  }, {});
+
+  // Calculate individual project percentages
+  const calculatedPercentages = Object.entries(projectServiceData).map(([projectNo, data]) => ({
+    projectNo,
+    projectName: data.projectName, // Include project name
+    percentage: data.totalCount > 0
+      ? Math.round((data.yesCount / data.totalCount) * 100) // Round to nearest whole number
+      : 0, // Avoid division by zero
+  }));
+
+  // Calculate overall percentage
+  const totalYesCount = Object.values(projectServiceData).reduce((sum, project) => sum + project.yesCount, 0);
+  const totalTaskCount = Object.values(projectServiceData).reduce((sum, project) => sum + project.totalCount, 0);
+  const overallPercentage = totalTaskCount > 0
+    ? Math.round((totalYesCount / totalTaskCount) * 100)
+    : 0;
+
+  setServiceDaPercentages(calculatedPercentages);
+  setOverallServicePercentage(overallPercentage); // Assuming you have a state for overall percentage
+}, [projectStage]);
+console.log("serviceDaPercentages", serviceDaPercentages)
+console.log("overallServicePercentage", overallServicePercentage)
+////////////---------------------------
   useEffect(()=>{
     const processedData = projectService.map((project) => ({
       projectNo: project.projectNo,
@@ -242,12 +299,12 @@ const ProjectDashBoard = () => {
     setProjectdatechartData({
       labels,
       datasets: [
-        {
-          label: "Start Date",
-          data: startDates,
-          backgroundColor: "blue",
-          borderRadius: 10,
-        },
+        // {
+        //   label: "Start Date",
+        //   data: startDates,
+        //   backgroundColor: "blue",
+        //   borderRadius: 10,
+        // },
         {
           label: "Planned Date",
           data: planedDates,
@@ -384,6 +441,114 @@ const ProjectDashBoard = () => {
     },
   };
   console.log("setSelectedProjectDetails", selectedProjectDetails)
+
+  //Project serviceDashboard
+
+  const serviceChart = {
+    labels: serviceDaPercentages.map(item => item.projectNo),
+    datasets: [
+      {
+        label: 'Project Percentage',
+        data: serviceDaPercentages.map(item => item.percentage), // Rounded percentages
+        backgroundColor: 'blue', // Bar color
+        borderRadius: 8, // Rounded corners
+        barThickness: 25, // Thickness of each bar
+      },
+    ],
+  };
+
+  // Chart options with click event handler
+  const serviceOption = {
+    indexAxis: 'y', // Horizontal bar chart
+    plugins: {
+      legend: {
+        display: false,
+        labels: {
+          font: {
+            size: 36, // Set label font size
+            weight: 'bold', // Make label bold
+          },
+          color: '#000', // Label color
+        },
+      }, // Hide the legend
+      tooltip: { enabled: false },
+      title: {
+        display: true,
+        text: 'Project Percentage',
+        font: {
+          size: 15, // Adjust font size
+          weight: 'bold', // Make text bold
+        },
+        color: 'black'
+      },
+      datalabels: {
+        anchor: 'end', // Position at the end of the bar
+        align: 'end', // Align with the bar edge
+        formatter: function (value) {
+          return `${value}%`; // Format as percentage
+        },
+        color: '#000', // Text color
+        font: {
+          size: 15, // Text size
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Percentage",
+          font: {
+            size: 13, // Adjust font size
+            weight: 'bold', // Make text bold
+          },
+        },
+        beginAtZero: true,
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+            weight: 'bold', // Font weight
+          },
+          color: 'black', // Set tick label color correctly
+          callback: function (value) {
+            return `${value}%`; // X-axis percentage format
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Projects",
+          font: {
+            size: 15, // Adjust font size
+            weight: 'bold', // Make text bold
+          },
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+            weight: 'bold',
+          },
+          color: 'black', // Set tick label color correctly
+
+        },
+      },
+    },
+    onClick: (e, elements) => {
+      if (elements.length > 0) {
+        const elementIndex = elements[0].index; // Get the index of the clicked bar
+        const projectClicked = projectPercentages[elementIndex]; // Get the clicked project's data
+        const projectDetails = projectService.filter(project => project.projectNo === projectClicked.projectNo); // Get all matching entries
+
+        setSelectedServiceProjectDetails(projectDetails); // Store all matching details
+        toggleServicePopup();
+      }
+    },
+  };
+
+
+
+
   //RiskFactor
   const RiskChart = {
     labels: Object.values(projectRiskFactorCount).map((item) => item.projectNo), // Use project names as labels
@@ -666,25 +831,39 @@ const ProjectDashBoard = () => {
         return 0; // Keep original order if both are same status
       })
     : [];
+
       const serviceBar =()=>{
-        setProjectPercenatgeVisible(false); 
+        setActiveLink("Service");
+
+        setProjectPercenatgeVisible(true); 
+        setProjectDasshboardVisible(false)
+        setRiskFactorDasshboardVisible(false)
+        setPlannedBudjectDasshboardVisible(false)
+        setProjectDateDasshboardVisible(false)
       }
 
       const LiveBar = () => {
-        setProjectPercenatgeVisible(true); 
+        setActiveLink("Live");
+
+        setProjectPercenatgeVisible(false); 
+        setProjectDasshboardVisible(true)
+        setRiskFactorDasshboardVisible(true)
+        setPlannedBudjectDasshboardVisible(true)
+        setProjectDateDasshboardVisible(true)
       };
   return (
     <div className='ProjectDashContainer'>
       <div className='projectProgressStatus'>
-        <div className='DashboardName'>
-          <p style={{ marginLeft: '-390px', fontSize: '30px',fontWeight:'bold' }}>Project Dashboard</p>
-        </div>
-        <div className="Projectlive">
-          <a onClick={LiveBar} style={{ cursor: "pointer", textDecoration: "none", color: "blue" }}>Live</a>
+      <div className="Projectlive">
+      <a onClick={LiveBar} style={{ cursor: "pointer",textDecoration: "none",color: activeLink === "Live" ? "white" : "gray",}}> Live</a>      
         </div>
         <div className='ProjectService'>
-        <a onClick={serviceBar} style={{ cursor: "pointer", textDecoration: "none", color: "blue" }}>Service</a>
+        <a onClick={serviceBar}style={{cursor: "pointer",textDecoration: "none",color: activeLink === "Service" ? "white" : "gray",}} > Service</a>        </div>
+        <div className='dummydataq'></div>
+        <div className='DashboardName'>
+          <p style={{  fontSize: '30px',fontWeight:'bold' }}>Project Dashboard</p>
         </div>
+       
         <div className='ProjectProgress'>
           <p>Project progress</p>
           <PieChart
@@ -695,6 +874,7 @@ const ProjectDashBoard = () => {
                   {
                     ...data[0],
                     color: getColorBasedOnPercentage(percentageValue), // Set color dynamically
+
                   },
                 ],
                 arcLabel: getArcLabel,
@@ -704,6 +884,8 @@ const ProjectDashBoard = () => {
               [`& .${pieArcLabelClasses.root}`]: {
                 fill: "white",
                 fontSize: 17,
+                textAlign:'center'
+
               },
             }}
             {...sizing}
@@ -727,28 +909,38 @@ const ProjectDashBoard = () => {
             />
           </div>
         </div>
-        
+        <div className='dummydata'></div>
+
       </div>
+
+
+
       <div className='projectStatusDashboard'>
+        {projectDasshboardVisible &&(
         <div className='projectStatus'>
           <Bar data={chartData} options={options1} />
         </div>
+        )}
+        {riskFactorDasshboardVisible && (
         <div className='projectkpi'>
           <Bar data={RiskChart} options={RiskOprion} />
         </div>
-        {/* {projectPercenatgeVisible &&(
+        )}
+         {projectPercenatgeVisible &&(
         <div className='projectStatus'>
-          <h3>Horizontal Bar Chart Example</h3>
-          <Bar data={serviceChartData} options={serviceChartOptions} />
+          <Bar data={serviceChart} options={serviceOption} />
         </div>
-        )} */}
+        )} 
 
       </div>
       <div className='projectkpiDashboardk'>
-        
+
+      {plannedBudjectDasshboardVisible && (
         <div className='actualandexpance'>
           <Bar data={projectAmountData} options={projectAmountOption} />
         </div>
+        )}
+        {projectDateDasshboardVisible && (
         <div className='projectcomapricon'>
           {projectdatechartData && (
             <Bar
@@ -824,6 +1016,7 @@ const ProjectDashBoard = () => {
             />
           )}
         </div>
+        )}
       </div>
       {isProjectStageVisible && selectedProjectDetails && (
         <div className='projectStageDetail'>
@@ -838,16 +1031,18 @@ const ProjectDashBoard = () => {
                     projectNo
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectName            </TableCell>
+                    projectName 
+                 </TableCell>
+                 <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                    stage
+                  </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
                     stageEndDate
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
                     stageStartDate
                   </TableCell>
-                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    stage
-                  </TableCell>
+                  
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
                     stageStatus
                   </TableCell>
@@ -863,10 +1058,53 @@ const ProjectDashBoard = () => {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{row.projectNo}</TableCell>
                     <TableCell>{row.projectName}</TableCell>
+                    <TableCell>{row.stage}</TableCell>
                     <TableCell>{row.stageStartDate}</TableCell>
                     <TableCell>{row.stageEndDate}</TableCell>
-                    <TableCell>{row.stage}</TableCell>
+             
                     <TableCell>{row.stageStatus}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      )}
+    {islectedServiceProjectVisible && selectedServiceProjectDetails && (
+        <div className='projectServiceDetail'>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead style={{ backgroundColor: "#4A148C" }}>
+                <TableRow>
+                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                    S.No
+                  </TableCell>
+                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                    projectNo
+                  </TableCell>
+                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                    projectName 
+                 </TableCell>
+                 <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                 serviceFactor
+                  </TableCell>
+                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                  serviceStatus
+                  </TableCell>
+                  <CloseSharpIcon
+                    sx={{ color: "red", fontSize: 30 }}
+                    onClick={clocePopup}
+                  />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {selectedServiceProjectDetails.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{row.projectNo}</TableCell>
+                    <TableCell>{row.projectName}</TableCell>
+                    <TableCell>{row.serviceFactor}</TableCell>
+                    <TableCell>{row.serviceStatus}</TableCell>             
                   </TableRow>
                 ))}
               </TableBody>
