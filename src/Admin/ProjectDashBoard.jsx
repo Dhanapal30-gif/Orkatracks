@@ -243,9 +243,9 @@ console.log("overallServicePercentage", overallServicePercentage)
         0
       );
 
-      const plannedBudget = matchingAccounts.length > 0
-        ? matchingAccounts[0].planedBudjet
-        : 0;
+      const plannedBudget = matchingAccounts.reduce( 
+        (sum,acc) => sum+acc.planedBudjet,0);
+       
 
       // Assuming po_Amount is now in accountDeatil and it is part of each account, not the project
       const poAmount = matchingAccounts.length > 0
@@ -308,13 +308,13 @@ console.log("overallServicePercentage", overallServicePercentage)
         {
           label: "Planned Date",
           data: planedDates,
-          backgroundColor: "rgb(232, 186, 77)",
+          backgroundColor: "rgb(133, 164, 241)",
           borderRadius: 10,
         },
         {
           label: "Actual Date",
           data: actualDates,
-          backgroundColor: "rgb(164, 16, 122)",
+          backgroundColor: "rgb(239, 103, 235)",
           borderRadius: 10,
         },
       ],

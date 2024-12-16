@@ -1,7 +1,7 @@
 .FinanceDashContainer{
     display: flex;
     background-color: #d7ebe7;
-    height: auto;
+    height:850px;
     font-family: Roboto, sans-serif;
     font-size: 15px; 
     flex-direction: column; 
@@ -203,6 +203,16 @@ height: auto;}
    margin-left: -710px;
    justify-content: flex-start;
    border-radius: 10px;
+  }
+  .blurred-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    backdrop-filter: blur(8px); /* Apply blur effect */
+    z-index: 999; /* Make sure it's above other elements */
   }
 @media screen and (max-width: 1366px) {
     

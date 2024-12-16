@@ -271,12 +271,17 @@ const FinanceDashboard = () => {
                     expenses: 0,
                 };
 
+
                 // Update project name (if different) and add amounts
                 acc[projectNo].projectName = projectName;
                 acc[projectNo].poAmount += account.po_Amount || 0;
 
                 if (account.catagery === 'Overheads') {
                     acc[projectNo].expenses += account.debit_Amount || 0;
+                    
+                }
+                if (account.catagery === 'Purchases') {
+                    acc[projectNo].purchase += account.debit_Amount || 0;
                 }
             }
             return acc;
@@ -288,7 +293,7 @@ const FinanceDashboard = () => {
 
         for (let projectNo in NetProfit) {
             const projectData = NetProfit[projectNo];
-            projectData.netProfit = projectData.poAmount - projectData.expenses;
+            projectData.netProfit = projectData.poAmount - projectData.expenses ;
             projectData.netProfitabilityPercentage =
                 projectData.poAmount > 0 ? (projectData.netProfit / projectData.poAmount) * 100 : 0;
             // Sum up totals
@@ -1106,6 +1111,7 @@ const FinanceDashboard = () => {
                 </div>
             </div>
             <div className="tableData">
+            {   isNetVisible && <div className="blurred-background"></div>}    
                 {isNetVisible && (
                     <div className='Netprofittable'>
                         <TableContainer component={Paper}>
@@ -1166,7 +1172,7 @@ const FinanceDashboard = () => {
 
                     </div>
                 )};
-
+                {isGrossVisible && <div className="blurred-background"></div>}    
                 {isGrossVisible && (
                     <div className='Netprofittable'>
                         <TableContainer component={Paper}>
@@ -1227,6 +1233,7 @@ const FinanceDashboard = () => {
 
                     </div>
                 )};
+                 {isMonthlyChartVisibl && <div className="blurred-background"></div>}    
                 {isMonthlyChartVisibl && (
                 <div className='monthlyIncomeeChart'>
                     <div style={{marginleft:'1700px'}}>
@@ -1238,12 +1245,7 @@ const FinanceDashboard = () => {
                 
             )}
             </div>
-            <div className='ProjectComaprision'>
-                <div className=''>
-                    
-                </div>
-            </div>
-
+            
         </div>
     );
 };
