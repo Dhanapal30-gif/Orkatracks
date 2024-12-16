@@ -369,7 +369,7 @@ console.log("overallServicePercentage", overallServicePercentage)
       tooltip: { enabled: false },
       title: {
         display: true,
-        text: 'Project Percentage',
+        text: 'PROJECT PROGRESS',
         font: {
           size: 15, // Adjust font size
           weight: 'bold', // Make text bold
@@ -582,7 +582,7 @@ console.log("overallServicePercentage", overallServicePercentage)
       },
       title: {
         display: true,
-        text: 'Project RiskFactor',
+        text: 'PROJECT KPI\'S',
         font: {
           size: 15, // Adjust font size
           weight: 'bold', // Make text bold
@@ -648,14 +648,14 @@ console.log("overallServicePercentage", overallServicePercentage)
     labels: filteredDetails.map(detail => detail.projectNo), // Project numbers
     datasets: [
       {
-        label: 'Planned Budget Percentage',
+        label: 'Planned Budget',
         data: filteredDetails.map(detail => detail.plannedBudgetPercentage), // Percentage values for planned budget
         backgroundColor: 'rgba(44, 132, 233, 0.7)', // Green color
         borderRadius: 8, // Rounded corners
         barThickness: 40, // Bar thickness
       },
       {
-        label: 'Spent Percentage',
+        label: 'Spenting',
         data: filteredDetails.map(detail => detail.spentPercentage), // Percentage values for spent amount
         backgroundColor: 'rgba(239, 30, 128, 0.7)', // Red color
         borderRadius: 8, // Rounded corners
@@ -674,7 +674,7 @@ console.log("overallServicePercentage", overallServicePercentage)
     plugins: {
       title: {
         display: true,
-        text: 'Planned Budject (vs) Spenting  Budject',
+        text: 'BUDJET - PLANNED/ACTUAL',
         font: {
           size: 15, // Adjust font size
           weight: 'bold', // Make text bold
@@ -861,11 +861,11 @@ console.log("overallServicePercentage", overallServicePercentage)
         <a onClick={serviceBar}style={{cursor: "pointer",textDecoration: "none",color: activeLink === "Service" ? "white" : "gray",}} > Service</a>        </div>
         <div className='dummydataq'></div>
         <div className='DashboardName'>
-          <p style={{  fontSize: '30px',fontWeight:'bold' }}>Project Dashboard</p>
+          <p style={{  fontSize: '30px',fontWeight:'bold' }}>OPREATION DASHBOARD</p>
         </div>
        
         <div className='ProjectProgress'>
-          <p>Project progress</p>
+          <p>Project Progress</p>
           <PieChart
             series={[
               {
@@ -877,7 +877,7 @@ console.log("overallServicePercentage", overallServicePercentage)
 
                   },
                 ],
-                arcLabel: getArcLabel,
+                // arcLabel: getArcLabel,
               },
             ]}
             sx={{
@@ -895,7 +895,7 @@ console.log("overallServicePercentage", overallServicePercentage)
         <p>OverAll Progress</p>
           <div style={{ width: '120px', height: '170px' }}>
             <Gauge
-              value={75}
+              value={overallPercentage}
               startAngle={-110}
               endAngle={110}
               thickness={35}
@@ -950,7 +950,7 @@ console.log("overallServicePercentage", overallServicePercentage)
                 plugins: {
                   title: {
                     display: true,
-                    text: 'Start Date (vs) Acutal Budject (vs) Planned Date ',
+                    text: 'TIME LINE ',
                     font: {
                       size: 15, // Adjust font size
                       weight: 'bold', // Make text bold

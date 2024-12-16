@@ -136,8 +136,8 @@ const HeaderComponent = () => {
                     </NavDropdown>
 
                     <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Dashboard</span>} id="admin-dropdown">
-                      <NavDropdown.Item as={Link} to="/FinanceDashboard">FinanceDashboard</NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/ProjectDashBoard">ProjectDashBoard</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/FinanceDashboard">Finance</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/ProjectDashBoard">Project</NavDropdown.Item>
                     </NavDropdown>
                   {/* <Nav.Link as={Link} to="/Company">Company</Nav.Link>
                   <Nav.Link as={Link} to="/Workout">Workout</Nav.Link>
