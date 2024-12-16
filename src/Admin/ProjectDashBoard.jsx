@@ -1018,6 +1018,7 @@ console.log("overallServicePercentage", overallServicePercentage)
         </div>
         )}
       </div>
+      {isProjectStageVisible && <div className="blurred-background"></div>}
       {isProjectStageVisible && selectedProjectDetails && (
         <div className='projectStageDetail'>
           <TableContainer component={Paper}>
@@ -1070,6 +1071,7 @@ console.log("overallServicePercentage", overallServicePercentage)
           </TableContainer>
         </div>
       )}
+    {islectedServiceProjectVisible && <div className="blurred-background"></div>}
     {islectedServiceProjectVisible && selectedServiceProjectDetails && (
         <div className='projectServiceDetail'>
           <TableContainer component={Paper}>
@@ -1113,6 +1115,7 @@ console.log("overallServicePercentage", overallServicePercentage)
         </div>
       )}
 
+    {isProjectPlanedBudjectVisible && <div className="blurred-background"></div>}
 {isProjectPlanedBudjectVisible && selectedProjectBudjectDetails && (
         <div className='projectBujectDetail'>
           <TableContainer component={Paper}>
@@ -1217,6 +1220,7 @@ console.log("overallServicePercentage", overallServicePercentage)
         </div>
       )} */}
 <div className="timeline">
+{isProjectRiskFactorVisible && <div className="blurred-background"></div>}
   {isProjectRiskFactorVisible && sortedStages.length > 0 ? (
     
     <div className="projectRiskFactorVisible"> {/* open popup */}

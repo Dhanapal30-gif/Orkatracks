@@ -192,6 +192,16 @@
     justify-content: space-around; 
     box-sizing: border-box;
 }
+.blurred-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    backdrop-filter: blur(8px); /* Apply blur effect */
+    z-index: 999; /* Make sure it's above other elements */
+  }
 .timeline {
     display: flex;
     justify-content: space-around;
