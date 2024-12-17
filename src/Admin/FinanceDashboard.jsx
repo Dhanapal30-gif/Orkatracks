@@ -203,12 +203,12 @@ const FinanceDashboard = () => {
         }, {});
         console.log("Quarterly Credit Amounts:", quarterlyCreditAmounts);
         setQuarterlyCreditTotals(quarterlyCreditAmounts);
+
         //GrossProfit 
         const GrossProfit = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
                 const projectNo = account.projectNo;
                 const projectName = account.projectName || "Unknown Project"; // Default project name if missing
-                // Initialize project data if not already present
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
                     poAmount: 0,
@@ -220,7 +220,7 @@ const FinanceDashboard = () => {
                 if (account.catagery === 'Expenses') {
                     acc[projectNo].expenses += account.debit_Amount || 0;
                 }
-                if (account.catagery === 'purchases') {
+                if (account.catagery === 'Purchases') {
                     acc[projectNo].purchases += account.debit_Amount || 0;
                 }
             }
@@ -259,16 +259,21 @@ const FinanceDashboard = () => {
         console.log("Total Profitability Percentage: ", totalProfitabilityPercentage);
         setTotalGrossProfit(formatter.format(totalGrossProfit));
         setTotalProfitabilityPercentage(totalProfitabilityPercentage.toFixed(2));
+        console.log("GrossProfit", GrossProfit);
+        console.log("setTotalGrossProfit", totalGrossProfit);
+        console.log("setTotalProfitabilityPercentage", TotalProfitabilityPercentage);
 
         // Reduce the data to calculate Net Profit for each project
-        const NetProfit = getAccountDetail.reduce((acc, account) => {
+        const NetProfit = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
                 const projectNo = account.projectNo;
                 const projectName = account.projectName || "Unknown Project";
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
                     poAmount: 0,
+                    Overheads:0,
                     expenses: 0,
+                    purchases:0,
                 };
 
 
@@ -277,11 +282,14 @@ const FinanceDashboard = () => {
                 acc[projectNo].poAmount += account.po_Amount || 0;
 
                 if (account.catagery === 'Overheads') {
-                    acc[projectNo].expenses += account.debit_Amount || 0;
+                    acc[projectNo].Overheads += account.debit_Amount || 0;
                     
                 }
+                if (account.catagery === 'Expenses') {
+                    acc[projectNo].expenses += account.debit_Amount || 0;
+                }
                 if (account.catagery === 'Purchases') {
-                    acc[projectNo].purchase += account.debit_Amount || 0;
+                    acc[projectNo].purchases += account.debit_Amount || 0;
                 }
             }
             return acc;
@@ -293,7 +301,7 @@ const FinanceDashboard = () => {
 
         for (let projectNo in NetProfit) {
             const projectData = NetProfit[projectNo];
-            projectData.netProfit = projectData.poAmount - projectData.expenses ;
+            projectData.netProfit = projectData.poAmount - projectData.Overheads - projectData.expenses -projectData.purchases;
             projectData.netProfitabilityPercentage =
                 projectData.poAmount > 0 ? (projectData.netProfit / projectData.poAmount) * 100 : 0;
             // Sum up totals
@@ -313,7 +321,6 @@ const FinanceDashboard = () => {
         setTotalNetProfit(formatter.format(totalNetProfit)); // Format for display, e.g., $123,456
         setTotalNetProfitabilityPercentage(totalNetProfitabilityPercentage.toFixed(2));
 
-        console.log("GrossProfit", GrossProfit);
         console.log('plannedBudgetSum', plannedBudgetSum)
         console.log('expanseBudgetSum', expanseBudgetSum)
         console.log("totalGrossProfit", totalGrossProfit)
@@ -417,12 +424,20 @@ const FinanceDashboard = () => {
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
                     poAmount: 0,
+                    overheads:0,
+                    purchases:0,
                     expenses: 0,
                 };
                 acc[projectNo].projectName = projectName;
                 acc[projectNo].poAmount += account.po_Amount || 0;
 
                 if (account.catagery === 'Overheads') {
+                    acc[projectNo].overheads += account.debit_Amount || 0;
+                }
+                if (account.catagery === 'Purchases') {
+                    acc[projectNo].purchases += account.debit_Amount || 0;
+                }
+                if (account.catagery === 'Expenses') {
                     acc[projectNo].expenses += account.debit_Amount || 0;
                 }
             }
@@ -431,7 +446,7 @@ const FinanceDashboard = () => {
         // Calculate Net profit and profitability percentage for each project
         for (let projectNo in NetProfitProjectwise) {
             const projectData = NetProfitProjectwise[projectNo];
-            projectData.grossProfit = projectData.poAmount - projectData.expenses;
+            projectData.grossProfit = projectData.poAmount - projectData.expenses -projectData.overheads -projectData.purchases;
             projectData.profitabilityPercentage =
                 projectData.poAmount > 0 ? (projectData.grossProfit / projectData.poAmount) * 100 : 0;
         }
@@ -449,13 +464,14 @@ const FinanceDashboard = () => {
                     poAmount: 0,
                     expenses: 0,
                     purchases: 0,
+                    
                 };
                 acc[projectNo].projectName = projectName;
                 acc[projectNo].poAmount += account.po_Amount || 0;
                 if (account.catagery === 'Expenses') {
                     acc[projectNo].expenses += account.debit_Amount || 0;
                 }
-                if (account.catagery === 'purchases') {
+                if (account.catagery === 'Purchases') {
                     acc[projectNo].purchases += account.debit_Amount || 0;
                 }
             }
@@ -1052,7 +1068,7 @@ const FinanceDashboard = () => {
                         colors={["green", "orange", "red"]}
                         arcWidth={0.3}
                         percent={totalNetProfitabilityPercentage / 100}
-                        textColor={"orange"}
+                        textColor={"green"}
                     />
                     <p><span style={{ color: 'blue' }}>Net profit</span> : {TotalNetProfit}</p>
                 </div>
@@ -1095,7 +1111,7 @@ const FinanceDashboard = () => {
                         colors={["green", "orange", "red"]}
                         arcWidth={0.3}
                         percent={TotalProfitabilityPercentage / 100}
-                        textColor={"orange"}
+                        textColor={"green"}
                     />
                     <p><span style={{ color: 'blue' }}>Gross profit</span> : {totalGrossProfit}</p>
                 </div>
