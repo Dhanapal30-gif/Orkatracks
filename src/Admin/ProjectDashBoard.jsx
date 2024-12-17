@@ -1029,23 +1029,23 @@ console.log("overallServicePercentage", overallServicePercentage)
                     S.No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectNo
+                    Project No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectName 
+                    Project Name 
                  </TableCell>
                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
                     stage
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    stageEndDate
+                    Stage EndDate
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    stageStartDate
+                    Stage StartDate
                   </TableCell>
                   
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    stageStatus
+                    Stage Status
                   </TableCell>
                   <CloseSharpIcon
                     sx={{ color: "red", fontSize: 30 }}
@@ -1082,16 +1082,16 @@ console.log("overallServicePercentage", overallServicePercentage)
                     S.No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectNo
+                    Project No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectName 
+                    Project Name 
                  </TableCell>
                  <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                 serviceFactor
+                 Service Factor
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                  serviceStatus
+                  Service Status
                   </TableCell>
                   <CloseSharpIcon
                     sx={{ color: "red", fontSize: 30 }}
@@ -1126,24 +1126,24 @@ console.log("overallServicePercentage", overallServicePercentage)
                     S.No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectNo
+                    Project No
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    projectName            </TableCell>
+                    Project Name            </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
                   poAmount
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                  plannedBudget
+                  Planned Budget
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                  plannedBudget(%)
+                  Planned Budget(%)
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    Expance
+                  Expense
                   </TableCell>
                   <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                    Expance(%)
+                  Expense(%)
                   </TableCell>
                   <CloseSharpIcon
                     sx={{ color: "red", fontSize: 30 }}
