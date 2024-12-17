@@ -338,14 +338,24 @@ const Accounts = () => {
                 {showUploadTable && (
         <div>
           <h5>Uploaded Tasks</h5>
-          <table style={{ width: "100%", marginLeft: "10px",marginTop:'70px',borderCollapse: "collapse",colour:'blue' }}>
+          <table style={{ width: "100%", marginLeft: "10px",marginTop:'70px',borderCollapse: "collapse",color:'black'}}>
             <thead>
               <tr>
                 <th>Serial No.</th>
                 <th>Project No</th>
                 <th>Project Name</th>
-                <th>Macro Task</th>
-                <th>Micro Task</th>
+                <th>po_Amount</th>
+                <th>debit_Amount</th>
+                <th>credit_Amount</th>
+                <th>date</th>
+                <th>planedBudjet</th>
+                <th>amountSpent</th>
+                <th>bankBalance</th>
+                <th>emi</th>
+                <th>outstandingAmount</th>
+                <th>exType</th>
+                <th>catagery</th>
+
               </tr>
             </thead>
             <tbody>
@@ -354,8 +364,17 @@ const Accounts = () => {
                   <td>{index + 1}</td>
                   <td>{project.projectNo}</td>
                   <td>{project.projectName}</td>
-                  <td>{project.catagery}</td>
                   <td>{project.po_Amount}</td>
+                  <td>{project.debit_Amount}</td>
+                  <td>{project.credit_Amount}</td>
+                  <td>{project.date}</td>
+                  <td>{project.planedBudjet}</td>
+                  <td>{project.amountSpent}</td>
+                  <td>{project.bankBalance}</td>
+                  <td>{project.emi}</td>
+                  <td>{project.outstandingAmount}</td>
+                  <td>{project.exType}</td>
+                  <td>{project.catagery}</td>
                 </tr>
               ))}
             </tbody>

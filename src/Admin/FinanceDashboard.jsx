@@ -1012,27 +1012,28 @@ const FinanceDashboard = () => {
         <div className='FinanceDashContainer'>
             <div className='financeDeatil'>
                 <div className='totalPo'>
-                    <p>Total Revenue <FontAwesomeIcon icon={faCoins} style={{ color: 'orange', fontSize: '19px' }} /></p>
+                    <p> <span style={{ color: 'blue' }}>Total Revenue </span><FontAwesomeIcon icon={faCoins} style={{ color: 'orange', fontSize: '19px' }} />
+                    </p>
                     <p>{totalpoAmount}</p>
                 </div>
                 <div className='totalIncome'>
-                    <p>Total Income <FontAwesomeIcon icon={faIndianRupeeSign} style={{ color: 'green', fontSize: '19px' }} /></p>
+                    <p><span style={{ color: 'blue' }}>Total Income </span><FontAwesomeIcon icon={faIndianRupeeSign} style={{ color: 'green', fontSize: '19px' }} /></p>
                     <p>{totalIncome}</p>
                 </div>
                 <div className='bankBalance'>
-                    <p>Available Balance <FontAwesomeIcon icon={faLandmark} style={{ color: 'orange', fontSize: '19px' }} /></p>
+                    <p><span style={{ color: 'blue' }}>Available Balance </span> <FontAwesomeIcon icon={faLandmark} style={{ color: 'orange', fontSize: '19px' }} /></p>
                     <p>{bankBalance}</p>
                 </div>
                 <div className='monthlyEmi'>
-                    <p style={{ color: 'black', fontFamily: 'Exo 2' }}>monthlyEmi <FontAwesomeIcon icon={faMoneyBill} style={{ color: 'red', fontSize: '19px' }} /></p>
+                    <p style={{ color: 'black', fontFamily: 'Exo 2' }}><span style={{ color: 'blue' }}>MonthlyEMI</span> <FontAwesomeIcon icon={faMoneyBill} style={{ color: 'red', fontSize: '19px' }} /></p>
                     <p style={{ fontWeight: '', color: 'black', fontFamily: 'Exo 2' }}>{emi}</p>
                 </div>
                 <div className='otstandingAmount'>
-                    <p>Outstanding Amount <FontAwesomeIcon icon={faLandmark} style={{ color: 'orange', fontSize: '19px' }} /></p>
+                    <p><span style={{ color: 'blue' }}>Outstanding Amount </span><FontAwesomeIcon icon={faLandmark} style={{ color: 'orange', fontSize: '19px' }} /></p>
                     <p>{outstanding}</p>
                 </div>
                 <div className='financialYear'>
-                    <label htmlFor="financialYear">Select Financial Year</label>
+                    <label htmlFor="financialYear"><span style={{ color: 'blue' }}>Select Financial Year</span></label>
                     <select id="financialYear" value={selectedYear} onChange={handleYearChange}>
                         {financialYears.map((year) => (
                             <option key={year} value={year}>
@@ -1053,10 +1054,10 @@ const FinanceDashboard = () => {
                         percent={totalNetProfitabilityPercentage / 100}
                         textColor={"orange"}
                     />
-                    <p>Net profit : {TotalNetProfit}</p>
+                    <p><span style={{ color: 'blue' }}>Net profit</span> : {TotalNetProfit}</p>
                 </div>
                 <div className='projectwiseExpnce' onClick={toggleMonthlyChartPopup}>
-                    <p style={{ marginTop: '-230px', marginleft: '50px' }}>Expance</p>
+                    <p style={{ marginTop: '-230px', marginleft: '50px' }}>Expense</p>
                     <div style={{ marginleft: '90px', width: '2000px', height: '150px', flex: 1, display: 'flex', justifyContent: 'left' }}>
                         <Doughnut data={donetData} options={donetOpiton} />
                     </div>
@@ -1096,18 +1097,23 @@ const FinanceDashboard = () => {
                         percent={TotalProfitabilityPercentage / 100}
                         textColor={"orange"}
                     />
-                    <p>Gross profit : {totalGrossProfit}</p>
+                    <p><span style={{ color: 'blue' }}>Gross profit</span> : {totalGrossProfit}</p>
                 </div>
             </div>
             <div className='monthlyincomechart'>
                 <div className='monthlyincome'>
-                    <p style={{ marginLeft: '470px' }}>Monthly Income:  {selectedValue}</p>
-
+                    <p style={{ marginLeft: '470px' }}>
+                    <span style={{ color: 'blue' }}>Monthly Income:</span>
+                    <span style={{ color: 'Black',fontWeight:'bold' }}> {selectedValue}</span>
+                    </p>
                     <Bar data={data1} options={options1} />
                 </div>
                 <div className='OtherDeatilchart'>
-                    <p style={{ marginLeft: '470px' }}>Monthly Revenue:  {selectedRevenue}</p>
-                    <Bar data={revenueData} options={revenueOption} />
+                <p style={{ marginLeft: '450px' }}>
+                    <span style={{ color: 'blue' }}>Monthly Revenue:</span>
+                    <span style={{ color: 'Black',fontWeight:'bold' }}> {selectedRevenue}</span>
+                    </p>                    
+                <Bar data={revenueData} options={revenueOption} />
                 </div>
             </div>
             <div className="tableData">
