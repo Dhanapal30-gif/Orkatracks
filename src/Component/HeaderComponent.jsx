@@ -130,10 +130,10 @@ const HeaderComponent = () => {
                       <NavDropdown.Item as={Link} to="/ProjectDashBoard">ProjectDashBoard</NavDropdown.Item>
 
                     </NavDropdown> */}
-                     <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
+                     {/* <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Admin</span>} id="admin-dropdown">
                       <NavDropdown.Item as={Link} to="/Accounts">Accounts</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/Project">Project</NavDropdown.Item>
-                    </NavDropdown>
+                    </NavDropdown> */}
 
                     <NavDropdown title={<span style={{ fontFamily: '"Roboto", sans-serif', color: 'white' }}>Dashboard</span>} id="admin-dropdown">
                       <NavDropdown.Item as={Link} to="/FinanceDashboard">Finance</NavDropdown.Item>
