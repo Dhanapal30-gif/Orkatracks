@@ -110,15 +110,14 @@ const HeaderComponent = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/Accounts" className="dropdown-item">
-                  Accounts
+                  <Link to="/ProkjectSheet" className="dropdown-item">
+                  ProkjectSheet
                   </Link>
                 </li>
+                
               </ul>
             )}
           </li>        
-          <li><Link to="/solutions">Solutions</Link></li>
-          <li><Link to="/blog">Blog</Link></li>
           <li><Link to="/contact">Contact Us</Link></li>
         </ul>
       </nav>
