@@ -1,49 +1,8 @@
 /* General table styles */
 
-
+/* 
 /* Button styling */
-button {
-  background-color: #34c731;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 6px 4px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-}
 
-button:hover {
-  background: linear-gradient(90deg, #45a049 0%, #34c731 100%);
-  transform: translateY(-4px); /* Button lift effect */
-}
-
-button.delete {
-  background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%); /* Gradient red button */
-}
-
-button.delete:hover {
-  background: linear-gradient(90deg, #e53935 0%, #d32f2f 100%);
-  transform: translateY(-4px); /* Button lift effect */
-}
-
-/* MacroTask and MicroTask text wrapping */
-td.macro-task, td.micro-task {
-  white-space: normal; /* Allow text wrapping */
-  word-wrap: break-word;
-  max-width: 150px; /* Limit width for better alignment */
-  overflow-wrap: break-word;
-}
-
-/* Disabled button style */
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
 
 /* Table responsive design */
 @media (max-width: 768px) {
