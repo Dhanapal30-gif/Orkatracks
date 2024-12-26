@@ -31,6 +31,7 @@ import ProjectsDahboard from './Admin/ProjectsDahboard';
 import FinanceDashboard from './Admin/FinanceDashboard';
 import ProjectDashBoard from './Admin/ProjectDashBoard';
 import AccountsSheet from './Admin/AccountsSheet';
+import ProkjectSheet from './Admin/ProkjectSheet';
 
 function App() {
   const location = useLocation();
@@ -102,6 +103,7 @@ function App() {
           <Route path='/FinanceDashboard' element={<FinanceDashboard/>} /> 
           <Route path='/ProjectDashBoard' element={<ProjectDashBoard/>} /> 
           <Route path='/AccountsSheet' element={<AccountsSheet/>} /> 
+          <Route path='/ProkjectSheet' element={<ProkjectSheet/>} /> 
 
           
         </Routes>
