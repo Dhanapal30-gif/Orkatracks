@@ -1,0 +1,127 @@
+.ProjectPage {
+    display: flex;
+    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    justify-content: flex-start; /* Distribute space evenly */
+   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  Add subtle shadow for separation */
+}
+.buttonshowing {
+    background-color: white;
+    padding: 10px;
+    display: flex; /* Enable flex layout */
+    justify-content: space-between; /* Distribute space between the left and right */
+    align-items: center; /* Vertically align items */
+    width: 100%;
+    max-width: 95%;
+    margin: 10px 0;
+    border-radius: 10px;
+    height: 70px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Roboto", sans-serif;
+    margin-left: 30px;
+}
+
+.ProjectPageName {
+    display: flex;
+    justify-content: flex-start; /* Align text to the left */
+    align-items: center; /* Center text vertically */
+    font-size:20px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+
+    color: #333; /* Optional styling for the text */
+}
+
+.Projectbutton {
+    background-color: #ee4dd8;
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 7px 7px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.Projectbutton:hover {
+    background: linear-gradient(90deg, #45a049 0%, #34c731 100%);
+    transform: translateY(-4px);
+}
+
+.Projectbutton.delete {
+    background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+}
+
+.Projectbutton.delete:hover {
+    background: linear-gradient(90deg, #e53935 0%, #d32f2f 100%);
+    transform: translateY(-4px);
+}
+
+/* Disabled button style */
+.Projectbutton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.filed {
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    width: 100%;
+    max-width: 95%;
+    margin: 10px 0;
+    border-radius: 10px;
+    height: auto;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Roboto", sans-serif;
+    margin-left: 30px;
+}
+
+.projectDownloadSheet {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px; /* Add space between buttons */
+    margin-bottom: 10px; /* Add space between buttons and text fields */
+}
+
+.projectTextFiled {
+    display: flex;
+    flex-direction: row; /* Stack fields vertically */
+    gap: 20px; /* Add spacing between fields */
+    align-items: flex-start; /* Align text fields to the left */
+}
+.projectFiledButton{
+    display:flex;
+    gap: 35px;
+    justify-content: flex-end;
+    font-family: "Roboto", sans-serif;
+    padding: 19px;
+}
+.ProjectTable {
+    margin-left:18px;
+    display: flex;
+    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
+    width: 98%;
+    justify-content: space-between; /* Distribute space evenly */
+    align-items: center;
+}
+.projectTableContain {
+    font-size: 15px;
+    width: 98%;
+    font-family: "Roboto", sans-serif;
+    background-color: white; /* Fixed typo in "background color" */
+    padding:7px; /* Optional: Add padding for a clean look */
+  }
+  .projectTableContain table {
+    font-size: inherit; 
+    padding:7px; /* Optional: Add padding for a clean look */
+
+  }

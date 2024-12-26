@@ -11,7 +11,7 @@ import CloseSharpIcon from "@mui/icons-material/CloseSharp";
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 const AccountsSheet = () => {
   const [formErrors, setFormErrors] = useState({ projectNo: '' });
-  const [formData, setFormData] = useState({ projectNo: '', projectName: '', catagery: '', po_Amount: '', date: '', credit_Amount: '', debit_Amount: '', bankBalance: '', emi: '', outstandingAmount: '' });
+  const [formData, setFormData] = useState({ projectNo: '', projectName: '', catagery: '', po_Amount: '', date: '', credit_Amount: '',planedBudjet:'', debit_Amount: '', bankBalance: '', emi: '', outstandingAmount: '' });
   const [showUploadTable, setShowUploadTable] = useState(false);
   const [uploadedTasks, setUploadedTasks] = useState([]);
   //const rowsPerPage = 7;
@@ -238,7 +238,12 @@ const handleDelete =()=>{
       setShowAccountTable(false);
       getAccountDeatil()
     }
+      const formattedDate = new Date(2024, 6, 7); // Months are 0-indexed in JavaScript, so 6 is July
+    const dateString = `${("0" + formattedDate.getDate()).slice(-2)}-${("0" + (formattedDate.getMonth() + 1)).slice(-2)}-${formattedDate.getFullYear()}`;
 
+    
+    
+    
   return (
     <div className='AccountsPage'>
       <div className="accountsUploa">
@@ -304,7 +309,7 @@ const handleDelete =()=>{
             type="date"
             variant="standard"
             fullWidth
-            value={formData.date || ''}
+            value={formData.date }
             onChange={handleChange}
             error={Boolean(formErrors.date)}
             helperText={formErrors.date}
@@ -320,6 +325,18 @@ const handleDelete =()=>{
             onChange={handleChange}
             error={Boolean(formErrors.credit_Amount)}
             helperText={formErrors.credit_Amount}
+            style={{ width: '207px' }}
+          />
+          <TextField
+            label="planedBudjet"
+            name="planedBudjet"
+            type='text'
+            variant="standard"
+            fullWidth
+            value={formData.planedBudjet || ''}
+            onChange={handleChange}
+            error={Boolean(formErrors.planedBudjet)}
+            helperText={formErrors.planedBudjet}
             style={{ width: '207px' }}
           />
           <TextField

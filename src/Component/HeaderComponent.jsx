@@ -8,7 +8,7 @@ import { Avatar } from '@mui/material'; // Import Avatar from Material UI
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Header.css'
 import { FaChevronDown } from "react-icons/fa"; // Import a dropdown icon
-
+import Imagee from '../assets/Orka .jpg';
 
 const HeaderComponent = () => {
   const [empName, setEmpName] = useState('');
@@ -55,7 +55,7 @@ const HeaderComponent = () => {
     <header className="header">
       <div className="logo-section">
         <img
-          src="/path/to/logo.png" // Replace with your logo path
+          src={Imagee} // Replace with your logo path
           alt="Logo"
           className="logo"
         />

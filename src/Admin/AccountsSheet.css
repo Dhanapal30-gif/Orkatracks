@@ -17,7 +17,7 @@
     max-width: 95%;
     margin: 10px auto; /* Center and provide spacing */
     border-radius: 10px;
-    height: 300px; /* Let height adjust automatically */
+    height: auto; /* Let height adjust automatically */
     border: 2px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: "Roboto", sans-serif;

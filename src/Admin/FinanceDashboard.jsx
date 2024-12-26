@@ -52,7 +52,7 @@ const FinanceDashboard = () => {
     const [isGrossVisible, setGrossVisible] = useState(false);
     const [netProfitProjectwise, setNetProfitProjectwise] = useState({})
     const [grossProfitProjectwise, setGrossProfitProjectwise] = useState({})
-    const [eachMomthExpanse,setEachMomthExpanse] = useState([])
+    const [eachMomthExpanse, setEachMomthExpanse] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 7;
     const [selectedYear, setSelectedYear] = useState('ALL');
@@ -135,16 +135,16 @@ const FinanceDashboard = () => {
             .map((account) => account.bankBalance); // Extract the bankBalance values
         setBankBalance(Bank);
         console.log("bankbalance", bankBalance)
-         // emi balance
-         const emi = filteredAccountDetails
-         .map((account) => account.emi); // Extract the bankBalance values
-     setEmi(emi);
-     console.log("emi", emi)
-     // emi balance
-     const outstandingAmo = filteredAccountDetails
-     .map((account) => account.outstandingAmount); // Extract the bankBalance values
-     setOutstanding(outstandingAmo);
- console.log("outstanding", emi)
+        // emi balance
+        const emi = filteredAccountDetails
+            .map((account) => account.emi); // Extract the bankBalance values
+        setEmi(emi);
+        console.log("emi", emi)
+        // emi balance
+        const outstandingAmo = filteredAccountDetails
+            .map((account) => account.outstandingAmount); // Extract the bankBalance values
+        setOutstanding(outstandingAmo);
+        console.log("outstanding", emi)
         //outstanding
         const Outstanding = filteredAccountDetails
             .filter(
@@ -153,7 +153,7 @@ const FinanceDashboard = () => {
             )
             .reduce((sum, account) => sum + (account.po_Amount - account.credit_Amount || 0), 0);
         setOutstandingAmount(Outstanding);
-        console.log("setOutstandingAmount",outStandingAmount)
+        console.log("setOutstandingAmount", outStandingAmount)
         // Calculate the planned budget per project
         const plannedBudgetSum = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
@@ -204,122 +204,86 @@ const FinanceDashboard = () => {
         console.log("Quarterly Credit Amounts:", quarterlyCreditAmounts);
         setQuarterlyCreditTotals(quarterlyCreditAmounts);
 
-        //GrossProfit 
+
         const GrossProfit = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
                 const projectNo = account.projectNo;
-                const projectName = account.projectName || "Unknown Project"; // Default project name if missing
-                acc[projectNo] = acc[projectNo] || {
-                    projectName: projectName,
-                    poAmount: 0,
-                    expenses: 0,
-                    purchases: 0,
-                };
-                acc[projectNo].projectName = projectName;
-                acc[projectNo].poAmount += account.po_Amount || 0;
-                if (account.catagery === 'Expenses') {
-                    acc[projectNo].expenses += account.debit_Amount || 0;
-                }
-                if (account.catagery === 'Purchases') {
-                    acc[projectNo].purchases += account.debit_Amount || 0;
-                }
-            }
-            return acc;
-        }, {});
-
-        // Calculate Gross Profit and Profitability Percentage for each project
-        for (let projectNo in GrossProfit) {
-            const projectData = GrossProfit[projectNo];
-            projectData.grossProfit = projectData.poAmount - projectData.expenses - projectData.purchases;
-            projectData.profitabilityPercentage = (projectData.grossProfit / projectData.poAmount) * 100 || 0; // Calculate profitability as a percentage
-        }
-        // Calculate the total gross profit
-        const totalGrossProfit = Object.values(GrossProfit).reduce(
-            (total, projectData) => total + projectData.grossProfit,
-            0
-        );
-        // Calculate total PO Amount (sum of all PO amounts)
-        const totalPoAmount = Object.values(GrossProfit).reduce(
-            (total, projectData) => total + projectData.poAmount,
-            0
-        );
-        
-        // Log values to inspect the result
-        console.log("Total Gross Profit: ", totalGrossProfit);
-        console.log("Total PO Amount: ", totalPoAmount);
-        // Calculate the total profitability percentage
-        let totalProfitabilityPercentage = 0;
-        if (totalPoAmount > 0) {
-            totalProfitabilityPercentage = (totalGrossProfit / totalPoAmount) * 100;
-        } else {
-            console.log("Warning: Total PO Amount is zero or negative!");
-            totalProfitabilityPercentage = 0; // Or handle accordingly
-        }
-        totalProfitabilityPercentage = Math.round(totalProfitabilityPercentage);
-        console.log("Total Profitability Percentage: ", totalProfitabilityPercentage);
-        setTotalGrossProfit(formatter.format(totalGrossProfit));
-        setTotalProfitabilityPercentage(totalProfitabilityPercentage.toFixed(2));
-        console.log("GrossProfit", GrossProfit);
-        console.log("setTotalGrossProfit", totalGrossProfit);
-        console.log("setTotalProfitabilityPercentage", TotalProfitabilityPercentage);
-
-        // Reduce the data to calculate Net Profit for each project
-        const NetProfit = filteredAccountDetails.reduce((acc, account) => {
-            if (account.projectNo && account.projectNo.startsWith('PRN')) {
-                const projectNo = account.projectNo;
                 const projectName = account.projectName || "Unknown Project";
+
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
-                    poAmount: 0,
-                    Overheads:0,
-                    expenses: 0,
-                    purchases:0,
+                    debitAmount: 0,
+                    creditAmount: 0,
                 };
-
-
-                // Update project name (if different) and add amounts
-                acc[projectNo].projectName = projectName;
-                acc[projectNo].poAmount += account.po_Amount || 0;
-
-                if (account.catagery === 'Overheads') {
-                    acc[projectNo].Overheads += account.debit_Amount || 0;
-                    
-                }
-                if (account.catagery === 'Expenses') {
-                    acc[projectNo].expenses += account.debit_Amount || 0;
-                }
-                if (account.catagery === 'Purchases') {
-                    acc[projectNo].purchases += account.debit_Amount || 0;
-                }
+                acc[projectNo].debitAmount += account.debit_Amount || 0;
+                acc[projectNo].creditAmount += account.credit_Amount || 0;
             }
             return acc;
         }, {});
 
-        // Calculate Net Profit and Profitability Percentage for each project
-        let totalNetProfit = 0;
-        let totalPoAmount1 = 0;
+        for (const projectNo in GrossProfit) {
+            const projectData = GrossProfit[projectNo];
+            projectData.grossProfit = projectData.creditAmount - projectData.debitAmount;
+            projectData.profitabilityPercentage =
+                projectData.creditAmount > 0
+                    ? Math.round((projectData.grossProfit / projectData.creditAmount) * 100) // Round percentage
+                    : 0;
+        }
 
-        for (let projectNo in NetProfit) {
-            const projectData = NetProfit[projectNo];
-            projectData.netProfit = projectData.poAmount - projectData.Overheads - projectData.expenses -projectData.purchases;
-            projectData.netProfitabilityPercentage =
-                projectData.poAmount > 0 ? (projectData.netProfit / projectData.poAmount) * 100 : 0;
-            // Sum up totals
-            totalNetProfit += projectData.netProfit;
-            totalPoAmount1 += projectData.poAmount;
+        // Log the results for each project
+        console.log("GrossProfit Data:", GrossProfit);
+
+        // Calculate total values
+        let totalGrossProfit = 0;
+        let totalCreditAmount = 0;
+
+        for (const projectNo in GrossProfit) {
+            const projectData = GrossProfit[projectNo];
+            totalGrossProfit += projectData.grossProfit;
+            totalCreditAmount += projectData.creditAmount;
         }
-        // Calculate the Total Net Profitability Percentage
-        let totalNetProfitabilityPercentage = 0;
-        if (totalPoAmount1 > 0) {
-            totalNetProfitabilityPercentage = (totalNetProfit / totalPoAmount1) * 100;
-        }
-        // Log the totals
-        console.log("Total Net Profit: ", totalNetProfit);
-        console.log("Total PO Amount: ", totalPoAmount1);
-        console.log("Total Net Profitability Percentage: ", totalNetProfitabilityPercentage.toFixed(2));
-        // Update state with the totals
-        setTotalNetProfit(formatter.format(totalNetProfit)); // Format for display, e.g., $123,456
-        setTotalNetProfitabilityPercentage(totalNetProfitabilityPercentage.toFixed(2));
+
+        // Calculate overall profitability percentage
+        const totalGrossProfitabilityPercentage =
+            totalCreditAmount > 0
+                ? Math.round((totalGrossProfit / totalCreditAmount) * 100) // Round percentage
+                : 0;
+
+        // Log overall results
+        console.log("Total Gross Profit:", totalGrossProfit);
+        console.log("Total Credit Amount:", totalCreditAmount);
+        console.log("Total Profitability Percentage:", totalGrossProfitabilityPercentage);
+
+        // Update state or display results
+        setTotalGrossProfit(totalGrossProfit.toFixed(2));
+        console.log("setTotalGrossProfit", setTotalGrossProfit);
+        setTotalProfitabilityPercentage(totalGrossProfitabilityPercentage);
+
+        //Net Profit
+        let totalCreditPRN = 0;
+        let totalDebitAll = 0;
+
+        filteredAccountDetails.forEach((account) => {
+            if (account.projectNo && account.projectNo.startsWith('PRN')) {
+                totalCreditPRN += account.credit_Amount || 0;
+            }
+            totalDebitAll += account.debit_Amount || 0;
+        })
+        const netProfit = totalCreditPRN - totalDebitAll;
+        const profitabilityPercentage = totalCreditPRN > 0
+            ? Math.round((netProfit / totalCreditPRN) * 100) // Rounded percentage
+            : 0;
+
+        // Log results
+        console.log("Total Credit (PRN):", totalCreditPRN);
+        console.log("Total Debit (All):", totalDebitAll);
+        console.log("Net Profit:", netProfit);
+        console.log("Profitability Percentage:", profitabilityPercentage, "%");
+
+        // Update state or display results
+        setTotalNetProfit(netProfit.toFixed(2));
+        setTotalNetProfitabilityPercentage(profitabilityPercentage.toFixed(2));
+
 
         console.log('plannedBudgetSum', plannedBudgetSum)
         console.log('expanseBudgetSum', expanseBudgetSum)
@@ -424,8 +388,8 @@ const FinanceDashboard = () => {
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
                     poAmount: 0,
-                    overheads:0,
-                    purchases:0,
+                    overheads: 0,
+                    purchases: 0,
                     expenses: 0,
                 };
                 acc[projectNo].projectName = projectName;
@@ -446,7 +410,7 @@ const FinanceDashboard = () => {
         // Calculate Net profit and profitability percentage for each project
         for (let projectNo in NetProfitProjectwise) {
             const projectData = NetProfitProjectwise[projectNo];
-            projectData.grossProfit = projectData.poAmount - projectData.expenses -projectData.overheads -projectData.purchases;
+            projectData.grossProfit = projectData.poAmount - projectData.expenses - projectData.overheads - projectData.purchases;
             projectData.profitabilityPercentage =
                 projectData.poAmount > 0 ? (projectData.grossProfit / projectData.poAmount) * 100 : 0;
         }
@@ -458,68 +422,61 @@ const FinanceDashboard = () => {
         const grossProfitProjectwise = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
                 const projectNo = account.projectNo;
-                const projectName = account.projectName || "Unknown Project"; // Default project name if missing
+                const projectName = account.projectName || "Unknown Project";
+
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
-                    poAmount: 0,
-                    expenses: 0,
-                    purchases: 0,
-                    
+                    debitAmount: 0,
+                    creditAmount: 0,
                 };
-                acc[projectNo].projectName = projectName;
-                acc[projectNo].poAmount += account.po_Amount || 0;
-                if (account.catagery === 'Expenses') {
-                    acc[projectNo].expenses += account.debit_Amount || 0;
-                }
-                if (account.catagery === 'Purchases') {
-                    acc[projectNo].purchases += account.debit_Amount || 0;
-                }
+                acc[projectNo].debitAmount += account.debit_Amount || 0;
+                acc[projectNo].creditAmount += account.credit_Amount || 0;
             }
             return acc;
         }, {});
         for (let projectNo in grossProfitProjectwise) {
             const projectData = grossProfitProjectwise[projectNo];
-            projectData.grossProfit = projectData.poAmount - projectData.expenses - projectData.purchases;
-            projectData.profitabilityPercentage = (projectData.grossProfit / projectData.poAmount) * 100 || 0; // Calculate profitability as a percentage
+            projectData.grossProfit = projectData.creditAmount - projectData.debitAmount;
+            projectData.profitabilityPercentage = (projectData.grossProfit / projectData.creditAmount) * 100 || 0; // Calculate profitability as a percentage
         }
         setGrossProfitProjectwise(grossProfitProjectwise)
         //eachMonthlyExpance
         const eachMonthlyExpance = accountDetails.reduce((acc, account) => {
-            const date = new Date(account.date); 
-            if (!isNaN(date)) { 
+            const date = new Date(account.date);
+            if (!isNaN(date)) {
                 const month = date.getMonth() + 1; // Get month (1-12)
                 if (!acc[month]) {
-                    acc[month] = 0; 
+                    acc[month] = 0;
                 }
                 acc[month] += account.debit_Amount || 0; // Add debit amount, default to 0
-            } 
+            }
             return acc;
         }, {});
-    
+
         // Convert the object to an array
         const monthlyExpenseArray = Object.entries(eachMonthlyExpance).map(([month, total]) => ({
             month: parseInt(month), // Ensure month is a number
             total: total || 0, // Ensure total is valid
         }));
-    
+
         // Update the state
         setEachMomthExpanse(monthlyExpenseArray);
-        console.log("eachMonthlyExpance",monthlyExpenseArray)
+        console.log("eachMonthlyExpance", monthlyExpenseArray)
 
 
 
         const TotalplanedBudject = filteredAccountDetails.reduce((acc, account) => {
             if (account.projectNo && account.projectNo.startsWith('PRN')) {
                 const projectNo = account.projectNo;
-                const projectName = account.projectName || "Unknown Project"; 
+                const projectName = account.projectName || "Unknown Project";
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
                     planedBudjet: 0,
                     po_Amount: 0,
                     PlannedBudgetPercentage: 0
                 };
-                acc[projectNo].planedBudjet += account.planedBudjet || 0; 
-                acc[projectNo].po_Amount += account.po_Amount || 0; 
+                acc[projectNo].planedBudjet += account.planedBudjet || 0;
+                acc[projectNo].po_Amount += account.po_Amount || 0;
             }
             return acc;
         }, {});
@@ -533,7 +490,7 @@ const FinanceDashboard = () => {
             projectNo,
             ...data
         }));
-        console.log("projectBudgetArray",projectBudgetArray);
+        console.log("projectBudgetArray", projectBudgetArray);
 
 
 
@@ -543,18 +500,18 @@ const FinanceDashboard = () => {
                 const projectName = account.projectName || "Unknown Project";
                 acc[projectNo] = acc[projectNo] || {
                     projectName: projectName,
-                    debit_Amount: 0, 
-                    planedBudjet: 0,  
-                    expancePercentage: 0, 
+                    debit_Amount: 0,
+                    planedBudjet: 0,
+                    expancePercentage: 0,
                 };
-                acc[projectNo].debit_Amount += account.debit_Amount || 0; 
-                acc[projectNo].planedBudjet += account.planedBudjet || 0; 
+                acc[projectNo].debit_Amount += account.debit_Amount || 0;
+                acc[projectNo].planedBudjet += account.planedBudjet || 0;
             }
             return acc;
         }, {});
         Object.keys(TotalPlanedBudget).forEach(projectNo => {
             const project = TotalPlanedBudget[projectNo];
-            if (project.planedBudjet > 0) { 
+            if (project.planedBudjet > 0) {
                 project.expancePercentage = ((project.debit_Amount / project.planedBudjet) * 100).toFixed(2);
             }
         });
@@ -562,7 +519,7 @@ const FinanceDashboard = () => {
             projectNo,
             ...data
         }));
-        console.log("projectExpenseArray",projectExpenseArray)
+        console.log("projectExpenseArray", projectExpenseArray)
     }; // -------------
 
     // Filter in tabel value
@@ -584,7 +541,7 @@ const FinanceDashboard = () => {
     const rowsPerPage9 = 5;
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-    
+
     };
     const projectBudgets = Object.entries(plannedBudget).reduce((result, [projectNo, plannedData]) => {
         const expenseData = expanseBudget[projectNo] || { totalDebit: 0 };
@@ -747,7 +704,7 @@ const FinanceDashboard = () => {
                 barThickness: 35,
             },
         ],
-        
+
     };
 
     const options1 = {
@@ -1023,7 +980,7 @@ const FinanceDashboard = () => {
             }
         },
     };
-    
+
     return (
         <div className='FinanceDashContainer'>
             <div className='financeDeatil'>
@@ -1070,7 +1027,7 @@ const FinanceDashboard = () => {
                         percent={totalNetProfitabilityPercentage / 100}
                         textColor={"green"}
                     />
-                    <p><span style={{ color: 'blue' }}>Net profit</span> : {TotalNetProfit}</p>
+                    <p><span style={{ color: 'blue' }}>Net profit</span>{TotalNetProfit} </p>
                 </div>
                 <div className='projectwiseExpnce' onClick={toggleMonthlyChartPopup}>
                     <p style={{ marginTop: '-230px', marginleft: '50px' }}>Expense</p>
@@ -1103,7 +1060,7 @@ const FinanceDashboard = () => {
                 <div className='quaterExpance'>
                     <canvas ref={chartRef}></canvas>;
                 </div>
-                <div className='overallExpance'  onClick={toggleGrossPopup}>
+                <div className='overallExpance' onClick={toggleGrossPopup}>
                     <p>Gross profit</p>
                     <GaugeChart
                         id="gauge-chart3"
@@ -1119,82 +1076,22 @@ const FinanceDashboard = () => {
             <div className='monthlyincomechart'>
                 <div className='monthlyincome'>
                     <p style={{ marginLeft: '470px' }}>
-                    <span style={{ color: 'blue' }}>Monthly Income:</span>
-                    <span style={{ color: 'Black',fontWeight:'bold' }}> {selectedValue}</span>
+                        <span style={{ color: 'blue' }}>Monthly Income:</span>
+                        <span style={{ color: 'Black', fontWeight: 'bold' }}> {selectedValue}</span>
                     </p>
                     <Bar data={data1} options={options1} />
                 </div>
                 <div className='OtherDeatilchart'>
-                <p style={{ marginLeft: '450px' }}>
-                    <span style={{ color: 'blue' }}>Monthly Revenue:</span>
-                    <span style={{ color: 'Black',fontWeight:'bold' }}> {selectedRevenue}</span>
-                    </p>                    
-                <Bar data={revenueData} options={revenueOption} />
+                    <p style={{ marginLeft: '450px' }}>
+                        <span style={{ color: 'blue' }}>Monthly Revenue:</span>
+                        <span style={{ color: 'Black', fontWeight: 'bold' }}> {selectedRevenue}</span>
+                    </p>
+                    <Bar data={revenueData} options={revenueOption} />
                 </div>
             </div>
             <div className="tableData">
-            {   isNetVisible && <div className="blurred-background"></div>}    
-                {isNetVisible && (
-                    <div className='Netprofittable'>
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead style={{ backgroundColor: "#4A148C" }}>
-                                    <TableRow>
-                                        <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                                            Project No
-                                        </TableCell>
-                                        <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                                            Project Name
-                                        </TableCell>
-                                        <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                                            Profitability Percentage
-                                        </TableCell>
-                                        <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                                            Profitability in Value
-                                        </TableCell>
-                                        <TableCell style={{ color: "white", fontWeight: "bold" }}>
-                                            Progress
-                                        </TableCell>
-                                        <CloseSharpIcon sx={{ color: "red", fontSize: 30 }} onClick={clocePopup} />
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {netProfitProjectObject
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{row.project}</TableCell>
-                                                <TableCell>{row.projectName}</TableCell>
-                                                <TableCell>{row.profitability}%</TableCell>
-                                                <TableCell>{row.netProfit}</TableCell>
-                                                <TableCell>
-                                                    <LinearProgress
-                                                        variant="determinate"
-                                                        value={row.profitability}
-                                                        style={{
-                                                            width: "30%",
-                                                            backgroundColor: "#E0E0E0",
-                                                            color: "#4CAF50",
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                </TableBody>
-                            </Table>
-                            <TablePagination
-                                component="div"
-                                count={netProfitProjectObject.length}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                rowsPerPage={rowsPerPage}
-                                rowsPerPageOptions={[rowsPerPage]}
-                            />
-                        </TableContainer>
 
-                    </div>
-                )};
-                {isGrossVisible && <div className="blurred-background"></div>}    
+                {isGrossVisible && <div className="blurred-background"></div>}
                 {isGrossVisible && (
                     <div className='Netprofittable'>
                         <TableContainer component={Paper}>
@@ -1255,19 +1152,19 @@ const FinanceDashboard = () => {
 
                     </div>
                 )};
-                 {isMonthlyChartVisibl && <div className="blurred-background"></div>}    
+                {isMonthlyChartVisibl && <div className="blurred-background"></div>}
                 {isMonthlyChartVisibl && (
-                <div className='monthlyIncomeeChart'>
-                    <div style={{marginleft:'1700px'}}>
-                 <CloseSharpIcon sx={{ color: "red", fontSize: 30 }} onClick={clocePopup} />
-                 </div>
-                    <p style={{ marginLeft: '470px' }}>Monthly Expance:  {selectedValue}</p>
-                    <Bar data={monthchart} options={monthoption} />
-                </div>
-                
-            )}
+                    <div className='monthlyIncomeeChart'>
+                        <div style={{ marginleft: '1700px' }}>
+                            <CloseSharpIcon sx={{ color: "red", fontSize: 30 }} onClick={clocePopup} />
+                        </div>
+                        <p style={{ marginLeft: '470px' }}>Monthly Expance:  {selectedValue}</p>
+                        <Bar data={monthchart} options={monthoption} />
+                    </div>
+
+                )}
             </div>
-            
+
         </div>
     );
 };
